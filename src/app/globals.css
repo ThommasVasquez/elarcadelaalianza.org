@@ -6,21 +6,26 @@
   --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: 'Plus Jakarta Sans', sans-serif;
   
-  --bg-dark: #09090b;
-  --bg-darker: #000000;
+  --bg-dark: #0A0E22;
+  --bg-darker: #050814;
   --bg-white: #ffffff;
-  --bg-card-dark: #141416;
-  --bg-card-footer: #18181b;
+  --bg-card-dark: #101633;
+  --bg-card-footer: #0D132D;
 
-  --color-yellow: #FFD152;
-  --color-purple: #7C5CFC;
-  --color-peach: #FFBA8C;
-  --color-blue: #68B2FF;
+  --color-yellow: #E7CD54;
+  --color-gold: #F0D558;
+  --color-navy: #262F66;
+  --color-navy-dark: #19204A;
+  --color-navy-light: #37438A;
+  --color-purple: #4A569D;
+  --color-peach: #E7CD54;
+  --color-blue: #3E51B5;
 
-  --text-dark: #09090b;
+  --text-dark: #1E2338;
+  --text-charcoal: #3A3A3A;
   --text-white: #ffffff;
-  --text-muted: #71717a;
-  --text-dim: #3f3f46;
+  --text-muted: #8E96B5;
+  --text-dim: #4B557A;
 
   --radius-outer: 40px;
   --radius-card: 32px;
@@ -195,25 +200,39 @@ body.full-mode .mockup-frame {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   color: var(--text-dark);
+}
+
+.brand-logo-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(38, 47, 102, 0.18);
+  border: 1px solid rgba(231, 205, 84, 0.4);
+}
+
+.brand-text-col {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
 .logo-bold {
   font-weight: 800;
-  font-size: 17px;
+  font-size: 15px;
   letter-spacing: -0.02em;
-}
-
-.logo-sep {
-  font-weight: 300;
-  color: #a1a1aa;
+  color: var(--color-navy);
+  text-transform: uppercase;
 }
 
 .logo-light {
-  font-weight: 400;
-  font-size: 15px;
-  color: #52525b;
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--text-charcoal);
+  letter-spacing: -0.01em;
 }
 
 .nav-links {
@@ -227,32 +246,34 @@ body.full-mode .mockup-frame {
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
-  transition: opacity 0.2s;
+  transition: color 0.2s;
   letter-spacing: -0.01em;
 }
 
 .nav-item:hover {
-  opacity: 0.65;
+  color: var(--color-navy);
 }
 
 .nav-contact-btn {
-  background-color: var(--bg-dark);
-  color: var(--text-white);
+  background-color: var(--color-navy);
+  color: #ffffff;
   border: none;
   border-radius: var(--radius-pill);
-  padding: 8px 18px;
+  padding: 8px 20px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(38, 47, 102, 0.25);
 }
 
 .nav-contact-btn:hover {
   transform: scale(1.04);
-  background-color: #27272a;
+  background-color: var(--color-navy-dark);
+  color: var(--color-yellow);
 }
 
 /* ==========================================================================
