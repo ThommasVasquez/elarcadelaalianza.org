@@ -43,6 +43,7 @@ export default function ArcaDeLaAlianzaPage() {
     });
 
     lenis.on('scroll', ScrollTrigger.update);
+    window.__lenis = lenis;
 
     const tickerCb = (time) => {
       lenis.raf(time * 1000);
@@ -134,8 +135,8 @@ export default function ArcaDeLaAlianzaPage() {
         // Initial entrance
         gsap.fromTo(
           [topSlice, midSlice, botSlice],
-          { y: 50, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1.2, stagger: 0.1, ease: 'power3.out' }
+          { y: 35 },
+          { y: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out' }
         );
 
         // Scroll scrub: slices drift horizontally as you scroll
@@ -258,24 +259,34 @@ export default function ArcaDeLaAlianzaPage() {
         });
       }
 
-      // E. TIMELINE PINNED HORIZONTAL SCROLL SCRUB
+      // E. TIMELINE HORIZONTAL INTERACTION & CARDS ENTRANCE
       const tlSection = timelineRef.current;
       const tlTrack = timelineTrackRef.current;
-      if (tlSection && tlTrack && window.innerWidth > 768) {
-        const scrollDistance = tlTrack.scrollWidth - tlTrack.clientWidth;
-        if (scrollDistance > 0) {
-          gsap.to(tlTrack, {
-            x: -scrollDistance - 80,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: tlSection,
-              pin: true,
-              scrub: 1,
-              start: 'top top',
-              end: () => `+=${scrollDistance + 350}`,
-              invalidateOnRefresh: true,
-            },
-          });
+      if (tlSection && tlTrack) {
+        const onWheel = (e) => {
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            tlTrack.scrollLeft += e.deltaY;
+          }
+        };
+        tlTrack.addEventListener('wheel', onWheel, { passive: true });
+
+        const tlCards = tlSection.querySelectorAll('.timeline-card');
+        if (tlCards.length) {
+          gsap.fromTo(
+            tlCards,
+            { opacity: 0, y: 35 },
+            {
+              opacity: 1,
+              y: 0,
+              stagger: 0.08,
+              duration: 0.8,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: tlSection,
+                start: 'top 80%',
+              },
+            }
+          );
         }
       }
 
@@ -314,16 +325,15 @@ export default function ArcaDeLaAlianzaPage() {
       if (footEl && bigWord) {
         gsap.fromTo(
           bigWord,
-          { yPercent: 30, opacity: 0.2, scale: 0.92 },
+          { yPercent: 12, scale: 0.96 },
           {
             yPercent: 0,
-            opacity: 1,
             scale: 1,
-            duration: 1,
-            ease: 'power3.out',
+            ease: 'none',
             scrollTrigger: {
               trigger: footEl,
-              start: 'top 80%',
+              start: 'top bottom',
+              end: 'top top',
               scrub: 1,
             },
           }
@@ -470,9 +480,8 @@ export default function ArcaDeLaAlianzaPage() {
             </div>
           </section>
 
-          {/* 2. STATEMENT & FEATURED WORK SECTION (White Card) */}
-          <section ref={statementRef} className="section white-card-section" id="about">
-            {/* Sliced Typography Headline */}
+          {/* 2. STATEMENT / MANIFIESTO SECTION (White Card, 100vw x 100vh) */}
+          <section ref={statementRef} className="section statement-section" id="about">
             <div className="statement-container">
               <div className="sliced-statement-wrapper">
                 <div className="sliced-block glitching" data-text="CONSTRUYENDO">
@@ -498,21 +507,23 @@ export default function ArcaDeLaAlianzaPage() {
                 </div>
               </div>
               <div className="statement-description">
-                <p style={{ color: '#3A3A3A', fontSize: '16px', lineHeight: 1.6 }}>
+                <p>
                   En la <strong>Fundación El Arca de la Alianza</strong> articulamos voluntades, recursos y corazones para
                   brindar oportunidades tangibles a familias y comunidades vulnerables. Diseñamos programas sostenibles
                   que generan un impacto humano duradero.
                 </p>
               </div>
             </div>
+          </section>
 
-            {/* Featured Work Grid */}
-            <div ref={workRef} className="featured-work-container" id="work">
-              <h3 className="section-title" style={{ color: '#262F66' }}>
-                PROGRAMAS
-                <br />
-                DESTACADOS
-              </h3>
+          {/* 3. FEATURED WORK / PROGRAMAS DESTACADOS (White Card, 100vw x 100vh) */}
+          <section ref={workRef} className="section work-section" id="work">
+            <div className="featured-work-container">
+              <div className="featured-work-header">
+                <h3 className="section-title" style={{ color: '#262F66' }}>
+                  PROGRAMAS DESTACADOS
+                </h3>
+              </div>
 
               <div className="work-grid">
                 {/* Left Column Card: Programa Nutricional y Familiar */}
@@ -882,7 +893,7 @@ export default function ArcaDeLaAlianzaPage() {
           {/* 6. FOOTER SECTION (Deep Midnight Navy) */}
           <footer ref={footerRef} className="section footer-section" id="contact" style={{ backgroundColor: '#070A18' }}>
             <div className="footer-huge-wordmark">
-              <h1 ref={giantMavkaRef} className="giant-mavka" style={{ color: 'rgba(231, 205, 84, 0.08)' }}>
+              <h1 ref={giantMavkaRef} className="giant-mavka" style={{ color: '#ffffff' }}>
                 EL ARCA
               </h1>
             </div>
