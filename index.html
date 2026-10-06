@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAVKA EVENT — Organizers of Emotional and Unforgettable Events</title>
+    <!-- Google Fonts: Plus Jakarta Sans for grotesque precision & Syne for headline impact -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Custom Interactive Magnetic Cursor -->
+    <div id="custom-cursor" class="custom-cursor">
+      <svg class="cursor-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="17" x2="17" y2="7"></line>
+        <polyline points="7 7 17 7 17 17"></polyline>
+      </svg>
+    </div>
+
+    <!-- Presentation Mode Toggle Header Bar -->
+    <div class="presentation-controls">
+      <div class="controls-left">
+        <span class="pulse-indicator"></span>
+        <span class="controls-title">MAVKA EVENT STUDIO</span>
+      </div>
+      <div class="controls-right">
+        <button id="btn-replay" class="ctrl-btn" title="Simulate video preview scroll">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          Auto Tour
+        </button>
+        <button id="btn-toggle-frame" class="ctrl-btn active" title="Toggle Frame mode">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+          Dribbble Frame
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Outer Container (Mockup Bezel Frame as in Dribbble Video) -->
+    <div id="mockup-frame" class="mockup-frame">
+      <div class="inner-viewport" id="viewport">
+
+        <!-- Floating Fixed Pill Navbar -->
+        <header class="navbar-wrapper">
+          <nav class="pill-navbar" id="navbar">
+            <a href="#" class="brand-logo">
+              <span class="logo-bold">mavka</span>
+              <span class="logo-sep">|</span>
+              <span class="logo-light">Studio</span>
+            </a>
+            <div class="nav-links">
+              <a href="#about" class="nav-item">About</a>
+              <a href="#services" class="nav-item">Why Us?</a>
+              <a href="#contact" class="nav-item">Contacts</a>
+            </div>
+            <button class="nav-contact-btn" id="nav-contact-trigger">
+              Contact Us
+              <svg class="phone-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </button>
+          </nav>
+        </header>
+
+        <!-- 1. HERO SECTION (Dark) -->
+        <section class="section hero-section" id="hero">
+          <div class="hero-header-meta">
+            <span class="hero-tag">EVENT STUDIO</span>
+          </div>
+
+          <!-- Massive Title with Sliced Kinetic Typography Effect -->
+          <div class="hero-title-container" id="hero-title-trigger">
+            <div class="sliced-title-group" data-title="MAVKA EVENT">
+              <h1 class="hero-main-title">MAVKA EVENT</h1>
+              <div class="slice slice-top" aria-hidden="true">MAVKA EVENT</div>
+              <div class="slice slice-mid" aria-hidden="true">MAVKA EVENT</div>
+              <div class="slice slice-bottom" aria-hidden="true">MAVKA EVENT</div>
+            </div>
+            <div class="hero-subtitle-meta">
+              ORGANIZERS OF EMOTIONAL<br />AND UNFORGETTABLE EVENTS
+            </div>
+          </div>
+
+          <!-- Hero Illustration Artwork Container -->
+          <div class="hero-stage">
+            <img 
+              src="/assets/hero_clean_art.png" 
+              alt="Mavka Event festive celebration illustration with delicacies, blue tablet invitation, confetti and cocktails" 
+              class="hero-artwork-img"
+              id="hero-artwork"
+              loading="eager"
+            />
+            <!-- Ambient particle canvas for dynamic celebration sparkles -->
+            <canvas id="sparkles-canvas" class="sparkles-canvas"></canvas>
+          </div>
+        </section>
+
+        <!-- 2. STATEMENT & FEATURED WORK SECTION (White Card) -->
+        <section class="section white-card-section" id="about">
+          <!-- Sliced Typography Headline -->
+          <div class="statement-container">
+            <div class="sliced-statement-wrapper">
+              <div class="sliced-block" data-text="ORGANIZERS OF">
+                <h2 class="statement-line">ORGANIZERS OF</h2>
+                <div class="slice slice-top">ORGANIZERS OF</div>
+                <div class="slice slice-bottom">ORGANIZERS OF</div>
+              </div>
+              <div class="sliced-block" data-text="EMOTIONAL">
+                <h2 class="statement-line">EMOTIONAL</h2>
+                <div class="slice slice-top">EMOTIONAL</div>
+                <div class="slice slice-bottom">EMOTIONAL</div>
+              </div>
+              <div class="sliced-block" data-text="SUPER EVENTS">
+                <h2 class="statement-line">SUPER EVENTS</h2>
+                <div class="slice slice-top">SUPER EVENTS</div>
+                <div class="slice slice-bottom">SUPER EVENTS</div>
+              </div>
+            </div>
+            <div class="statement-description">
+              <p>We are a team of professionals creating unique events for you. Whether it is a corporate event, wedding or festival, we strive to make every event special.</p>
+            </div>
+          </div>
+
+          <!-- Featured Work Grid -->
+          <div class="featured-work-container" id="work">
+            <h3 class="section-title">FEATURED<br>WORK</h3>
+
+            <div class="work-grid">
+              <!-- Left Column Card: Holiday Magic Festival -->
+              <div class="work-card large-card holiday-magic-card" data-work="holiday-magic">
+                <div class="card-media-wrapper">
+                  <img src="/assets/work_holiday_magic.png" alt="Holiday Magic Festival" class="card-img" />
+                </div>
+              </div>
+
+              <!-- Right Column Top Card: TeamTrek -->
+              <div class="work-card teamtrek-card" data-work="teamtrek">
+                <div class="card-media-wrapper">
+                  <img src="/assets/work_teamtrek.png" alt="TeamTrek: A Journey to Collective Inspiration" class="card-img" />
+                </div>
+              </div>
+
+              <!-- Mid text block -->
+              <div class="work-text-block">
+                <h4 class="work-text-title">HOW WE TAKE YOUR<br>BUSINESS TO THE</h4>
+                <p class="work-text-p">
+                  We are a team of professionals creating unique events for you. Whether it is a corporate event, wedding or festival, we strive to make every event special.
+                </p>
+              </div>
+
+              <!-- Right Column Mid Card: Influence 360 -->
+              <div class="work-card influence-card" data-work="influence">
+                <div class="card-media-wrapper">
+                  <img src="/assets/work_influence.png" alt="Influence 360: Insider Summit for Influencers" class="card-img" />
+                </div>
+              </div>
+
+              <!-- Right Column Bottom Card: Innovation Summit -->
+              <div class="work-card innovation-card" data-work="innovation">
+                <div class="card-media-wrapper">
+                  <img src="/assets/work_innovation.png" alt="Innovation Summit: Inspiration and Progress" class="card-img" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. SERVICES SECTION (Black Card) -->
+        <section class="section black-card-section" id="services">
+          <div class="services-header">
+            <h2 class="services-headline">WE TURN EVENTS<br>INTO REALITY!</h2>
+            <p class="services-sub">
+              Our experienced professionals are dedicated to creating immersive and interactive experiences that connect brands with customers in unique and creative ways.
+            </p>
+          </div>
+
+          <!-- Interactive Services List with Inline Artwork and Magnetic Cursor Interaction -->
+          <div class="services-list" id="services-list">
+            <!-- 01/ MANAGEMENT -->
+            <div class="service-item" data-index="01">
+              <span class="service-num">01/</span>
+              <div class="service-name-wrap">
+                <span class="service-name">MANAGEMENT</span>
+              </div>
+              <div class="service-thumb-wrap">
+                <img src="/assets/service_cake.png" alt="Event Management" class="service-thumb" />
+              </div>
+            </div>
+
+            <!-- 02/ CORPORATE -->
+            <div class="service-item active-hover" data-index="02">
+              <span class="service-num">02/</span>
+              <div class="service-thumb-wrap">
+                <img src="/assets/service_martini.png" alt="Corporate Events" class="service-thumb" />
+              </div>
+              <div class="service-name-wrap">
+                <span class="service-name">CORPORATE</span>
+              </div>
+            </div>
+
+            <!-- 03/ CONFERENCE -->
+            <div class="service-item" data-index="03">
+              <span class="service-num">03/</span>
+              <div class="service-name-wrap">
+                <span class="service-name">CONFERENCE</span>
+              </div>
+              <div class="service-thumb-wrap">
+                <img src="/assets/service_conf.png" alt="Conferences and Seminars" class="service-thumb" />
+              </div>
+            </div>
+
+            <!-- 04/ MARKETING -->
+            <div class="service-item" data-index="04">
+              <span class="service-num">04/</span>
+              <div class="service-thumb-wrap">
+                <img src="/assets/service_disco.png" alt="Marketing Experiences" class="service-thumb" />
+              </div>
+              <div class="service-name-wrap">
+                <span class="service-name">MARKETING</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. TIMELINE SECTION (White Card) -->
+        <section class="section timeline-section" id="timeline">
+          <div class="timeline-header">
+            <h2 class="timeline-headline">OUR TIMELINE</h2>
+            <div class="carousel-nav-arrows">
+              <button class="arrow-btn" id="timeline-prev" aria-label="Previous timeline slide">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              </button>
+              <button class="arrow-btn" id="timeline-next" aria-label="Next timeline slide">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Timeline Slider Track -->
+          <div class="timeline-track-container" id="timeline-scroll">
+            <div class="timeline-card-col">
+              <div class="timeline-img-card">
+                <img src="/assets/timeline_gift.png" alt="Research & Consultation" class="timeline-gift-img" />
+              </div>
+              <div class="timeline-info">
+                <h3 class="timeline-step-title">RESEARCH AND<br>CONSULTATION</h3>
+                <p class="timeline-step-p">
+                  Conducting meetings with the client to discuss goals, budget and wishes. Preparing a preliminary concept and estimating costs.
+                </p>
+              </div>
+            </div>
+
+            <!-- Giant Cheering Hands Card -->
+            <div class="timeline-cheers-col">
+              <img src="/assets/timeline_cheers.png" alt="Celebration cheers with cocktail toast" class="timeline-cheers-img" />
+            </div>
+
+            <!-- Planning and Concept Card -->
+            <div class="timeline-concept-col">
+              <div class="concept-black-card">
+                <h3 class="concept-card-title">PLANNING<br>AND CONCEPT<br>CREATION</h3>
+                <p class="concept-card-p">
+                  Development of a detailed event plan, including the choice of venue, theme, program and structure of the event.
+                </p>
+                <button class="meet-team-btn" id="meet-team-trigger">
+                  Meet the Team
+                  <svg class="phone-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 3 & 4 (Slides for carousel interaction) -->
+            <div class="timeline-card-col">
+              <div class="timeline-info" style="margin-top: 40px;">
+                <h3 class="timeline-step-title">PRODUCTION &<br>STAGE MANAGEMENT</h3>
+                <p class="timeline-step-p">
+                  Live supervision, synchronized audiovisual lighting design, vendor management, and flawless hospitality execution on event day.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. PEOPLE & STATS SECTION -->
+        <section class="section people-stats-section" id="people">
+          <!-- Headline with Floating Portrait Badges -->
+          <div class="moments-statement">
+            <h2 class="moments-headline">
+              <span class="moments-row">
+                CREATING
+              </span>
+              <span class="moments-row">
+                MOMENTS THAT LEAVE
+              </span>
+              <span class="moments-row inline-portraits-row">
+                <span class="moments-word">A M</span>
+                <span class="portrait-avatar portrait-1" title="Elena — Creative Director">
+                  <img src="/assets/portrait_1.png" alt="Team Creative Director with red headphones" />
+                </span>
+                <span class="moments-word">RK IN M</span>
+                <span class="portrait-avatar portrait-2" title="Sarah — Lead Event Producer">
+                  <img src="/assets/portrait_2.png" alt="Lead Event Producer" />
+                </span>
+                <span class="moments-word">M</span>
+                <span class="portrait-avatar portrait-3" title="Maya — Experience Designer">
+                  <img src="/assets/portrait_3.png" alt="Experience Designer" />
+                </span>
+                <span class="moments-word">ORY</span>
+              </span>
+            </h2>
+          </div>
+
+          <!-- 3 Colored Metric Cards -->
+          <div class="metric-cards-container">
+            <!-- Card 1: Blog (Purple) -->
+            <div class="stat-card-wrapper card-blog">
+              <div class="card-black-roof">
+                <span class="capsule-tag">BLOG</span>
+              </div>
+              <div class="card-colored-body purple-body">
+                <p class="card-desc">We offer a variety of activities for all ages and interests.</p>
+                <div class="card-bottom-action">
+                  <span class="action-label">OUR LATEST<br>ARTICLES</span>
+                  <a href="#blog" class="circle-action-btn" aria-label="Read latest articles">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Success Projects (Yellow) -->
+            <div class="stat-card-wrapper card-success">
+              <div class="card-black-roof">
+                <span class="capsule-tag">SUCCESS</span>
+              </div>
+              <div class="card-colored-body yellow-body">
+                <span class="counter-label">CLOSED<br>PROJECT</span>
+                <div class="counter-value" id="counter-projects">304</div>
+              </div>
+            </div>
+
+            <!-- Card 3: Confidence / Rating (Peach) -->
+            <div class="stat-card-wrapper card-confidence">
+              <div class="card-black-roof">
+                <span class="capsule-tag">CONFIDENCE</span>
+              </div>
+              <div class="card-colored-body peach-body">
+                <div class="rating-value" id="counter-rating">4.9<span class="star-glyph">★</span></div>
+                <span class="rating-sub">OUR RATING<br>ON THE GOOGLE<br>REVIEWS</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. FOOTER SECTION (Deep Black) -->
+        <footer class="section footer-section" id="contact">
+          <div class="footer-huge-wordmark">
+            <h1 class="giant-mavka">MAVKA</h1>
+          </div>
+
+          <div class="footer-cards-grid">
+            <!-- Social Networks Card -->
+            <div class="footer-card">
+              <h3 class="footer-card-title">FOLLOW US ON SOCIAL<br>NETWORKS</h3>
+              <div class="social-icons-row">
+                <!-- Instagram -->
+                <a href="https://instagram.com" target="_blank" rel="noopener" class="social-btn" aria-label="Instagram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </a>
+                <!-- TikTok -->
+                <a href="https://tiktok.com" target="_blank" rel="noopener" class="social-btn" aria-label="TikTok">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.29 0 .58.04.86.11V9.4a6.33 6.33 0 0 0-.86-.06A6.34 6.34 0 0 0 3.1 15.68a6.34 6.34 0 0 0 10.82 4.48c1.37-1.37 2.08-3.23 2.08-5.17V8.53a8.21 8.21 0 0 0 3.59.81V6.69z"/>
+                  </svg>
+                </a>
+                <!-- X / Twitter -->
+                <a href="https://x.com" target="_blank" rel="noopener" class="social-btn" aria-label="X (Twitter)">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+            <!-- Contact Us Card -->
+            <div class="footer-card">
+              <h3 class="footer-card-title">CONTACT US</h3>
+              <a href="mailto:HELLO@MAVKA.COM" class="contact-link email-link">HELLO@MAVKA.COM</a>
+              <a href="tel:+1195234567" class="contact-link phone-link">+1 195 234 567</a>
+            </div>
+          </div>
+
+          <!-- Bottom Footer Details -->
+          <div class="footer-meta-row">
+            <form class="newsletter-capsule" id="newsletter-form">
+              <input type="email" placeholder="Subscribe to our newsletter" required class="newsletter-input" />
+              <button type="submit" class="newsletter-submit-btn" aria-label="Subscribe">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </button>
+            </form>
+
+            <div class="footer-address">
+              <p>Franciszka Klimczaka</p>
+              <p>10G,Warsaw, 02-972,Poland</p>
+              <p class="vat-no">VAT No.: PL1182123340</p>
+            </div>
+          </div>
+
+          <!-- Bottom Banner (Book a Meet) -->
+          <div class="footer-banner-bar">
+            <div class="banner-asterisk">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                <line x1="12" y1="2" x2="12" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+              </svg>
+            </div>
+            <div class="banner-text">
+              Want to start a project? We collaborate with ambitious brands and people
+            </div>
+            <button class="banner-meet-btn" id="banner-book-trigger">
+              Book a meet
+              <svg class="phone-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </button>
+          </div>
+        </footer>
+
+      </div> <!-- /inner-viewport -->
+    </div> <!-- /mockup-frame -->
+
+    <!-- Interactive Contact / Meeting Modal -->
+    <div id="contact-modal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal-card">
+        <button class="modal-close-btn" id="modal-close" aria-label="Close dialog">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <span class="capsule-tag">EVENT STUDIO</span>
+        <h3 class="modal-title">Book a Consultation</h3>
+        <p class="modal-sub">Tell us about your event vision, dates, and ideas. Our team will tailor a concept for you.</p>
+        <form class="modal-form" id="booking-form">
+          <div class="form-row">
+            <input type="text" placeholder="Your Name" required class="form-input" />
+            <input type="email" placeholder="Email Address" required class="form-input" />
+          </div>
+          <div class="form-row">
+            <select class="form-input select-input" required>
+              <option value="" disabled selected>Select Event Type</option>
+              <option value="corporate">Corporate Gala & Experience</option>
+              <option value="conference">Conference / Summit</option>
+              <option value="festival">Festival & Celebration</option>
+              <option value="marketing">Brand & Marketing Launch</option>
+            </select>
+            <input type="text" placeholder="Estimated Date / City" class="form-input" />
+          </div>
+          <textarea placeholder="Tell us more about your ideas, expected guests, or desires..." rows="3" class="form-input textarea-input"></textarea>
+          <button type="submit" class="modal-submit-btn">
+            Send Request
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
