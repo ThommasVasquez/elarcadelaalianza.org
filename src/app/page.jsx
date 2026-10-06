@@ -6,7 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
 export default function ArcaDeLaAlianzaPage() {
-  const [isFrameMode, setIsFrameMode] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeService, setActiveService] = useState('02');
   const [projectsCount, setProjectsCount] = useState(0);
@@ -371,45 +370,8 @@ export default function ArcaDeLaAlianzaPage() {
         </svg>
       </div>
 
-      {/* Presentation Mode Toggle Header Bar (Dribbble Frame / Full View) */}
-      <div className="presentation-controls">
-        <div className="controls-left">
-          <span className="pulse-indicator" style={{ backgroundColor: '#E7CD54', boxShadow: '0 0 10px #E7CD54' }}></span>
-          <span className="controls-title">FUNDACIÓN EL ARCA DE LA ALIANZA</span>
-        </div>
-        <div className="controls-right">
-          <button
-            type="button"
-            className="ctrl-btn"
-            onClick={() => {
-              window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            }}
-            title="Auto scroll showcase"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
-            </svg>
-            Auto Tour
-          </button>
-          <button
-            type="button"
-            className={`ctrl-btn ${isFrameMode ? 'active' : ''}`}
-            onClick={() => setIsFrameMode(!isFrameMode)}
-            title="Toggle Frame mode"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            </svg>
-            {isFrameMode ? 'Marco Dribbble' : 'Pantalla Completa'}
-          </button>
-        </div>
-      </div>
-
-      {/* Main Outer Container (Mockup Bezel Frame as in Dribbble Video) */}
-      <div id="mockup-frame" className={`mockup-frame ${!isFrameMode ? 'full-mode' : ''}`}>
-        <div className="inner-viewport" id="viewport">
-          {/* Floating Fixed Pill Navbar with Official Logo */}
-          <header className="navbar-wrapper">
+      {/* Floating Fixed Pill Navbar with Official Logo */}
+      <header className="navbar-wrapper">
             <nav className="pill-navbar" id="navbar">
               <a href="#hero" className="brand-logo">
                 <img
@@ -460,9 +422,12 @@ export default function ArcaDeLaAlianzaPage() {
                 </svg>
               </button>
             </nav>
-          </header>
+      </header>
 
-          {/* 1. HERO SECTION (Dark Navy with Kinetic Sliced Typography) */}
+      {/* Main Full-Width Content Viewport */}
+      <main className="site-main-viewport">
+
+        {/* 1. HERO SECTION (Dark Navy with Kinetic Sliced Typography) */}
           <section ref={heroRef} className="section hero-section" id="hero">
             <div className="hero-header-meta">
               <span className="hero-tag" style={{ color: '#E7CD54' }}>
@@ -1053,8 +1018,7 @@ export default function ArcaDeLaAlianzaPage() {
               </button>
             </div>
           </footer>
-        </div>
-      </div>
+        </main>
 
       {/* Interactive Contact / Meeting Modal */}
       {isModalOpen && (
