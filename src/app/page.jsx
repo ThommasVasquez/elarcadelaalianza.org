@@ -5,11 +5,174 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
+const ROTATING_WORDS = ['DIGNIDAD.', 'CAPACIDAD.', 'COMUNIDAD.', 'ESPERANZA.'];
+
+const FILOSOFIA_INSTITUCIONAL = '«Servimos con amor, transformamos con esperanza y construimos juntos un futuro con dignidad y oportunidades para todos».';
+
+const VALORES_INSTITUCIONALES = [
+  {
+    num: '01',
+    title: 'Amor y solidaridad',
+    desc: 'Servimos con amor, sensibilidad y vocación, brindando apoyo a quienes más lo necesitan y promoviendo una cultura de ayuda mutua.',
+  },
+  {
+    num: '02',
+    title: 'Respeto y dignidad humana',
+    desc: 'Reconocemos el valor de cada persona, sin distinción de género, edad, origen, cultura, religión o condición social.',
+  },
+  {
+    num: '03',
+    title: 'Compromiso social',
+    desc: 'Trabajamos con responsabilidad y dedicación para mejorar las condiciones de vida de las comunidades más vulnerables.',
+  },
+  {
+    num: '04',
+    title: 'Empatía y compasión',
+    desc: 'Escuchamos, comprendemos y acompañamos las realidades de quienes enfrentan situaciones difíciles, ofreciendo un trato humano y cercano.',
+  },
+  {
+    num: '05',
+    title: 'Honestidad y transparencia',
+    desc: 'Actuamos con integridad y responsabilidad en la administración de los recursos, las relaciones institucionales y el desarrollo de proyectos.',
+  },
+  {
+    num: '06',
+    title: 'Inclusión y equidad',
+    desc: 'Promovemos la igualdad de oportunidades, la participación y el reconocimiento de la diversidad cultural y social.',
+  },
+  {
+    num: '07',
+    title: 'Esperanza y transformación',
+    desc: 'Creemos en la capacidad de las personas para superar las adversidades, reconstruir sus proyectos de vida y forjar un futuro mejor.',
+  },
+  {
+    num: '08',
+    title: 'Trabajo en comunidad',
+    desc: 'Fomentamos la cooperación, la participación ciudadana y la construcción de redes de apoyo que generen cambios sostenibles.',
+  },
+];
+
+const PRINCIPIOS_INSTITUCIONALES = [
+  {
+    num: '01',
+    title: 'Primacía de la dignidad humana',
+    desc: 'Toda intervención debe reconocer y proteger los derechos fundamentales de las personas.',
+  },
+  {
+    num: '02',
+    title: 'Servicio desinteresado',
+    desc: 'Nuestra labor está orientada al bienestar colectivo y no al beneficio económico particular.',
+  },
+  {
+    num: '03',
+    title: 'Participación comunitaria',
+    desc: 'Reconocemos a las comunidades como verdaderas protagonistas de su propio desarrollo.',
+  },
+  {
+    num: '04',
+    title: 'Autonomía y empoderamiento',
+    desc: 'Promovemos capacidades y herramientas para que las personas construyan sus propios proyectos de vida.',
+  },
+  {
+    num: '05',
+    title: 'Responsabilidad y transparencia',
+    desc: 'Administramos los recursos de manera ética, eficiente y orientada al cumplimiento de nuestra misión.',
+  },
+  {
+    num: '06',
+    title: 'Respeto por la diversidad',
+    desc: 'Valoramos las tradiciones, culturas, creencias y formas de vida de cada comunidad.',
+  },
+  {
+    num: '07',
+    title: 'Sostenibilidad social',
+    desc: 'Buscamos que nuestros proyectos generen beneficios duraderos y fortalezcan las capacidades locales.',
+  },
+  {
+    num: '08',
+    title: 'Construcción de alianzas',
+    desc: 'Impulsamos el trabajo conjunto con organizaciones, instituciones, empresas y personas comprometidas.',
+  },
+];
+
+const OBJETIVOS_ESPECIFICOS = [
+  {
+    num: '01',
+    title: 'Calidad de vida en poblaciones vulnerables',
+    desc: 'Desarrollar programas sociales que contribuyan al bienestar integral de mujeres, niños, niñas, adolescentes, adultos mayores, comunidades indígenas, habitantes de calle y familias.',
+  },
+  {
+    num: '02',
+    title: 'Acompañamiento psicosocial y bienestar emocional',
+    desc: 'Implementar estrategias de orientación, prevención y atención psicosocial que promuevan la salud emocional, fortalecimiento familiar, autoestima y proyectos de vida.',
+  },
+  {
+    num: '03',
+    title: 'Educación y formación para el desarrollo humano',
+    desc: 'Generar oportunidades de aprendizaje y capacitación para fortalecer habilidades personales, sociales, laborales y productivas fomentando la autonomía.',
+  },
+  {
+    num: '04',
+    title: 'Emprendimiento y oportunidades económicas',
+    desc: 'Impulsar iniciativas de emprendimiento, formación para el trabajo y proyectos productivos que contribuyan a la independencia económica y sostenibilidad.',
+  },
+  {
+    num: '05',
+    title: 'Participación y desarrollo comunitario',
+    desc: 'Promover la organización, solidaridad, liderazgo y trabajo colaborativo, fortaleciendo redes de apoyo y participación ciudadana activa.',
+  },
+  {
+    num: '06',
+    title: 'Inclusión social y derechos humanos',
+    desc: 'Desarrollar acciones orientadas a prevenir la discriminación, exclusión, violencia y desigualdades, garantizando el respeto por la dignidad.',
+  },
+  {
+    num: '07',
+    title: 'Identidad cultural y tradiciones comunitarias',
+    desc: 'Apoyar iniciativas culturales, artísticas, artesanales y de turismo comunitario responsable para reconocer saberes ancestrales y conservar el patrimonio.',
+  },
+  {
+    num: '08',
+    title: 'Solidaridad y ayuda humanitaria',
+    desc: 'Gestionar y desarrollar campañas de apoyo, donaciones y asistencia social para necesidades básicas de poblaciones vulnerables y emergencias.',
+  },
+  {
+    num: '09',
+    title: 'Alianzas estratégicas para el desarrollo',
+    desc: 'Establecer relaciones de cooperación con entidades públicas, privadas, organizaciones sociales, instituciones educativas y organismos nacionales e internacionales.',
+  },
+  {
+    num: '10',
+    title: 'Desarrollo sostenible y medio ambiente',
+    desc: 'Fomentar iniciativas de educación ambiental, protección de los recursos naturales y aprovechamiento responsable del territorio vinculando a las comunidades.',
+  },
+  {
+    num: '11',
+    title: 'Gestión institucional ética y transparente',
+    desc: 'Fortalecer procesos administrativos, financieros y operativos, promoviendo el uso responsable de recursos, rendición de cuentas y evaluación de impacto.',
+  },
+  {
+    num: '12',
+    title: 'Capacidades para transformación social sostenible',
+    desc: 'Diseñar proyectos para que las personas desarrollen herramientas que superen la vulnerabilidad y se conviertan en protagonistas de su desarrollo.',
+  },
+];
+
 export default function ArcaDeLaAlianzaPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeService, setActiveService] = useState('02');
+  const [activeService, setActiveService] = useState('01');
+  const [aboutTab, setAboutTab] = useState('mision');
   const [projectsCount, setProjectsCount] = useState(0);
   const [ratingCount, setRatingCount] = useState('0.0');
+  const [wordIndex, setWordIndex] = useState(0);
+
+  // Auto-rotate keyword for Cinematic Hero every 2.6s
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % ROTATING_WORDS.length);
+    }, 2600);
+    return () => clearInterval(timer);
+  }, []);
 
   // Refs for GSAP
   const containerRef = useRef(null);
@@ -122,24 +285,22 @@ export default function ArcaDeLaAlianzaPage() {
     // ==========================================
 
     const ctx = gsap.context(() => {
-      // A. HERO KINETIC SCROLL SCRUB
+      // A. HERO KINETIC SCROLL SCRUB & ENTRANCE (Opción B: Cinematic Full-Bleed)
       const heroEl = heroRef.current;
-      const heroTitle = heroTitleRef.current;
-      const heroArt = heroArtworkRef.current;
-
-      if (heroEl && heroTitle) {
-        const topSlice = heroTitle.querySelector('.slice-top');
-        const midSlice = heroTitle.querySelector('.slice-mid');
-        const botSlice = heroTitle.querySelector('.slice-bottom');
+      if (heroEl) {
+        const topbar = heroEl.querySelector('.hero-cinematic-topbar');
+        const center = heroEl.querySelector('.hero-cinematic-center');
+        const bottom = heroEl.querySelector('.hero-cinematic-bottom');
+        const videoBg = heroEl.querySelector('.hero-video-bg');
 
         // Initial entrance
         gsap.fromTo(
-          [topSlice, midSlice, botSlice],
-          { y: 35 },
-          { y: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out' }
+          [topbar, center, bottom].filter(Boolean),
+          { y: 28, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: 'power3.out' }
         );
 
-        // Scroll scrub: slices drift horizontally as you scroll
+        // Scroll scrub: Video zoom and stage parallax as card scrolls up
         const heroTl = gsap.timeline({
           scrollTrigger: {
             trigger: heroEl,
@@ -149,10 +310,8 @@ export default function ArcaDeLaAlianzaPage() {
           },
         });
 
-        if (topSlice) heroTl.to(topSlice, { x: -60, ease: 'none' }, 0);
-        if (midSlice) heroTl.to(midSlice, { x: 75, ease: 'none' }, 0);
-        if (botSlice) heroTl.to(botSlice, { x: -40, ease: 'none' }, 0);
-        if (heroArt) heroTl.to(heroArt, { scale: 1.08, y: 30, ease: 'none' }, 0);
+        if (videoBg) heroTl.to(videoBg, { scale: 1.18, y: 50, ease: 'none' }, 0);
+        if (center) heroTl.to(center, { y: -30, opacity: 0.5, ease: 'none' }, 0);
       }
 
       // B. STATEMENT TYPOGRAPHY ON SCROLL
@@ -437,81 +596,341 @@ export default function ArcaDeLaAlianzaPage() {
       {/* Main Full-Width Content Viewport */}
       <main className="site-main-viewport">
 
-        {/* 1. HERO SECTION (Dark Navy with Kinetic Sliced Typography) */}
-          <section ref={heroRef} className="section hero-section" id="hero">
-            <div className="hero-header-meta">
-              <span className="hero-tag" style={{ color: '#E7CD54' }}>
-                ORGANIZACIÓN SOCIAL &amp; SOLIDARIA
-              </span>
+        {/* 1. HERO SECTION (Opción B: Inmersivo Cinematográfico Full-Bleed con Palabras Rotativas) */}
+        <section ref={heroRef} className="section hero-section hero-cinematic-theme" id="hero">
+            {/* Exclusive Video Background (Restricted exclusively to Hero Section) */}
+            <div className="hero-video-container">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                poster="/assets/hero_bg.png"
+                className="hero-video-bg"
+              >
+                <source src="/assets/hero_background.mp4" type="video/mp4" />
+              </video>
+              <div className="hero-cinematic-vignette" />
+              <div className="hero-film-grain" />
             </div>
 
-            {/* Massive Title with Sliced Kinetic Typography Effect */}
-            <div className="hero-title-container" id="hero-title-trigger">
-              <div ref={heroTitleRef} className="sliced-title-group animating" data-title="EL ARCA">
-                <h1 className="hero-main-title">EL ARCA DE LA ALIANZA</h1>
-                <div className="slice slice-top" aria-hidden="true">
-                  EL ARCA DE LA ALIANZA
+            {/* Foreground Cinematic Stage */}
+            <div className="hero-cinematic-stage">
+              {/* Top Bar: Institutional Emblem & Live Status */}
+              <div className="hero-cinematic-topbar">
+                <div className="hero-emblem-badge">
+                  <div className="hero-emblem-hands">
+                    <img
+                      src="/assets/hand_navy_master.png"
+                      alt="Mano Azul"
+                      className="mini-hand mini-hand-navy"
+                    />
+                    <img
+                      src="/assets/hand_gold_master.png"
+                      alt="Mano Oro"
+                      className="mini-hand mini-hand-gold"
+                    />
+                    <img
+                      src="/assets/hand_white_master.png"
+                      alt="Mano Blanca"
+                      className="mini-hand mini-hand-white"
+                    />
+                  </div>
+                  <div className="hero-emblem-info">
+                    <span className="hero-emblem-title">FUNDACIÓN ARCA DE LA ALIANZA</span>
+                    <span className="hero-emblem-sub">COLOMBIA · NIT 901.689.340 - 5 · ESAL SOCIAL Y COMUNITARIA</span>
+                  </div>
                 </div>
-                <div className="slice slice-mid" aria-hidden="true">
-                  EL ARCA DE LA ALIANZA
-                </div>
-                <div className="slice slice-bottom" aria-hidden="true">
-                  EL ARCA DE LA ALIANZA
-                </div>
-              </div>
-              <div className="hero-subtitle-meta">
-                CONSTRUYENDO ESPERANZA,
-                <br />
-                TRANSFORMANDO COMUNIDADES
-              </div>
-            </div>
 
-            {/* Hero Illustration Artwork Container */}
-            <div className="hero-stage">
-              <img
-                ref={heroArtworkRef}
-                src="/assets/hero_clean_art.png"
-                alt="Encuentro de celebración, esperanza y mesa compartida de Fundación El Arca de la Alianza"
-                className="hero-artwork-img"
-                id="hero-artwork"
-              />
-              {/* Ambient particle canvas */}
-              <canvas ref={canvasRef} id="sparkles-canvas" className="sparkles-canvas"></canvas>
+                <div className="hero-live-pill">
+                  <span className="live-pulse" />
+                  <span className="live-label">MISIÓN EN ACCIÓN · 2026</span>
+                </div>
+              </div>
+
+              {/* Center Stage: Monumental Title with Rotating Accent */}
+              <div className="hero-cinematic-center">
+                <div className="hero-kicker-tag">
+                  <span className="kicker-line" />
+                  <span>CAPACIDAD INSTALADA &amp; EMPODERAMIENTO SOCIAL</span>
+                  <span className="kicker-line" />
+                </div>
+
+                <h1 className="hero-monumental-title">
+                  UNIMOS MANOS<br className="hero-br-desktop" />
+                  POR LA{' '}
+                  <span className="hero-rotator-inline">
+                    <span key={wordIndex} className="hero-rotator-word-active">
+                      {ROTATING_WORDS[wordIndex]}
+                    </span>
+                  </span>
+                </h1>
+
+                <p className="hero-cinematic-narrative">
+                  Mejoramos las condiciones de vida de mujeres, niños y poblaciones indígenas, generando
+                  capacidad instalada en las comunidades para que las personas se empoderen de sus proyectos de vida.
+                </p>
+
+                {/* Cinematic CTAs: Magnetic Gold Pill + Secondary Program Pill */}
+                <div className="hero-cinematic-ctas">
+                  <button
+                    type="button"
+                    className="hero-btn-magnetic-gold"
+                    onClick={() => setIsModalOpen(true)}
+                  >
+                    <span>Sumar Apoyo Directo</span>
+                    <span className="btn-arrow-icon">
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </span>
+                  </button>
+
+                  <a href="#work" className="hero-btn-cinematic-glass">
+                    <span className="btn-play-bullet">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                    </span>
+                    <span>Explorar Programas</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Bottom Bar: Clean Minimalist Metrics (No heavy boxes) + Scroll Cue */}
+              <div className="hero-cinematic-bottom">
+                <div className="hero-clean-metrics">
+                  <div className="hero-clean-metric-item">
+                    <div className="metric-number-bold">+14.500</div>
+                    <div className="metric-caption">
+                      <strong>Platos Servidos</strong>
+                      <span>Nutrición balanceada diaria</span>
+                    </div>
+                  </div>
+
+                  <div className="hero-metric-separator" />
+
+                  <div className="hero-clean-metric-item">
+                    <div className="metric-number-bold">870+</div>
+                    <div className="metric-caption">
+                      <strong>Niños en Aula</strong>
+                      <span>Refuerzo escolar y tutorías</span>
+                    </div>
+                  </div>
+
+                  <div className="hero-metric-separator" />
+
+                  <div className="hero-clean-metric-item">
+                    <div className="metric-number-bold">100%</div>
+                    <div className="metric-caption">
+                      <strong>Transparencia</strong>
+                      <span>Vigilancia DIAN · Régimen RTE</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="hero-cinematic-scroll-cue">
+                  <a href="#about" className="scroll-cue-link">
+                    <span className="scroll-cue-text">DESCUBRIR MANIFIESTO</span>
+                    <div className="scroll-cue-track">
+                      <div className="scroll-cue-dot" />
+                    </div>
+                  </a>
+                </div>
+              </div>
             </div>
           </section>
 
           {/* 2. STATEMENT / MANIFIESTO SECTION (White Card, 100vw x 100vh) */}
           <section ref={statementRef} className="section statement-section" id="about">
             <div className="statement-container">
-              <div className="sliced-statement-wrapper">
-                <div className="sliced-block glitching" data-text="CONSTRUYENDO">
-                  <h2 className="statement-line" style={{ color: '#262F66' }}>
-                    CONSTRUYENDO
-                  </h2>
-                  <div className="slice slice-top">CONSTRUYENDO</div>
-                  <div className="slice slice-bottom">CONSTRUYENDO</div>
+              <div className="statement-top-meta">
+                <div className="statement-badge">
+                  <span className="statement-badge-dot" />
+                  <span>IDENTIDAD INSTITUCIONAL · ESAL SOCIAL Y COMUNITARIA</span>
                 </div>
-                <div className="sliced-block glitching" data-text="ESPERANZA Y">
-                  <h2 className="statement-line" style={{ color: '#262F66' }}>
-                    ESPERANZA Y
-                  </h2>
-                  <div className="slice slice-top">ESPERANZA Y</div>
-                  <div className="slice slice-bottom">ESPERANZA Y</div>
-                </div>
-                <div className="sliced-block glitching" data-text="FUTURO DIGNO">
-                  <h2 className="statement-line" style={{ color: '#E7CD54' }}>
-                    FUTURO DIGNO
-                  </h2>
-                  <div className="slice slice-top">FUTURO DIGNO</div>
-                  <div className="slice slice-bottom">FUTURO DIGNO</div>
+                <div className="statement-legal-tag">
+                  <span>CONSTITUIDA EL 26 DE NOVIEMBRE DE 2021 · NIT 901.689.340 - 5</span>
                 </div>
               </div>
-              <div className="statement-description">
-                <p>
-                  En la <strong>Fundación El Arca de la Alianza</strong> articulamos voluntades, recursos y corazones para
-                  brindar oportunidades tangibles a familias y comunidades vulnerables. Diseñamos programas sostenibles
-                  que generan un impacto humano duradero.
+
+              <div className="statement-hero-text">
+                <h2 className="statement-main-title">
+                  GENERAMOS CAPACIDAD INSTALADA:<br />
+                  <span className="statement-gold-highlight">EMPODERAMOS PROYECTOS DE VIDA.</span>
+                </h2>
+                <p className="statement-lead-paragraph">
+                  La <strong>Fundación Arca de la Alianza</strong> es una entidad sin ánimo de lucro (ESAL), de carácter social y comunitario, orientada a mejorar la calidad de vida de personas en condiciones de pobreza extrema y vulnerabilidad mediante acompañamiento psicosocial, educación, identidad cultural y redes comunitarias sostenibles.
                 </p>
+              </div>
+
+              {/* Interactive Institutional Tabs Navigation */}
+              <div className="about-tabs-bar" role="tablist" aria-label="Información Institucional">
+                <button
+                  type="button"
+                  className={`about-tab-btn ${aboutTab === 'mision' ? 'active' : ''}`}
+                  onClick={() => setAboutTab('mision')}
+                  role="tab"
+                  aria-selected={aboutTab === 'mision'}
+                >
+                  <span className="tab-dot" />
+                  <span>Misión, Visión &amp; Filosofía</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`about-tab-btn ${aboutTab === 'valores' ? 'active' : ''}`}
+                  onClick={() => setAboutTab('valores')}
+                  role="tab"
+                  aria-selected={aboutTab === 'valores'}
+                >
+                  <span className="tab-dot" />
+                  <span>Nuestros Valores (8)</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`about-tab-btn ${aboutTab === 'principios' ? 'active' : ''}`}
+                  onClick={() => setAboutTab('principios')}
+                  role="tab"
+                  aria-selected={aboutTab === 'principios'}
+                >
+                  <span className="tab-dot" />
+                  <span>Principios Institucionales (8)</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`about-tab-btn ${aboutTab === 'objetivos' ? 'active' : ''}`}
+                  onClick={() => setAboutTab('objetivos')}
+                  role="tab"
+                  aria-selected={aboutTab === 'objetivos'}
+                >
+                  <span className="tab-dot" />
+                  <span>Objetivos Estratégicos (12)</span>
+                </button>
+              </div>
+
+              {/* Tab Panel Content */}
+              <div className="about-tab-panel">
+                {/* 1. MISIÓN & VISIÓN */}
+                {aboutTab === 'mision' && (
+                  <div>
+                    <div className="about-philosophy-card">
+                      <p className="philosophy-quote">{FILOSOFIA_INSTITUCIONAL}</p>
+                      <span className="philosophy-tag">Filosofía Institucional · Fundación Arca de la Alianza</span>
+                    </div>
+
+                    <div className="mv-deck-grid">
+                      <div className="mv-card">
+                        <div>
+                          <div className="mv-card-header">
+                            <span className="mv-card-badge">PROPÓSITO</span>
+                            <h3 className="mv-card-title">MISIÓN INSTITUCIONAL</h3>
+                          </div>
+                          <p className="mv-card-body">
+                            Generar capacidad instalada en las comunidades en la que Arca de la Alianza realiza su accionar, promoviendo la solidaridad y el trabajo comunitario para que las personas se empoderen de sus proyectos de vida.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mv-card">
+                        <div>
+                          <div className="mv-card-header">
+                            <span className="mv-card-badge" style={{ backgroundColor: '#b89814' }}>HORIZONTE 2025+</span>
+                            <h3 className="mv-card-title">VISIÓN INSTITUCIONAL</h3>
+                          </div>
+                          <p className="mv-card-body">
+                            Para el año 2025 y hacia el futuro, la Fundación Arca de la Alianza será reconocida por su trabajo en pro de los más necesitados, a través del acompañamiento psicosocial y el fortalecimiento del trabajo comunitario, promoviendo la construcción de redes de apoyo.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="target-populations-bar">
+                      <span className="populations-label">Poblaciones de Atención Prioritaria:</span>
+                      <div className="populations-chips">
+                        <span className="pop-chip">👩 Mujeres &amp; Madres</span>
+                        <span className="pop-chip">🧒 Niñez &amp; Adolescencia</span>
+                        <span className="pop-chip">🪶 Poblaciones Indígenas</span>
+                        <span className="pop-chip">👵 Adultos Mayores</span>
+                        <span className="pop-chip">🤝 Habitantes de Calle</span>
+                        <span className="pop-chip">🏡 Familias Vulnerables</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. VALORES INSTITUCIONALES (8) */}
+                {aboutTab === 'valores' && (
+                  <div className="values-8-grid">
+                    {VALORES_INSTITUCIONALES.map((val) => (
+                      <div key={val.num} className="value-item-card">
+                        <div>
+                          <div className="value-card-top">
+                            <span className="value-num">{val.num}/</span>
+                            <span style={{ fontSize: '14px' }}>✦</span>
+                          </div>
+                          <h4 className="value-title">{val.title}</h4>
+                        </div>
+                        <p className="value-desc">{val.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* 3. PRINCIPIOS INSTITUCIONALES (8) */}
+                {aboutTab === 'principios' && (
+                  <div className="principles-8-grid">
+                    {PRINCIPIOS_INSTITUCIONALES.map((prin) => (
+                      <div key={prin.num} className="value-item-card">
+                        <div>
+                          <div className="value-card-top">
+                            <span className="value-num" style={{ color: '#101633' }}>{prin.num}/</span>
+                            <span style={{ fontSize: '14px', color: '#b89814' }}>◈</span>
+                          </div>
+                          <h4 className="value-title">{prin.title}</h4>
+                        </div>
+                        <p className="value-desc">{prin.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* 4. OBJETIVOS ESTRATÉGICOS (General + 12 Específicos) */}
+                {aboutTab === 'objetivos' && (
+                  <div className="objectives-deck-wrapper">
+                    <div className="general-objective-card">
+                      <div className="gen-obj-kicker">OBJETIVO GENERAL INSTITUCIONAL</div>
+                      <h3 className="gen-obj-title">Bienestar Integral, Inclusión Social y Capacidades Sostenibles</h3>
+                      <p className="gen-obj-desc">
+                        Contribuir al mejoramiento de la calidad de vida y al bienestar integral de las personas y comunidades en situación de vulnerabilidad, especialmente mujeres, niños, niñas, adolescentes, adultos mayores, comunidades indígenas y habitantes de calle, mediante programas sociales, educativos, culturales, humanitarios y de acompañamiento psicosocial que promuevan la dignidad humana, la autonomía y la construcción de proyectos de vida sostenibles.
+                      </p>
+                    </div>
+
+                    <div className="specific-objectives-grid">
+                      {OBJETIVOS_ESPECIFICOS.map((obj) => (
+                        <div key={obj.num} className="spec-obj-card">
+                          <div className="spec-obj-header">
+                            <span className="spec-obj-num">{obj.num}</span>
+                            <h4 className="spec-obj-title">{obj.title}</h4>
+                          </div>
+                          <p className="spec-obj-desc">{obj.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </section>
@@ -520,168 +939,241 @@ export default function ArcaDeLaAlianzaPage() {
           <section ref={workRef} className="section work-section" id="work">
             <div className="featured-work-container">
               <div className="featured-work-header">
-                <h3 className="section-title" style={{ color: '#262F66' }}>
-                  PROGRAMAS DESTACADOS
-                </h3>
+                <div className="work-header-left">
+                  <div className="work-kicker-tag">PROGRAMAS EN TERRITORIO</div>
+                  <h3 className="section-title">
+                    ACCIONES REALES, IMPACTO MEDIBLE
+                  </h3>
+                </div>
+                <p className="work-header-desc">
+                  Operamos directamente en comunidades vulnerables con programas continuos, trazabilidad en tiempo real y certificación de transparencia.
+                </p>
               </div>
 
-              <div className="work-grid">
-                {/* Left Column Card: Programa Nutricional y Familiar */}
+              <div className="work-grid-modern">
+                {/* Card 1: Comedores Comunitarios (Hero Program) */}
                 <div
-                  className="work-card large-card holiday-magic-card"
-                  data-work="nutricion"
+                  className="work-modern-card card-featured-program"
                   onClick={() => setIsModalOpen(true)}
                 >
-                  <div className="card-media-wrapper">
-                    <img src="/assets/work_holiday_magic.png" alt="Programa Nutrición y Bienestar Familiar" className="card-img" />
+                  <div className="work-modern-media">
+                    <img
+                      src="/assets/nutrition_program.jpg"
+                      alt="Programa de Nutrición Comunitaria y Seguridad Alimentaria"
+                      className="work-modern-img"
+                    />
+                    <div className="work-badge-overlay">
+                      <span className="badge-tag">NUTRICIÓN COMUNITARIA</span>
+                      <span className="badge-status-pill">ACTIVO</span>
+                    </div>
+                  </div>
+                  <div className="work-modern-info">
+                    <h4 className="work-modern-title">Comedor "Pan de Vida"</h4>
+                    <p className="work-modern-excerpt">
+                      Raciones calientes diarias y balanceadas para niños, adultos mayores y habitantes de calle en extrema vulnerabilidad.
+                    </p>
+                    <div className="work-modern-footer">
+                      <span className="work-metric-pill">+350 raciones/día</span>
+                      <span className="work-action-link">Sumar Apoyo →</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Right Column Top Card: Desarrollo Infantil */}
-                <div className="work-card teamtrek-card" data-work="infancia" onClick={() => setIsModalOpen(true)}>
-                  <div className="card-media-wrapper">
+                {/* Card 2: Acompañamiento Psicosocial */}
+                <div
+                  className="work-modern-card"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <div className="work-modern-media">
                     <img
-                      src="/assets/work_teamtrek.png"
-                      alt="Jornadas de Inspiración y Desarrollo Infantil"
-                      className="card-img"
+                      src="/assets/psychosocial_program.jpg"
+                      alt="Acompañamiento Psicosocial y Salud Emocional"
+                      className="work-modern-img"
                     />
+                    <div className="work-badge-overlay">
+                      <span className="badge-tag">SALUD EMOCIONAL · PSICOSOCIAL</span>
+                    </div>
+                  </div>
+                  <div className="work-modern-info">
+                    <h4 className="work-modern-title">Círculos de Resiliencia</h4>
+                    <p className="work-modern-excerpt">
+                      Orientación, prevención y acompañamiento psicosocial para la salud emocional, fortalecimiento familiar y reconstrucción de proyectos de vida.
+                    </p>
+                    <div className="work-modern-footer">
+                      <span className="work-metric-pill">Apoyo Continuo</span>
+                      <span className="work-action-link">Conocer Más →</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Mid text block */}
-                <div className="work-text-block">
-                  <h4 className="work-text-title" style={{ color: '#262F66' }}>
-                    CÓMO TRANSFORMAMOS
-                    <br />
-                    CADA COMUNIDAD
-                  </h4>
-                  <p className="work-text-p" style={{ color: '#3A3A3A' }}>
-                    Nuestra metodología combina intervención directa, acompañamiento psicosocial, educación en valores y
-                    alianzas estratégicas con empresas y líderes sociales.
-                  </p>
-                </div>
-
-                {/* Right Column Mid Card: Alianzas y Líderes */}
-                <div className="work-card influence-card" data-work="alianzas" onClick={() => setIsModalOpen(true)}>
-                  <div className="card-media-wrapper">
+                {/* Card 3: Identidad Cultural & Poblaciones Indígenas */}
+                <div
+                  className="work-modern-card"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <div className="work-modern-media">
                     <img
-                      src="/assets/work_influence.png"
-                      alt="Cumbre de Alianzas Estratégicas y Donantes"
-                      className="card-img"
+                      src="/assets/indigenous_program.jpg"
+                      alt="Identidad Cultural, Saberes Ancestrales y Poblaciones Indígenas"
+                      className="work-modern-img"
                     />
+                    <div className="work-badge-overlay">
+                      <span className="badge-tag">COMUNIDADES INDÍGENAS</span>
+                    </div>
+                  </div>
+                  <div className="work-modern-info">
+                    <h4 className="work-modern-title">Saberes &amp; Tradición</h4>
+                    <p className="work-modern-excerpt">
+                      Preservación de identidad cultural, impulso a artesanías tradicionales y turismo comunitario responsable con respeto por la diversidad.
+                    </p>
+                    <div className="work-modern-footer">
+                      <span className="work-metric-pill">Patrimonio Vivo</span>
+                      <span className="work-action-link">Participar →</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Right Column Bottom Card: Innovación Social */}
-                <div className="work-card innovation-card" data-work="innovacion" onClick={() => setIsModalOpen(true)}>
-                  <div className="card-media-wrapper">
+                {/* Card 4: Educación & Emprendimiento */}
+                <div
+                  className="work-modern-card"
+                  onClick={() => setIsModalOpen(true)}
+                >
+                  <div className="work-modern-media">
                     <img
-                      src="/assets/work_innovation.png"
-                      alt="Iniciativas de Progreso e Innovación Social"
-                      className="card-img"
+                      src="/assets/education_program.jpg"
+                      alt="Educación, Niñez y Proyectos Productivos"
+                      className="work-modern-img"
                     />
+                    <div className="work-badge-overlay">
+                      <span className="badge-tag">EDUCACIÓN · AUTONOMÍA</span>
+                    </div>
+                  </div>
+                  <div className="work-modern-info">
+                    <h4 className="work-modern-title">Aulas &amp; Emprendimiento</h4>
+                    <p className="work-modern-excerpt">
+                      Refuerzo pedagógico escolar para erradicar la deserción infantil y formación para el trabajo orientada a mujeres y madres comunitarias.
+                    </p>
+                    <div className="work-modern-footer">
+                      <span className="work-metric-pill">870+ Niños en Aula</span>
+                      <span className="work-action-link">Apadrinar →</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* 3. SERVICES SECTION (Black/Navy Card) */}
+          {/* 4. SERVICES SECTION (Ejes de Acción Solidaria - Deep Navy Card) */}
           <section ref={servicesRef} className="section black-card-section" id="services">
             <div className="services-header">
-              <h2 className="services-headline">
-                TRANSFORMAMOS VIDAS
-                <br />
-                EN REALIDADES!
-              </h2>
+              <div>
+                <div className="services-kicker-badge">MODELO DE INTERVENCIÓN SOCIAL</div>
+                <h2 className="services-headline">
+                  TRANSFORMAMOS REALIDADES
+                </h2>
+              </div>
               <p className="services-sub">
-                Nuestros equipos interdisciplinarios y voluntarios trabajan día a día para crear puentes de esperanza,
-                salud y desarrollo integral donde más se necesita.
+                Cada pilar opera con metas trazables, profesionales de campo y alianzas estratégicas para asegurar continuidad e impacto real en el territorio.
               </p>
             </div>
 
-            {/* Interactive Services List with Thumbnails */}
+            {/* Interactive Services List with Real Program Thumbnails */}
             <div className="services-list" id="services-list">
-              {/* 01/ APOYO NUTRICIONAL */}
+              {/* 01/ ACOMPAÑAMIENTO PSICOSOCIAL */}
               <div
                 className={`service-item ${activeService === '01' ? 'active-hover' : ''}`}
                 data-index="01"
                 onMouseEnter={() => setActiveService('01')}
                 onClick={() => setIsModalOpen(true)}
               >
-                <span className="service-num" style={{ color: '#E7CD54' }}>
-                  01/
-                </span>
+                <span className="service-num">01/</span>
                 <div className="service-name-wrap">
-                  <span className="service-name">APOYO NUTRICIONAL</span>
+                  <span className="service-name">ACOMPAÑAMIENTO PSICOSOCIAL</span>
+                  <span className="service-subtext">Orientación, salud emocional, resiliencia y proyectos de vida</span>
                 </div>
                 <div className="service-thumb-wrap">
-                  <img src="/assets/service_cake.png" alt="Gestión de Alimentos y Nutrición" className="service-thumb" />
+                  <img
+                    src="/assets/psychosocial_program.jpg"
+                    alt="Círculos de Acompañamiento Psicosocial"
+                    className="service-thumb"
+                  />
                 </div>
               </div>
 
-              {/* 02/ DESARROLLO INFANTIL */}
+              {/* 02/ CAPACIDAD INSTALADA & TRABAJO COMUNITARIO */}
               <div
                 className={`service-item ${activeService === '02' ? 'active-hover' : ''}`}
                 data-index="02"
                 onMouseEnter={() => setActiveService('02')}
                 onClick={() => setIsModalOpen(true)}
               >
-                <span className="service-num" style={{ color: '#E7CD54' }}>
-                  02/
-                </span>
-                <div className="service-thumb-wrap">
-                  <img src="/assets/service_martini.png" alt="Acompañamiento a Niños y Familias" className="service-thumb" />
-                </div>
+                <span className="service-num">02/</span>
                 <div className="service-name-wrap">
-                  <span className="service-name">DESARROLLO INFANTIL</span>
+                  <span className="service-name">CAPACIDAD INSTALADA &amp; COMUNIDAD</span>
+                  <span className="service-subtext">Organización ciudadana, liderazgo social y redes de apoyo</span>
+                </div>
+                <div className="service-thumb-wrap">
+                  <img
+                    src="/assets/community_workshop.jpg"
+                    alt="Capacidad Instalada y Trabajo Comunitario"
+                    className="service-thumb"
+                  />
                 </div>
               </div>
 
-              {/* 03/ ALIANZAS ESTRATÉGICAS */}
+              {/* 03/ IDENTIDAD CULTURAL & PUEBLOS INDÍGENAS */}
               <div
                 className={`service-item ${activeService === '03' ? 'active-hover' : ''}`}
                 data-index="03"
                 onMouseEnter={() => setActiveService('03')}
                 onClick={() => setIsModalOpen(true)}
               >
-                <span className="service-num" style={{ color: '#E7CD54' }}>
-                  03/
-                </span>
+                <span className="service-num">03/</span>
                 <div className="service-name-wrap">
-                  <span className="service-name">ALIANZAS ESTRATÉGICAS</span>
+                  <span className="service-name">IDENTIDAD CULTURAL &amp; SABERES ANCESTRALES</span>
+                  <span className="service-subtext">Poblaciones indígenas, artesanías y respeto por la diversidad</span>
                 </div>
                 <div className="service-thumb-wrap">
-                  <img src="/assets/service_conf.png" alt="Encuentros y Redes Solidarias" className="service-thumb" />
+                  <img
+                    src="/assets/indigenous_program.jpg"
+                    alt="Identidad Cultural y Saberes Ancestrales"
+                    className="service-thumb"
+                  />
                 </div>
               </div>
 
-              {/* 04/ VOLUNTARIADO Y SOLIDARIDAD */}
+              {/* 04/ NUTRICIÓN, EDUCACIÓN & AYUDA HUMANITARIA */}
               <div
                 className={`service-item ${activeService === '04' ? 'active-hover' : ''}`}
                 data-index="04"
                 onMouseEnter={() => setActiveService('04')}
                 onClick={() => setIsModalOpen(true)}
               >
-                <span className="service-num" style={{ color: '#E7CD54' }}>
-                  04/
-                </span>
-                <div className="service-thumb-wrap">
-                  <img src="/assets/service_disco.png" alt="Voluntariado y Acción Comunitaria" className="service-thumb" />
-                </div>
+                <span className="service-num">04/</span>
                 <div className="service-name-wrap">
-                  <span className="service-name">VOLUNTARIADO ACTIVO</span>
+                  <span className="service-name">NUTRICIÓN, EDUCACIÓN &amp; ASISTENCIA</span>
+                  <span className="service-subtext">Comedores comunitarios, refuerzo escolar y auxilio humanitario</span>
+                </div>
+                <div className="service-thumb-wrap">
+                  <img
+                    src="/assets/nutrition_program.jpg"
+                    alt="Nutrición, Educación y Ayuda Humanitaria"
+                    className="service-thumb"
+                  />
                 </div>
               </div>
             </div>
           </section>
 
-          {/* 4. TIMELINE SECTION (White Card) */}
+          {/* 5. TIMELINE SECTION (Trayectoria e Hitos Reales - White Card) */}
           <section ref={timelineRef} className="section timeline-section" id="timeline">
             <div className="timeline-header">
-              <h2 className="timeline-headline" style={{ color: '#262F66' }}>
-                NUESTRA TRAYECTORIA
-              </h2>
+              <div>
+                <div className="timeline-kicker-tag">HISTORIA &amp; EVOLUCIÓN</div>
+                <h2 className="timeline-headline">
+                  NUESTRA TRAYECTORIA
+                </h2>
+              </div>
               <div className="carousel-nav-arrows">
                 <button
                   type="button"
@@ -689,7 +1181,7 @@ export default function ArcaDeLaAlianzaPage() {
                   onClick={handleTimelinePrev}
                   aria-label="Anterior hito"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                   </svg>
@@ -700,7 +1192,7 @@ export default function ArcaDeLaAlianzaPage() {
                   onClick={handleTimelineNext}
                   aria-label="Siguiente hito"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
@@ -710,133 +1202,171 @@ export default function ArcaDeLaAlianzaPage() {
 
             {/* Timeline Slider Track */}
             <div ref={timelineTrackRef} className="timeline-track-container" id="timeline-scroll">
+              {/* Hito 1: 2021 */}
               <div className="timeline-card-col">
                 <div className="timeline-img-card">
-                  <img src="/assets/timeline_gift.png" alt="Fundación y Primeras Alianzas" className="timeline-gift-img" />
+                  <img
+                    src="/assets/nutrition_program.jpg"
+                    alt="Constitución Formal Fundación Arca de la Alianza 2021"
+                    className="timeline-gift-img"
+                  />
+                  <div className="timeline-year-chip">2021</div>
                 </div>
                 <div className="timeline-info">
-                  <h3 className="timeline-step-title" style={{ color: '#262F66' }}>
-                    NACIMIENTO DE
-                    <br />
-                    LA ALIANZA (2021)
+                  <h3 className="timeline-step-title">
+                    CONSTITUCIÓN LEGAL<br />
+                    26 DE NOVIEMBRE
                   </h3>
-                  <p className="timeline-step-p" style={{ color: '#3A3A3A' }}>
-                    Comenzamos con una visión clara: ser un arca de protección y esperanza para quienes más lo necesitan,
-                    articulando las primeras 15 brigadas de ayuda social.
+                  <p className="timeline-step-p">
+                    El 26 de noviembre de 2021 nace formalmente la Fundación Arca de la Alianza como entidad sin ánimo de lucro (NIT 901.689.340-5), con la misión de generar capacidad instalada en las comunidades.
                   </p>
                 </div>
               </div>
 
-              {/* Giant Cheering Hands Card */}
-              <div className="timeline-cheers-col">
-                <img
-                  src="/assets/timeline_cheers.png"
-                  alt="Celebración del impacto y la solidaridad de El Arca"
-                  className="timeline-cheers-img"
-                />
+              {/* Hito 2: 2022 */}
+              <div className="timeline-card-col">
+                <div className="timeline-img-card">
+                  <img
+                    src="/assets/community_workshop.jpg"
+                    alt="Desarrollo Comunitario y Redes de Apoyo 2022"
+                    className="timeline-gift-img"
+                  />
+                  <div className="timeline-year-chip">2022</div>
+                </div>
+                <div className="timeline-info">
+                  <h3 className="timeline-step-title">
+                    REDES DE APOYO &amp;<br />
+                    TRABAJO SOCIAL
+                  </h3>
+                  <p className="timeline-step-p">
+                    Consolidación del modelo de intervención social orientado a mujeres cabezas de hogar, niñez y familias en condiciones de pobreza extrema y vulnerabilidad.
+                  </p>
+                </div>
               </div>
 
-              {/* Planning and Concept Card */}
+              {/* Hito 3: 2023 (Tarjeta Heroica de Enfoque) */}
               <div className="timeline-concept-col">
-                <div className="concept-black-card" style={{ backgroundColor: '#101633' }}>
-                  <h3 className="concept-card-title" style={{ color: '#E7CD54' }}>
-                    EXPANSIÓN
-                    <br />
-                    Y PROGRAMAS
-                    <br />
-                    SOSTENIBLES
+                <div className="concept-black-card">
+                  <div className="concept-top-row">
+                    <span className="concept-year-badge">2023 — CONSOLIDACIÓN</span>
+                    <span className="concept-star">✦</span>
+                  </div>
+                  <h3 className="concept-card-title">
+                    COMEDOR FIJO &amp;<br />
+                    AULAS ESCOLARES
                   </h3>
                   <p className="concept-card-p">
-                    Consolidación de alianzas con entidades públicas y privadas. Apertura de centros de refuerzo escolar y
-                    comedores comunitarios asistidos.
+                    Inauguración de comedores comunitarios con raciones diarias balanceadas, programas de refuerzo escolar y primeros círculos de acompañamiento psicosocial.
                   </p>
                   <button
                     type="button"
                     className="meet-team-btn"
-                    style={{ backgroundColor: '#E7CD54', color: '#101633' }}
                     onClick={() => setIsModalOpen(true)}
                   >
-                    Conoce el Equipo
-                    <svg
-                      className="phone-icon"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                    >
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    <span>Sumarse a la Red</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
                   </button>
                 </div>
               </div>
 
-              {/* Step 3 & 4 */}
+              {/* Hito 4: 2024 */}
               <div className="timeline-card-col">
-                <div className="timeline-info" style={{ marginTop: '40px' }}>
-                  <h3 className="timeline-step-title" style={{ color: '#262F66' }}>
-                    IMPACTO NACIONAL &amp;
-                    <br />
-                    FUTURO DIGNO (2024)
+                <div className="timeline-img-card">
+                  <img
+                    src="/assets/indigenous_program.jpg"
+                    alt="Pueblos Indígenas e Identidad Cultural 2024"
+                    className="timeline-gift-img"
+                  />
+                  <div className="timeline-year-chip">2024</div>
+                </div>
+                <div className="timeline-info">
+                  <h3 className="timeline-step-title">
+                    IDENTIDAD CULTURAL &amp;<br />
+                    PUEBLOS INDÍGENAS
                   </h3>
-                  <p className="timeline-step-p" style={{ color: '#3A3A3A' }}>
-                    Más de 300 proyectos ejecutados, cientos de voluntarios comprometidos y un legado de dignidad que sigue
-                    creciendo cada día.
+                  <p className="timeline-step-p">
+                    Articulación de programas para la protección de tradiciones, apoyo a artesanías y saberes ancestrales junto a comunidades indígenas y familias vulnerables.
+                  </p>
+                </div>
+              </div>
+
+              {/* Hito 5: 2025/2026 */}
+              <div className="timeline-card-col">
+                <div className="timeline-img-card">
+                  <img
+                    src="/assets/psychosocial_program.jpg"
+                    alt="Visión 2025 y Acompañamiento Psicosocial Continuo"
+                    className="timeline-gift-img"
+                  />
+                  <div className="timeline-year-chip">2025+</div>
+                </div>
+                <div className="timeline-info">
+                  <h3 className="timeline-step-title">
+                    VISIÓN CONSOLIDADA &amp;<br />
+                    REDES DE APOYO
+                  </h3>
+                  <p className="timeline-step-p">
+                    Consolidación de la visión institucional como referente en acompañamiento psicosocial, fortalecimiento del trabajo comunitario y empoderamiento de proyectos de vida.
                   </p>
                 </div>
               </div>
             </div>
           </section>
 
-          {/* 5. PEOPLE & STATS SECTION */}
+          {/* 6. PEOPLE & GOVERNANCE SECTION (Transparencia & Confianza) */}
           <section ref={peopleRef} className="section people-stats-section" id="people">
-            {/* Headline with Floating Portrait Badges */}
             <div className="moments-statement">
+              <div className="governance-kicker">EQUIPO &amp; TRANSPARENCIA</div>
               <h2 className="moments-headline">
-                <span className="moments-row">CREANDO</span>
-                <span className="moments-row">HUELLAS QUE DEJAN</span>
-                <span className="moments-row inline-portraits-row">
-                  <span className="moments-word">AM</span>
-                  <span className="portrait-avatar portrait-1" title="Dirección de Proyectos Sociales">
-                    <img src="/assets/portrait_1.png" alt="Directora de Proyectos Sociales" />
-                  </span>
-                  <span className="moments-word">OR EN LA M</span>
-                  <span className="portrait-avatar portrait-2" title="Coordinación de Voluntariado">
-                    <img src="/assets/portrait_2.png" alt="Coordinadora de Voluntariado" />
-                  </span>
-                  <span className="moments-word">EM</span>
-                  <span className="portrait-avatar portrait-3" title="Dirección Comunitaria">
-                    <img src="/assets/portrait_3.png" alt="Directora Comunitaria" />
-                  </span>
-                  <span className="moments-word">ORIA</span>
-                </span>
+                CREANDO HUELLAS QUE DEJAN HISTORIA
               </h2>
+              <div className="moments-team-strip">
+                <div className="portrait-bubbles-group">
+                  <div className="portrait-avatar-bubble" title="Dirección de Proyectos Sociales">
+                    <img src="/assets/portrait_1.png" alt="Directora de Proyectos Sociales" />
+                  </div>
+                  <div className="portrait-avatar-bubble" title="Coordinación de Voluntariado">
+                    <img src="/assets/portrait_2.png" alt="Coordinadora de Voluntariado" />
+                  </div>
+                  <div className="portrait-avatar-bubble" title="Dirección Comunitaria">
+                    <img src="/assets/portrait_3.png" alt="Directora Comunitaria" />
+                  </div>
+                </div>
+                <div className="moments-team-info">
+                  <strong className="team-info-title">Equipo &amp; Voluntariado en Territorio</strong>
+                  <span className="team-info-sub">+45 voluntarios comprometidos con el cambio</span>
+                </div>
+              </div>
+              <p className="governance-lead">
+                La verdadera transformación social nace del trabajo diario en territorio, con un equipo humano íntegro y absoluta transparencia en cada recurso recibido.
+              </p>
             </div>
 
-            {/* 3 Colored Metric Cards in Navy, Gold and Warm Accent */}
+            {/* 3 Metric & Governance Cards */}
             <div className="metric-cards-container">
-              {/* Card 1: Boletín / Noticias (Navy / Purple) */}
+              {/* Card 1: Transparencia Fiscal RTE */}
               <div className="stat-card-wrapper card-blog">
                 <div className="card-black-roof">
-                  <span className="capsule-tag" style={{ backgroundColor: '#262F66', color: '#fff' }}>
-                    COMUNIDAD
+                  <span className="capsule-tag">
+                    RÉGIMEN DIAN · RTE
                   </span>
                 </div>
-                <div className="card-colored-body purple-body" style={{ background: 'linear-gradient(135deg, #262F66, #37438A)' }}>
-                  <p className="card-desc">Conoce los testimonios, historias de superación y próximas jornadas de nuestra fundación.</p>
+                <div className="card-colored-body purple-body">
+                  <span className="counter-label-light">CERTIFICACIÓN TRIBUTARIA</span>
+                  <div className="counter-large-stat">100%</div>
+                  <p className="card-desc">
+                    Habilitados formalmente para emitir certificados de donación con deducción de renta (Estatuto Tributario Art. 125).
+                  </p>
                   <div className="card-bottom-action">
-                    <span className="action-label">
-                      HISTORIAS
-                      <br />
-                      DE IMPACTO
-                    </span>
+                    <span className="action-label">DOCUMENTACIÓN<br />LEGAL AL DÍA</span>
                     <button
                       type="button"
                       onClick={() => setIsModalOpen(true)}
                       className="circle-action-btn"
-                      style={{ backgroundColor: '#E7CD54', color: '#101633' }}
-                      aria-label="Ver historias"
+                      aria-label="Ver documentación legal"
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -847,44 +1377,67 @@ export default function ArcaDeLaAlianzaPage() {
                 </div>
               </div>
 
-              {/* Card 2: Proyectos Exitosos (Yellow / Gold) */}
+              {/* Card 2: Impacto Acumulado */}
               <div className="stat-card-wrapper card-success">
                 <div className="card-black-roof">
-                  <span className="capsule-tag" style={{ backgroundColor: '#101633', color: '#E7CD54' }}>
-                    LOGROS
+                  <span className="capsule-tag dark-tag">
+                    SEGURIDAD ALIMENTARIA
                   </span>
                 </div>
-                <div className="card-colored-body yellow-body" style={{ backgroundColor: '#E7CD54' }}>
-                  <span className="counter-label" style={{ color: '#101633' }}>
-                    PROYECTOS
-                    <br />
-                    CULMINADOS
-                  </span>
-                  <div className="counter-value" id="counter-projects" style={{ color: '#101633' }}>
-                    {projectsCount}
+                <div className="card-colored-body yellow-body">
+                  <span className="counter-label-dark">PLATOS DE COMIDA SERVIDOS</span>
+                  <div className="counter-large-stat text-dark">
+                    +14.500
+                  </div>
+                  <p className="card-desc-dark">
+                    Cero intermediarios. Alimentos preparados directamente en territorio con estándares sanitarios supervisados.
+                  </p>
+                  <div className="card-bottom-action">
+                    <span className="action-label text-dark">TRAZABILIDAD<br />EN CAMPO</span>
+                    <button
+                      type="button"
+                      onClick={() => setIsModalOpen(true)}
+                      className="circle-action-btn dark-circle-btn"
+                      aria-label="Ver impacto"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </div>
 
-              {/* Card 3: Confianza y Calificación (Warm Blue / Slate) */}
+              {/* Card 3: Niñez y Educación */}
               <div className="stat-card-wrapper card-confidence">
                 <div className="card-black-roof">
-                  <span className="capsule-tag" style={{ backgroundColor: '#262F66', color: '#fff' }}>
-                    TRANSPARENCIA
+                  <span className="capsule-tag">
+                    EDUCACIÓN &amp; FUTURO
                   </span>
                 </div>
-                <div className="card-colored-body peach-body" style={{ background: 'linear-gradient(135deg, #1A2250, #262F66)' }}>
-                  <div className="rating-value" id="counter-rating" style={{ color: '#E7CD54' }}>
-                    {ratingCount}
-                    <span className="star-glyph">★</span>
+                <div className="card-colored-body peach-body">
+                  <span className="counter-label-light">INFANCIA EN AULAS</span>
+                  <div className="counter-large-stat text-gold">
+                    870+
                   </div>
-                  <span className="rating-sub" style={{ color: '#ffffff' }}>
-                    ÍNDICE DE
-                    <br />
-                    CONFIANZA Y
-                    <br />
-                    TRANSPARENCIA
-                  </span>
+                  <p className="card-desc">
+                    Niñas y niños con refuerzo escolar diario y dotación de útiles para prevenir la deserción en zonas periurbanas.
+                  </p>
+                  <div className="card-bottom-action">
+                    <span className="action-label">REDUCCIÓN DE<br />DESERCIÓN ESCOLAR</span>
+                    <button
+                      type="button"
+                      onClick={() => setIsModalOpen(true)}
+                      className="circle-action-btn"
+                      aria-label="Apadrinar un niño"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -989,8 +1542,9 @@ export default function ArcaDeLaAlianzaPage() {
               </form>
 
               <div className="footer-address">
-                <p><strong>Fundación El Arca de la Alianza</strong></p>
-                <p>Transformación, Solidaridad y Esperanza Social</p>
+                <p><strong>Fundación Arca de la Alianza</strong></p>
+                <p>NIT: 901.689.340 - 5 · ESAL Social y Comunitaria</p>
+                <p>Constituida el 26 de Noviembre de 2021</p>
                 <p className="vat-no" style={{ color: '#E7CD54' }}>arcadelaalianza.org</p>
               </div>
             </div>
@@ -1006,7 +1560,7 @@ export default function ArcaDeLaAlianzaPage() {
                 </svg>
               </div>
               <div className="banner-text">
-                ¿Deseas sumar como aliado, empresa o voluntario? Únete hoy a nuestra misión de esperanza.
+                «Servimos con amor, transformamos con esperanza y construimos juntos un futuro con dignidad y oportunidades para todos».
               </div>
               <button
                 type="button"
@@ -1053,26 +1607,26 @@ export default function ArcaDeLaAlianzaPage() {
               </svg>
             </button>
             <span className="capsule-tag" style={{ backgroundColor: '#E7CD54', color: '#101633' }}>
-              FUNDACIÓN EL ARCA
+              FUNDACIÓN ARCA DE LA ALIANZA
             </span>
             <h3 className="modal-title" style={{ color: '#ffffff' }}>
               Unirse o Contactar
             </h3>
             <p className="modal-sub">
-              Cuéntanos sobre tu interés: voluntariado, donación, alianza corporativa o información general.
+              Cuéntanos sobre tu interés: voluntariado, alianzas corporativas, proyectos psicosociales o información institucional.
             </p>
 
             <form
               className="modal-form"
               onSubmit={(e) => {
                 e.preventDefault();
-                alert('¡Gracias por tu mensaje! El equipo de Fundación El Arca de la Alianza se comunicará contigo pronto.');
+                alert('¡Gracias por tu mensaje! El equipo de Fundación Arca de la Alianza se comunicará contigo pronto.');
                 setIsModalOpen(false);
               }}
             >
               <div className="form-group">
                 <label className="form-label">Nombre Completo o Empresa</label>
-                <input type="text" required placeholder="Tu nombre o empresa" className="form-input" />
+                <input type="text" required placeholder="Tu nombre o entidad" className="form-input" />
               </div>
 
               <div className="form-group">
@@ -1082,11 +1636,13 @@ export default function ArcaDeLaAlianzaPage() {
 
               <div className="form-group">
                 <label className="form-label">Línea de Interés</label>
-                <select className="form-input form-select" defaultValue="Alianza Corporativa">
-                  <option>Alianza Corporativa / Donación</option>
-                  <option>Voluntariado Activo</option>
-                  <option>Programa de Nutrición y Salud</option>
-                  <option>Desarrollo Infantil y Educación</option>
+                <select className="form-input form-select" defaultValue="Alianza Estratégica / Donación Corporativa">
+                  <option>Alianza Estratégica / Donación Corporativa</option>
+                  <option>Acompañamiento Psicosocial &amp; Salud Emocional</option>
+                  <option>Iniciativas con Poblaciones Indígenas &amp; Cultura</option>
+                  <option>Seguridad Alimentaria &amp; Comedores Comunitarios</option>
+                  <option>Educación Infantil &amp; Emprendimiento de Mujeres</option>
+                  <option>Voluntariado en Territorio</option>
                   <option>Consulta General</option>
                 </select>
               </div>

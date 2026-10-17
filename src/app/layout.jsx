@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Fundación El Arca de la Alianza — Construyendo Esperanza',
-  description: 'Organización dedicada a la transformación social, nutrición, desarrollo infantil y alianzas solidarias para comunidades vulnerables.',
+  title: 'Fundación Arca de la Alianza — Capacidad Instalada & Transformación Social',
+  description: 'Fundación Arca de la Alianza (NIT 901.689.340-5). Entidad sin ánimo de lucro (ESAL) orientada a mejorar la calidad de vida de mujeres, niños y poblaciones indígenas, generando capacidad instalada y proyectos de vida sostenibles en Colombia.',
   icons: {
     icon: '/assets/logo_arca.png',
   },
