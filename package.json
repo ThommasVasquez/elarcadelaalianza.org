@@ -9,6 +9,9 @@
     "start": "next start"
   },
   "devDependencies": {
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "typescript": "7.0.2",
     "vite": "^8.3.0"
   },
   "dependencies": {
