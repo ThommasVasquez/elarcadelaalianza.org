@@ -35,12 +35,11 @@ export default function ArcaDeLaAlianzaPage() {
   const [legalModalOpen, setLegalModalOpen] = useState(false);
   const [activeLegalDocKey, setActiveLegalDocKey] = useState('privacidad');
   const [copiedBank, setCopiedBank] = useState(false);
+  const [activeService, setActiveService] = useState('01');
   const [aboutTab, setAboutTab] = useState('mision');
+  const [projectsCount, setProjectsCount] = useState(0);
+  const [ratingCount, setRatingCount] = useState('0.0');
   const [wordIndex, setWordIndex] = useState(0);
-  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
-  const [modalSubmitted, setModalSubmitted] = useState(false);
-  const [modalForm, setModalForm] = useState({ name: '', contact: '', message: '' });
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const openLegalDocument = (key) => {
     setActiveLegalDocKey(key);
@@ -67,6 +66,8 @@ export default function ArcaDeLaAlianzaPage() {
   // Refs for GSAP
   const containerRef = useRef(null);
   const heroRef = useRef(null);
+  const heroTitleRef = useRef(null);
+  const heroArtworkRef = useRef(null);
   const canvasRef = useRef(null);
   const cursorRef = useRef(null);
   const statementRef = useRef(null);
@@ -76,17 +77,11 @@ export default function ArcaDeLaAlianzaPage() {
   const timelineTrackRef = useRef(null);
   const peopleRef = useRef(null);
   const footerRef = useRef(null);
-  const giantWordmarkRef = useRef(null);
+  const giantMavkaRef = useRef(null);
 
   // Initialize Lenis Smooth Scroll & GSAP ScrollTrigger
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-
-    let onMouseMove = null;
-    let handleResize = null;
-    let animId = null;
-    let onWheel = null;
-    let trackEl = null;
 
     // Initialize Lenis smooth scroll
     const lenis = new Lenis({
@@ -115,7 +110,7 @@ export default function ArcaDeLaAlianzaPage() {
       const xTo = gsap.quickTo(cursor, 'x', { duration: 0.18, ease: 'power3' });
       const yTo = gsap.quickTo(cursor, 'y', { duration: 0.18, ease: 'power3' });
 
-      onMouseMove = (e) => {
+      const onMouseMove = (e) => {
         xTo(e.clientX);
         yTo(e.clientY);
       };
@@ -130,7 +125,7 @@ export default function ArcaDeLaAlianzaPage() {
       let w = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
       let h = (canvas.height = canvas.parentElement?.clientHeight || window.innerHeight);
 
-      handleResize = () => {
+      const handleResize = () => {
         if (!canvas.parentElement) return;
         w = canvas.width = canvas.parentElement.clientWidth;
         h = canvas.height = canvas.parentElement.clientHeight;
@@ -148,6 +143,7 @@ export default function ArcaDeLaAlianzaPage() {
         pulse: Math.random() * 0.03 + 0.01,
       }));
 
+      let animId;
       const drawSparks = () => {
         ctx.clearRect(0, 0, w, h);
         sparks.forEach((s) => {
@@ -295,12 +291,27 @@ export default function ArcaDeLaAlianzaPage() {
         });
       }
 
-      // D. TIMELINE HORIZONTAL INTERACTION & CARDS ENTRANCE
+      // D. SERVICES HIGHLIGHT ON SCROLL
+      const srvEl = servicesRef.current;
+      if (srvEl) {
+        const items = srvEl.querySelectorAll('.service-item');
+        items.forEach((item) => {
+          const idx = item.getAttribute('data-index');
+          ScrollTrigger.create({
+            trigger: item,
+            start: 'top 65%',
+            end: 'bottom 45%',
+            onEnter: () => setActiveService(idx),
+            onEnterBack: () => setActiveService(idx),
+          });
+        });
+      }
+
+      // E. TIMELINE HORIZONTAL INTERACTION & CARDS ENTRANCE
       const tlSection = timelineRef.current;
       const tlTrack = timelineTrackRef.current;
       if (tlSection && tlTrack) {
-        trackEl = tlTrack;
-        onWheel = (e) => {
+        const onWheel = (e) => {
           if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
             tlTrack.scrollLeft += e.deltaY;
           }
@@ -327,16 +338,28 @@ export default function ArcaDeLaAlianzaPage() {
         }
       }
 
-      // E. PEOPLE & VOLUNTEERS ON SCROLL
+      // F. PEOPLE & METRIC COUNTERS ON SCROLL
       const peopleEl = peopleRef.current;
       if (peopleEl) {
+        const counterTarget = { projects: 0, rating: 0 };
         ScrollTrigger.create({
           trigger: peopleEl,
           start: 'top 75%',
           onEnter: () => {
+            gsap.to(counterTarget, {
+              projects: 304,
+              rating: 4.9,
+              duration: 2.2,
+              ease: 'power2.out',
+              onUpdate: () => {
+                setProjectsCount(Math.floor(counterTarget.projects));
+                setRatingCount(counterTarget.rating.toFixed(1));
+              },
+            });
+
             // Portrait avatars bounce
             gsap.fromTo(
-              peopleEl.querySelectorAll('.portrait-avatar-bubble'),
+              peopleEl.querySelectorAll('.portrait-avatar'),
               { scale: 0, rotate: -15 },
               { scale: 1, rotate: 0, duration: 0.6, stagger: 0.12, ease: 'back.out(2)' }
             );
@@ -344,9 +367,9 @@ export default function ArcaDeLaAlianzaPage() {
         });
       }
 
-      // F. FOOTER GIANT WORDMARK REVEAL
+      // G. FOOTER GIANT WORDMARK REVEAL
       const footEl = footerRef.current;
-      const bigWord = giantWordmarkRef.current;
+      const bigWord = giantMavkaRef.current;
       if (footEl && bigWord) {
         gsap.fromTo(
           bigWord,
@@ -370,11 +393,6 @@ export default function ArcaDeLaAlianzaPage() {
       ctx.revert();
       lenis.destroy();
       gsap.ticker.remove(tickerCb);
-      if (onMouseMove) window.removeEventListener('mousemove', onMouseMove);
-      if (handleResize) window.removeEventListener('resize', handleResize);
-      if (animId) cancelAnimationFrame(animId);
-      if (trackEl && onWheel) trackEl.removeEventListener('wheel', onWheel);
-      window.__lenis = null;
     };
   }, []);
 
@@ -412,127 +430,71 @@ export default function ArcaDeLaAlianzaPage() {
 
       {/* Floating Fixed Pill Navbar with Official Logo */}
       <header className="navbar-wrapper">
-        <nav className="pill-navbar" id="navbar">
-          <a href="#hero" className="brand-logo">
-            <img
-              src="/assets/logo_arca.png"
-              alt="Fundación El Arca de la Alianza Logo"
-              className="brand-logo-img"
-            />
-            <div className="brand-text-col">
-              <span className="logo-bold">FUNDACIÓN</span>
-              <span className="logo-light">El Arca de la Alianza</span>
-            </div>
-          </a>
-
-          <div className="nav-links">
-            <a href="#binacional" className="nav-item">
-              Binacional
-            </a>
-            <a href="#about" className="nav-item">
-              Identidad
-            </a>
-            <a href="#work" className="nav-item">
-              Programas
-            </a>
-            <a href="#historia" className="nav-item">
-              Nuestra Historia
-            </a>
-            <a href="#centro-integral" className="nav-item">
-              Centro Integral
-            </a>
-            <a href="#aliados" className="nav-item">
-              Aliados
-            </a>
-            <a href="#transparencia" className="nav-item">
-              Transparencia
-            </a>
-            <a href="#people" className="nav-item">
-              Gobierno
-            </a>
-            <a href="#contact" className="nav-item">
-              Contacto
-            </a>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <button
-              type="button"
-              className="nav-contact-btn"
-              onClick={() => {
-                setModalLineInterest('Donación / Aporte General');
-                setIsModalOpen(true);
-              }}
-            >
-              Sumar Apoyo / Donar
-              <svg
-                className="phone-icon"
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            <nav className="pill-navbar" id="navbar">
+              <a href="#hero" className="brand-logo">
+                <img
+                  src="/assets/logo_arca.png"
+                  alt="Fundación El Arca de la Alianza Logo"
+                  className="brand-logo-img"
+                />
+                <div className="brand-text-col">
+                  <span className="logo-bold">FUNDACIÓN</span>
+                  <span className="logo-light">El Arca de la Alianza</span>
+                </div>
+              </a>
+              <div className="nav-links">
+                <a href="#binacional" className="nav-item">
+                  Binacional
+                </a>
+                <a href="#about" className="nav-item">
+                  Identidad
+                </a>
+                <a href="#historia" className="nav-item">
+                  Nuestra Historia
+                </a>
+                <a href="#work" className="nav-item">
+                  Programas
+                </a>
+                <a href="#centro-integral" className="nav-item">
+                  Centro Integral
+                </a>
+                <a href="#aliados" className="nav-item">
+                  Aliados
+                </a>
+                <a href="#transparencia" className="nav-item">
+                  Transparencia
+                </a>
+                <a href="#people" className="nav-item">
+                  Gobierno
+                </a>
+                <a href="#contact" className="nav-item">
+                  Contacto
+                </a>
+              </div>
+              <button
+                type="button"
+                className="nav-contact-btn"
+                onClick={() => {
+                  setModalLineInterest('Donación / Aporte General');
+                  setIsModalOpen(true);
+                }}
               >
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-              </svg>
-            </button>
-
-            <button
-              type="button"
-              className="mobile-menu-toggle"
-              onClick={() => setMobileMenuOpen((prev) => !prev)}
-              aria-label="Abrir menú"
-            >
-              {mobileMenuOpen ? (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                Sumar Apoyo / Donar
+                <svg
+                  className="phone-icon"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
-              ) : (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <line x1="4" y1="7" x2="20" y2="7"></line>
-                  <line x1="4" y1="12" x2="20" y2="12"></line>
-                  <line x1="4" y1="17" x2="20" y2="17"></line>
-                </svg>
-              )}
-            </button>
-          </div>
-        </nav>
-
-        {mobileMenuOpen && (
-          <div className="mobile-nav-drawer">
-            <a href="#binacional" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Binacional
-            </a>
-            <a href="#about" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Identidad
-            </a>
-            <a href="#work" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Programas
-            </a>
-            <a href="#historia" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Nuestra Historia
-            </a>
-            <a href="#centro-integral" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Centro Integral
-            </a>
-            <a href="#aliados" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Aliados
-            </a>
-            <a href="#transparencia" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Transparencia
-            </a>
-            <a href="#people" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Gobierno
-            </a>
-            <a href="#contact" className="nav-item" onClick={() => setMobileMenuOpen(false)}>
-              Contacto
-            </a>
-          </div>
-        )}
+              </button>
+            </nav>
       </header>
 
       {/* Main Full-Width Content Viewport */}
@@ -1829,7 +1791,7 @@ export default function ArcaDeLaAlianzaPage() {
           {/* 7. FOOTER SECTION & APARTADO 7.7: TRANSPARENCIA Y POLÍTICAS LEGALES */}
           <footer ref={footerRef} className="section footer-section" id="contact" style={{ backgroundColor: '#070A18' }}>
             <div className="footer-huge-wordmark">
-              <h1 ref={giantWordmarkRef} className="giant-wordmark font-heading" style={{ color: '#ffffff', fontSize: 'clamp(2.5rem, 7vw, 6rem)' }}>
+              <h1 ref={giantMavkaRef} className="giant-mavka font-heading" style={{ color: '#ffffff', fontSize: 'clamp(2.5rem, 7vw, 6rem)' }}>
                 ARCA DE LA ALIANZA
               </h1>
             </div>
@@ -2005,51 +1967,31 @@ export default function ArcaDeLaAlianzaPage() {
 
             {/* Bottom Footer Details */}
             <div className="footer-meta-row">
-              {newsletterSubmitted ? (
-                <div
-                  className="newsletter-capsule"
-                  style={{
-                    background: 'rgba(227, 206, 104, 0.15)',
-                    border: '1px solid #E3CE68',
-                    padding: '12px 24px',
-                    color: '#E3CE68',
-                    fontSize: '13.5px',
-                    fontWeight: '700',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '10px',
-                  }}
+              <form
+                className="newsletter-capsule"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  alert('¡Gracias por unirte a la red binacional de Fundación Arca de la Alianza!');
+                }}
+              >
+                <input
+                  type="email"
+                  placeholder="Suscríbete al boletín solidario binacional"
+                  required
+                  className="newsletter-input"
+                />
+                <button
+                  type="submit"
+                  className="newsletter-submit-btn"
+                  style={{ backgroundColor: '#E3CE68', color: '#101633' }}
+                  aria-label="Suscribirse"
                 >
-                  <span style={{ fontSize: '16px' }}>✓</span>
-                  <span>¡Gracias por unirte al boletín solidario binacional!</span>
-                </div>
-              ) : (
-                <form
-                  className="newsletter-capsule"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setNewsletterSubmitted(true);
-                  }}
-                >
-                  <input
-                    type="email"
-                    placeholder="Suscríbete al boletín solidario binacional"
-                    required
-                    className="newsletter-input"
-                  />
-                  <button
-                    type="submit"
-                    className="newsletter-submit-btn"
-                    style={{ backgroundColor: '#E3CE68', color: '#101633' }}
-                    aria-label="Suscribirse"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </button>
-                </form>
-              )}
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </form>
 
               <div className="footer-address">
                 <p><strong>Fundación Arca de la Alianza (Colombia) &amp; Arca de la Alianza Inc. (EE.UU.)</strong></p>
@@ -2271,173 +2213,79 @@ export default function ArcaDeLaAlianzaPage() {
               </div>
             </div>
 
-            {modalSubmitted ? (
-              <div
-                style={{
-                  background: 'rgba(227, 206, 104, 0.08)',
-                  border: '1px solid rgba(227, 206, 104, 0.4)',
-                  borderRadius: '20px',
-                  padding: '28px 24px',
-                  textAlign: 'center',
-                  marginTop: '12px',
-                }}
-              >
-                <div
-                  style={{
-                    width: '56px',
-                    height: '56px',
-                    borderRadius: '50%',
-                    background: '#E3CE68',
-                    color: '#101633',
-                    fontSize: '28px',
-                    fontWeight: '800',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    margin: '0 auto 16px',
-                  }}
+            <form
+              className="modal-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert('¡Gracias por tu mensaje! El equipo de Fundación Arca de la Alianza se comunicará contigo pronto.');
+                setIsModalOpen(false);
+              }}
+            >
+              <div className="form-group">
+                <label className="form-label">Nombre Completo o Empresa</label>
+                <input type="text" required placeholder="Tu nombre o entidad" className="form-input" />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Correo Electrónico o Teléfono</label>
+                <input type="text" required placeholder="correo@ejemplo.com o teléfono" className="form-input" />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Línea de Interés / Modalidad de Apoyo</label>
+                <select
+                  className="form-input form-select"
+                  value={modalLineInterest}
+                  onChange={(e) => setModalLineInterest(e.target.value)}
                 >
-                  ✓
-                </div>
-                <h4 style={{ fontSize: '20px', fontWeight: '800', color: '#ffffff', marginBottom: '8px' }}>
-                  ¡Mensaje Registrado con Éxito!
-                </h4>
-                <p style={{ fontSize: '14px', color: '#B0B7D1', lineHeight: '1.6', marginBottom: '16px' }}>
-                  Muchas gracias{modalForm.name ? `, ${modalForm.name}` : ''}. Hemos recibido tu interés en{' '}
-                  <strong style={{ color: '#E3CE68' }}>{modalLineInterest}</strong>. Nuestro equipo directivo y pastoral se comunicará contigo al contacto proporcionado.
-                </p>
+                  <option value="Donación / Aporte General">Donación Económica General</option>
+                  <option value="Donación Colombia">Donación en Colombia (NIT 901.689.340-5)</option>
+                  <option value="Donación USA">Donación en Estados Unidos (Regions Bank)</option>
+                  <option value="Donación en Especie">Donación en Especie (Ropa, Útiles, Juguetes, Muebles)</option>
+                  <option value="Mamita Déjalo Latir">Programa: Mamita Déjalo Latir (Maternidad &amp; Embarazo)</option>
+                  <option value="El Niño De Belén">Programa: El Niño De Belén (Juguetes &amp; Útiles Escolares)</option>
+                  <option value="Dando Amor a Nuestros Amigos de la Calle">Iniciativa: Dando Amor a Nuestros Amigos de la Calle</option>
+                  <option value="Banco de Ropa">Campaña: Banco de Ropa (Donatón)</option>
+                  <option value="Misioneros">Iniciativa: Misioneros &amp; Construcción Comunitaria</option>
+                  <option value="Turismo Misionero">Proyecto: Turismo Misionero (Viajar con Propósito)</option>
+                  <option value="Escuela de Formación">Proyecto: Escuela de Formación para la Vida y el Trabajo</option>
+                  <option value="Construcción Centro Integral">Proyecto: Construcción Centro Integral Arca de la Alianza</option>
+                  <option value="Alianza Estratégica / Donación Corporativa">Alianza Estratégica / Donación Corporativa (RSC)</option>
+                  <option value="Voluntariado en Territorio">Voluntariado (Nacional / Internacional)</option>
+                  <option value="Certificados y Transparencia">Certificado de Donación / Beneficio Tributario</option>
+                  <option value="Consulta General">Consulta General / Información Institucional</option>
+                </select>
+              </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <a
-                    href={`https://wa.me/573181101131?text=${encodeURIComponent(
-                      `Hola Fundación Arca de la Alianza, soy ${modalForm.name || 'un aliado'}. Les escribo respecto a: ${modalLineInterest}. Mi contacto es ${modalForm.contact || 'este número'}. ${modalForm.message ? `Mensaje: ${modalForm.message}` : ''}`
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hero-btn-magnetic-gold"
-                    style={{ justifyContent: 'center', padding: '12px 20px', fontSize: '13.5px' }}
-                  >
-                    <span>Contactar Directamente por WhatsApp</span>
-                    <span className="btn-arrow-icon">→</span>
-                  </a>
+              <div className="form-group">
+                <label className="form-label">Mensaje o Propuesta</label>
+                <textarea rows={3} placeholder="¿Cómo te gustaría colaborar o en qué podemos apoyarte?" className="form-input"></textarea>
+              </div>
 
+              {/* Mandatory Privacy Notice and Authorization (Sección 7.7) */}
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', margin: '4px 0 10px' }}>
+                <input type="checkbox" id="privacy-consent" required style={{ marginTop: '3px' }} />
+                <label htmlFor="privacy-consent" style={{ fontSize: '11.5px', color: '#A1A8C5', lineHeight: '1.4' }}>
+                  Autorizo el tratamiento de mis datos personales de acuerdo con la{' '}
                   <button
                     type="button"
-                    onClick={() => {
-                      setIsModalOpen(false);
-                      setModalSubmitted(false);
-                      setModalForm({ name: '', contact: '', message: '' });
-                    }}
-                    style={{
-                      background: 'transparent',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      color: '#ffffff',
-                      borderRadius: '40px',
-                      padding: '10px 20px',
-                      fontSize: '13px',
-                      fontWeight: '600',
-                      cursor: 'pointer',
-                      marginTop: '4px',
-                    }}
+                    onClick={() => openLegalDocument('privacidad')}
+                    style={{ background: 'none', border: 'none', color: '#E3CE68', padding: 0, textDecoration: 'underline', cursor: 'pointer', fontSize: '11.5px' }}
                   >
-                    Cerrar Ventana
-                  </button>
-                </div>
+                    Política de Tratamiento de Datos
+                  </button>{' '}
+                  de la Fundación para gestionar mi solicitud.
+                </label>
               </div>
-            ) : (
-              <form
-                className="modal-form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setModalSubmitted(true);
-                }}
+
+              <button
+                type="submit"
+                className="form-submit-btn font-heading"
+                style={{ backgroundColor: '#E3CE68', color: '#101633', fontWeight: '800' }}
               >
-                <div className="form-group">
-                  <label className="form-label">Nombre Completo o Empresa</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="Tu nombre o entidad"
-                    className="form-input"
-                    value={modalForm.name}
-                    onChange={(e) => setModalForm((prev) => ({ ...prev, name: e.target.value }))}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Correo Electrónico o Teléfono</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="correo@ejemplo.com o teléfono"
-                    className="form-input"
-                    value={modalForm.contact}
-                    onChange={(e) => setModalForm((prev) => ({ ...prev, contact: e.target.value }))}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Línea de Interés / Modalidad de Apoyo</label>
-                  <select
-                    className="form-input form-select"
-                    value={modalLineInterest}
-                    onChange={(e) => setModalLineInterest(e.target.value)}
-                  >
-                    <option value="Donación / Aporte General">Donación Económica General</option>
-                    <option value="Donación Colombia">Donación en Colombia (NIT 901.689.340-5)</option>
-                    <option value="Donación USA">Donación en Estados Unidos (Regions Bank)</option>
-                    <option value="Donación en Especie">Donación en Especie (Ropa, Útiles, Juguetes, Muebles)</option>
-                    <option value="Mamita Déjalo Latir">Programa: Mamita Déjalo Latir (Maternidad &amp; Embarazo)</option>
-                    <option value="El Niño De Belén">Programa: El Niño De Belén (Juguetes &amp; Útiles Escolares)</option>
-                    <option value="Dando Amor a Nuestros Amigos de la Calle">Iniciativa: Dando Amor a Nuestros Amigos de la Calle</option>
-                    <option value="Banco de Ropa">Campaña: Banco de Ropa (Donatón)</option>
-                    <option value="Misioneros">Iniciativa: Misioneros &amp; Construcción Comunitaria</option>
-                    <option value="Turismo Misionero">Proyecto: Turismo Misionero (Viajar con Propósito)</option>
-                    <option value="Escuela de Formación">Proyecto: Escuela de Formación para la Vida y el Trabajo</option>
-                    <option value="Construcción Centro Integral">Proyecto: Construcción Centro Integral Arca de la Alianza</option>
-                    <option value="Alianza Estratégica / Donación Corporativa">Alianza Estratégica / Donación Corporativa (RSC)</option>
-                    <option value="Voluntariado en Territorio">Voluntariado (Nacional / Internacional)</option>
-                    <option value="Certificados y Transparencia">Certificado de Donación / Beneficio Tributario</option>
-                    <option value="Consulta General">Consulta General / Información Institucional</option>
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Mensaje o Propuesta</label>
-                  <textarea
-                    rows={3}
-                    placeholder="¿Cómo te gustaría colaborar o en qué podemos apoyarte?"
-                    className="form-input"
-                    value={modalForm.message}
-                    onChange={(e) => setModalForm((prev) => ({ ...prev, message: e.target.value }))}
-                  ></textarea>
-                </div>
-
-                {/* Mandatory Privacy Notice and Authorization (Sección 7.7) */}
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', margin: '4px 0 10px' }}>
-                  <input type="checkbox" id="privacy-consent" required style={{ marginTop: '3px' }} />
-                  <label htmlFor="privacy-consent" style={{ fontSize: '11.5px', color: '#A1A8C5', lineHeight: '1.4' }}>
-                    Autorizo el tratamiento de mis datos personales de acuerdo con la{' '}
-                    <button
-                      type="button"
-                      onClick={() => openLegalDocument('privacidad')}
-                      style={{ background: 'none', border: 'none', color: '#E3CE68', padding: 0, textDecoration: 'underline', cursor: 'pointer', fontSize: '11.5px' }}
-                    >
-                      Política de Tratamiento de Datos
-                    </button>{' '}
-                    de la Fundación para gestionar mi solicitud.
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  className="form-submit-btn font-heading"
-                  style={{ backgroundColor: '#E3CE68', color: '#101633', fontWeight: '800' }}
-                >
-                  Enviar Mensaje Solidario
-                </button>
-              </form>
-            )}
+                Enviar Mensaje Solidario
+              </button>
+            </form>
           </div>
         </div>
       )}
