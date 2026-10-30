@@ -1,15 +1,15 @@
-# MAVKA EVENT — Studio Portfolio (Next.js + GSAP + Cloudflare Pages)
+# Fundación Arca de la Alianza — Plataforma Institucional Binacional
 
-Recreación ultra-precisa y pixel-perfect de la agencia de eventos **MAVKA EVENT**, con tipografía cinética dividida (*sliced typography*), animaciones fluidas con **GSAP ScrollTrigger**, cursor magnético interactivo y soporte nativo para **Cloudflare Pages**.
+Sitio web oficial de la **Fundación Arca de la Alianza** (Colombia: NIT 901.689.340-5) y **Arca de la Alianza Inc.** (Florida, EE.UU.: EIN 82-5293343). Plataforma binacional sin ánimo de lucro construida en **Next.js 16 (App Router)** con animaciones fluidas mediante **GSAP + ScrollTrigger**, scroll inercial suave con **Lenis** y exportación estática optimizada para **Cloudflare Pages**.
 
 ---
 
 ## ⚡ Tecnologías
 
-- **Framework**: [Next.js](https://nextjs.org/) (App Router, React 19)
+- **Framework**: [Next.js](https://nextjs.org/) 16 (App Router, React 19)
 - **Animaciones en Scroll**: [GSAP](https://gsap.com/) + [ScrollTrigger](https://gsap.com/docs/v3/Plugins/ScrollTrigger/)
-- **Smooth Scroll**: [Lenis](https://lenis.darkroom.engineering/) para inercia de scroll sedosa
-- **Estilos**: Vanilla CSS con tokens de diseño exactos del video de Dribbble
+- **Smooth Scroll**: [Lenis](https://lenis.darkroom.engineering/) para inercia de navegación
+- **Estilos**: CSS nativo y responsivo con tokens de identidad institucional
 - **Despliegue**: **Cloudflare Pages** mediante Static HTML Export (`output: 'export'`)
 
 ---
@@ -27,65 +27,34 @@ npm run dev
 http://localhost:3000
 ```
 
-Para generar la compilación estática que se subirá a Cloudflare Pages:
+Para generar la compilación estática lista para producción:
 
 ```bash
 npm run build
-# Generará la carpeta ./out lista para CDN
+# Genera el directorio ./out listo para CDN / Cloudflare Pages
 ```
 
 ---
 
-## ☁️ Despliegue en Cloudflare Pages a través de GitHub
+## ☁️ Estructura del Proyecto
 
-Este proyecto ya está configurado con `output: 'export'` en `next.config.mjs` y `.nvmrc` para Node 20.
-
-### Paso 1: Subir tu repositorio a GitHub
-
-```bash
-# Si aún no has vinculado tu repositorio remoto en GitHub:
-git remote add origin https://github.com/TU-USUARIO/TU-REPOSITORIO.git
-git branch -M main
-git push -u origin main
 ```
-
-### Paso 2: Conectar con Cloudflare Pages
-
-1. Inicia sesión en tu panel de **[Cloudflare](https://dash.cloudflare.com/)**.
-2. Ve a **Workers & Pages** > **Create application** > pestaña **Pages** > **Connect to Git**.
-3. Selecciona tu repositorio de GitHub (`TU-REPOSITORIO`).
-4. Configura los parámetros de compilación (*Build settings*):
-   - **Framework preset**: `None` o `Next.js (Static HTML Export)`
-   - **Build command**: `npm run build`
-   - **Build output directory**: `out`
-   - **Root directory**: `/` (o dejar en blanco)
-5. En **Environment variables** (opcional, ya cubierto por `.nvmrc`):
-   - Variable name: `NODE_VERSION`
-   - Value: `20`
-6. Haz clic en **Save and Deploy**.
-
-¡Listo! Cada vez que hagas `git push` a `main`, Cloudflare Pages compilará automáticamente el proyecto y lo desplegará globalmente en milisegundos con 0 cold starts.
+arcadelaalianza.org/
+├── public/                 # Recursos multimedia oficiales (imágenes, logos, video)
+│   └── assets/
+├── src/
+│   └── app/
+│       ├── layout.jsx      # Root Layout, tipografías y metadatos SEO
+│       ├── page.jsx        # Página principal interactiva con módulos institucionales
+│       ├── globals.css     # Sistema de diseño, tokens y adaptabilidad responsive
+│       └── foundationData.js # Contenido institucional oficial, programas y políticas legales
+├── next.config.mjs         # Configuración estática (output: 'export', trailingSlash)
+└── package.json
+```
 
 ---
 
-## ✨ Características y Secciones
+## 🏛️ Identidad Institucional
 
-1. **Hero**:
-   - Tipografía cinética `MAVKA EVENT` dividida en 3 capas (*slices*) horizontales que se desfasan con el scroll del usuario.
-   - Ilustración central de banquete festivo y canvas interactivo de destellos de celebración.
-2. **Statement & Featured Work**:
-   - Efecto *card stack* donde la sección blanca con esquinas redondeadas desliza sobre el hero.
-   - Textos cinéticos "ORGANIZERS OF EMOTIONAL SUPER EVENTS".
-   - 4 casos de estudio con parallax en sus imágenes y modal interactivo de detalles.
-3. **Services**:
-   - Lista interactiva con imágenes flotantes (`01/ MANAGEMENT`, `02/ CORPORATE`, `03/ CONFERENCE`, `04/ MARKETING`).
-   - Resaltado sincronizado con GSAP ScrollTrigger al centro de la pantalla.
-4. **Our Timeline**:
-   - Track horizontal fijado (*pinned*) que avanza con el scroll vertical mostrando los hitos 2021-2024.
-5. **People & Stats**:
-   - Contadores numéricos dinámicos en scroll (`0 → 304` proyectos cerrados, `0.0 → 4.9★` en reseñas).
-   - "CREATING MOMENTS THAT LEAVE A MARK IN MEMORY" con los retratos de las directoras incrustados en las letras.
-6. **Footer**:
-   - Letras gigantes de `MAVKA` reveladas con perspectiva 3D en scroll.
-   - Marquee continuo que acelera con la velocidad del scroll.
-   - Modal de reserva y contacto directo.
+- **Colombia**: Fundación Arca de la Alianza · NIT 901.689.340-5 · Régimen Tributario Especial (RTE - DIAN).
+- **Estados Unidos**: Arca de la Alianza Inc. · Florida Document N17000109968 · EIN 82-5293343 · Cuenta Oficial en Regions Bank.
