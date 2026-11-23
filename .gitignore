@@ -36,3 +36,34 @@ pnpm-debug.log*
 
 # Archives
 *.zip
+
+# Agent & editor configs
+.agent/
+.agents/
+.adal/
+.claude/
+.codebuddy/
+.commandcode/
+.continue/
+.cortex/
+.crush/
+.goose/
+.iflow/
+.junie/
+.kiro/
+.kode/
+.mcpjam/
+.mux/
+.neovate/
+.openhands/
+.pochi/
+.qoder/
+.qwen/
+.roo/
+.trae/
+.vibe/
+.windsurf/
+.zencoder/
+skills/
+skills-lock.json
+*.backup
