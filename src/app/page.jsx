@@ -124,19 +124,32 @@ export default function ArcaDeLaAlianzaPage() {
         });
       }
 
-      // 2. STATEMENT / IDENTITY CARDS ON SCROLL
+      // 2. STATEMENT / EDITORIAL REVEAL ON SCROLL
       const statementEl = statementRef.current;
       if (statementEl) {
-        const cards = statementEl.querySelectorAll('.statement-card');
         gsap.fromTo(
-          cards,
-          { opacity: 0, y: 30 },
+          statementEl.querySelector('.statement-editorial-left'),
+          { opacity: 0, x: -30 },
           {
             opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.12,
-            ease: 'power2.out',
+            x: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: statementEl,
+              start: 'top 80%',
+            },
+          }
+        );
+
+        gsap.fromTo(
+          statementEl.querySelector('.statement-editorial-right'),
+          { opacity: 0, scale: 0.95 },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 0.9,
+            ease: 'power3.out',
             scrollTrigger: {
               trigger: statementEl,
               start: 'top 80%',
@@ -504,102 +517,82 @@ export default function ArcaDeLaAlianzaPage() {
 
         {/* 2. STATEMENT / IDENTIDAD INSTITUCIONAL (White Card, 100vw x 100vh Sticky Slide) */}
         <section ref={statementRef} className="section statement-section" id="about">
-          <div className="statement-container">
-            {/* Top Bar: Institutional Badge & Legal Registration */}
-            <div className="statement-top-meta">
-              <div className="statement-badge">
-                <span className="statement-badge-dot" />
-                <span>IDENTIDAD INSTITUCIONAL · ESAL SOCIAL Y COMUNITARIA</span>
+          <div className="statement-editorial-container">
+            {/* Left Column: Editorial Typography & Manifesto Narrative */}
+            <div className="statement-editorial-left">
+              <div className="statement-kicker-row">
+                <span className="statement-kicker-dot" />
+                <span className="statement-kicker-text">IDENTIDAD &amp; MANIFIESTO INSTITUCIONAL</span>
               </div>
-              <div className="statement-legal-tag">
-                <span>CONSTITUIDA EL 26 DE NOVIEMBRE DE 2021 · NIT 901.689.340-5 · EIN 82-5293343</span>
-              </div>
-            </div>
 
-            {/* Core Statement Hero Headline (Solid, Elegant, No Slices) */}
-            <div className="statement-hero-text">
-              <span className="statement-kicker">PROPÓSITO &amp; TRANSFORMACIÓN SOCIAL</span>
-              <h2 className="statement-main-title">
-                GENERAMOS CAPACIDAD INSTALADA:<br />
-                <span className="statement-gold-highlight">EMPODERAMOS PROYECTOS DE VIDA.</span>
+              <h2 className="statement-headline-solid">
+                CONSTRUYENDO ESPERANZA Y{' '}
+                <span className="statement-serif-word">FUTURO DIGNO.</span>
               </h2>
-              <p className="statement-lead-paragraph">
-                La <strong>Fundación Arca de la Alianza</strong> articula voluntades, fe y recursos para transformar la realidad de comunidades en extrema pobreza y vulnerabilidad. Mediante acompañamiento psicosocial, formación integral y redes comunitarias sostenibles, brindamos herramientas para que cada familia construya su propio destino con dignidad.
+
+              <blockquote className="statement-manifesto-quote">
+                «Generamos capacidad instalada en las comunidades para que cada persona se empodere de su propio proyecto de vida».
+              </blockquote>
+
+              <p className="statement-narrative-text">
+                En la <strong>Fundación Arca de la Alianza</strong> articulamos voluntades, fe y recursos para transformar realidades de extrema pobreza en oportunidades tangibles de desarrollo humano. Acompañamos a madres gestantes, niñez en resguardos indígenas y familias vulnerables con programas continuos que crean autonomía duradera.
               </p>
-            </div>
 
-            {/* 3 Pillars Institutional Grid */}
-            <div className="statement-cards-grid">
-              {/* Card 1: Misión */}
-              <div className="statement-card">
-                <div className="statement-card-header">
-                  <span className="statement-card-chip">PROPÓSITO</span>
-                  <div className="statement-card-icon">✦</div>
+              {/* Institutional Credentials */}
+              <div className="statement-credentials-row">
+                <div className="credential-chip">
+                  <span className="chip-flag">🇨🇴</span>
+                  <div className="chip-col">
+                    <span className="chip-label">COLOMBIA</span>
+                    <span className="chip-val">NIT 901.689.340-5</span>
+                  </div>
                 </div>
-                <h3 className="statement-card-title">Misión Institucional</h3>
-                <p className="statement-card-desc">
-                  Generar capacidad instalada en las comunidades en las que actuamos, promoviendo la solidaridad y el trabajo comunitario para que las personas se empoderen de sus proyectos de vida.
-                </p>
-                <div className="statement-card-footer">
-                  <span className="statement-card-quote">{FILOSOFIA_INSTITUCIONAL}</span>
-                </div>
-              </div>
 
-              {/* Card 2: Visión 2030 */}
-              <div className="statement-card highlight-card">
-                <div className="statement-card-header">
-                  <span className="statement-card-chip gold-chip">HORIZONTE 2030</span>
-                  <div className="statement-card-icon gold-icon">◈</div>
+                <div className="credential-chip">
+                  <span className="chip-flag">🇺🇸</span>
+                  <div className="chip-col">
+                    <span className="chip-label">ESTADOS UNIDOS</span>
+                    <span className="chip-val">EIN 82-5293343</span>
+                  </div>
                 </div>
-                <h3 className="statement-card-title">Visión de Futuro</h3>
-                <p className="statement-card-desc">
-                  Ser reconocidos por nuestro trabajo en pro de los más vulnerables, a través del acompañamiento psicosocial, la defensa de la dignidad y la construcción de redes de apoyo sostenibles.
-                </p>
-                <div className="statement-card-footer">
-                  <span className="statement-card-pill">Puente Solidario Colombia 🇨🇴 &amp; EE.UU. 🇺🇸</span>
-                </div>
-              </div>
 
-              {/* Card 3: Principios & Valores */}
-              <div className="statement-card">
-                <div className="statement-card-header">
-                  <span className="statement-card-chip">PILAR ÉTICO</span>
-                  <div className="statement-card-icon">★</div>
+                <div className="credential-chip credential-chip-gold">
+                  <span className="chip-icon">✦</span>
+                  <div className="chip-col">
+                    <span className="chip-label">PERSONERÍA JURÍDICA</span>
+                    <span className="chip-val">ESAL Social &amp; Comunitaria</span>
+                  </div>
                 </div>
-                <h3 className="statement-card-title">Nuestros Pilares</h3>
-                <ul className="statement-values-list">
-                  <li><strong>Dignidad Humana:</strong> Respeto irrestricto al valor de cada persona.</li>
-                  <li><strong>Solidaridad Activa:</strong> Amor al prójimo demostrado en obras tangibles.</li>
-                  <li><strong>Transparencia:</strong> Gestión ética y rendición de cuentas pública (RTE).</li>
-                  <li><strong>Autonomía:</strong> De la ayuda humanitaria a la autosuficiencia duradera.</li>
-                </ul>
               </div>
             </div>
 
-            {/* Bottom Bar: Target Populations & Transparency CTA */}
-            <div className="statement-bottom-bar">
-              <div className="statement-populations">
-                <span className="pop-label">Atención Prioritaria:</span>
-                <div className="pop-chips-group">
-                  <span className="pop-chip">👩 Mujeres &amp; Gestantes</span>
-                  <span className="pop-chip">🧒 Niñez &amp; Resguardos</span>
-                  <span className="pop-chip">👵 Adultos Mayores</span>
-                  <span className="pop-chip">🤝 Habitantes de Calle</span>
-                  <span className="pop-chip">🏡 Familias Vulnerables</span>
+            {/* Right Column: High-End Photographic Showcase Card */}
+            <div className="statement-editorial-right">
+              <div className="statement-photo-card">
+                <img
+                  src="/assets/community_portrait.jpg"
+                  alt="Comunidad y familias acompañadas por la Fundación Arca de la Alianza"
+                  className="statement-photo-img"
+                />
+                <div className="statement-photo-scrim" />
+
+                {/* Floating Top Pill */}
+                <div className="statement-photo-tag">
+                  <span className="photo-tag-pulse" />
+                  <span>PRESENCIA ACTIVA EN TERRITORIO</span>
+                </div>
+
+                {/* Floating Bottom Card Details */}
+                <div className="statement-photo-bottom">
+                  <div className="photo-bottom-year">
+                    <span className="year-num">2010</span>
+                    <span className="year-label">Inicio de labor social ininterrumpida</span>
+                  </div>
+                  <p className="photo-bottom-quote">
+                    {FILOSOFIA_INSTITUCIONAL}
+                  </p>
                 </div>
               </div>
-
-              <button
-                type="button"
-                className="statement-legal-btn"
-                onClick={() => {
-                  setActiveLegalDocKey('regimen');
-                  setLegalModalOpen(true);
-                }}
-              >
-                <span>Transparencia &amp; Gobierno ESAL</span>
-                <span>→</span>
-              </button>
             </div>
           </div>
         </section>
