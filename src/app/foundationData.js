@@ -284,6 +284,7 @@ export const HISTORIA_HITOS = [
     title: "«Levántate y Escribe»: El Arca de la Alianza",
     desc: "En un sueño a las 3 a.m. recibió el nombre «Fundación Arca de la Alianza» y la instrucción: «Levántate y escribe». Escribió hasta las 10 a.m. sellando la armonía entre Casi New (generadora de trabajo) y la Fundación (servicio y transformación social).",
     isHeroConcept: true,
+    img: "/assets/logo_hands_symbol.png",
   },
   {
     year: "2018",
@@ -307,6 +308,8 @@ export const HISTORIA_HITOS = [
     img: "/assets/centro_integral.jpg",
   },
 ];
+
+export const TIMELINE_HITOS = HISTORIA_HITOS;
 
 export const WORK_CATEGORIES = [
   { id: "todos", label: "Todos (7)" },

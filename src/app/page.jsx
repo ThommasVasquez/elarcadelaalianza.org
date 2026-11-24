@@ -209,7 +209,7 @@ export default function ArcaDeLaAlianzaPage() {
         });
       }
 
-      // 5. TIMELINE HORIZONTAL INTERACTION
+      // 5. TIMELINE HORIZONTAL INTERACTION & CARDS ENTRANCE
       const tlSection = timelineRef.current;
       const tlTrack = timelineTrackRef.current;
       if (tlSection && tlTrack) {
@@ -219,6 +219,23 @@ export default function ArcaDeLaAlianzaPage() {
           }
         };
         tlTrack.addEventListener('wheel', onWheel, { passive: true });
+
+        const milestoneCards = tlSection.querySelectorAll('.timeline-milestone-card');
+        gsap.fromTo(
+          milestoneCards,
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            stagger: 0.08,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: tlSection,
+              start: 'top 80%',
+            },
+          }
+        );
       }
 
       // 6. PEOPLE & METRIC COUNTERS ON SCROLL
@@ -241,9 +258,9 @@ export default function ArcaDeLaAlianzaPage() {
             });
 
             gsap.fromTo(
-              peopleEl.querySelectorAll('.portrait-avatar'),
-              { scale: 0, rotate: -15 },
-              { scale: 1, rotate: 0, duration: 0.6, stagger: 0.12, ease: 'back.out(2)' }
+              peopleEl.querySelectorAll('.people-metric-card, .board-member-card'),
+              { y: 30, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.7, stagger: 0.08, ease: 'power3.out' }
             );
           },
         });
@@ -852,380 +869,368 @@ export default function ArcaDeLaAlianzaPage() {
           </div>
         </section>
 
-        {/* 5. TIMELINE SECTION: NUESTRA TRAYECTORIA (White Card, 100vh Sticky Slide) */}
+        {/* 5. TIMELINE SECTION: NUESTRA TRAYECTORIA (White Card, 100vw x 100vh Sticky Slide) */}
         <section ref={timelineRef} className="section timeline-section" id="timeline">
-          <div className="timeline-header">
-            <h2 className="timeline-headline" style={{ color: '#262F66' }}>
-              NUESTRA TRAYECTORIA
-            </h2>
-            <div className="carousel-nav-arrows">
-              <button
-                type="button"
-                className="arrow-btn"
-                onClick={handleTimelinePrev}
-                aria-label="Anterior hito"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <line x1="19" y1="12" x2="5" y2="12"></line>
-                  <polyline points="12 19 5 12 12 5"></polyline>
-                </svg>
-              </button>
-              <button
-                type="button"
-                className="arrow-btn"
-                onClick={handleTimelineNext}
-                aria-label="Siguiente hito"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </button>
+          <div className="timeline-container">
+            {/* Editorial Header */}
+            <div className="timeline-editorial-header">
+              <div className="timeline-header-left">
+                <div className="statement-kicker-row">
+                  <span className="statement-kicker-dot" />
+                  <span className="statement-kicker-text">MEMORIA INSTITUCIONAL &amp; VOCACIÓN SOCIAL</span>
+                </div>
+                <h3 className="timeline-headline-solid">
+                  NUESTRA{' '}
+                  <span className="statement-serif-word">TRAYECTORIA HISTÓRICA.</span>
+                </h3>
+                <p className="timeline-headline-sub">
+                  De una inspiración espiritual nacida en 2010 a una obra binacional consolidada en Colombia y Estados Unidos.
+                </p>
+              </div>
+
+              {/* Navigation Controls */}
+              <div className="timeline-header-right">
+                <div className="timeline-controls-row">
+                  <div className="timeline-nav-arrows">
+                    <button
+                      type="button"
+                      onClick={handleTimelinePrev}
+                      className="timeline-arrow-btn"
+                      aria-label="Hito anterior"
+                      title="Ver hito anterior"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                      </svg>
+                    </button>
+                    <span className="timeline-counter-pill">
+                      {TIMELINE_HITOS.length} HITOS DE HISTORIA
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleTimelineNext}
+                      className="timeline-arrow-btn"
+                      aria-label="Siguiente hito"
+                      title="Ver siguiente hito"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Timeline Track Carousel */}
+            <div className="timeline-track-viewport">
+              <div ref={timelineTrackRef} className="timeline-carousel-track">
+                {TIMELINE_HITOS.map((hito, idx) => (
+                  <article key={idx} className={`timeline-milestone-card ${hito.isHeroConcept ? 'milestone-card-hero' : ''}`}>
+                    {/* Media Box */}
+                    <div className="milestone-media-box">
+                      <img
+                        src={hito.img}
+                        alt={hito.title}
+                        className="milestone-media-photo"
+                        loading="lazy"
+                      />
+                      <div className="milestone-media-scrim" />
+
+                      <div className="milestone-top-pills">
+                        <span className="milestone-year-pill">{hito.year}</span>
+                        <span className="milestone-index-pill">0{idx + 1}</span>
+                      </div>
+
+                      <div className="milestone-bottom-badge">
+                        <span className="milestone-badge-pill">{hito.badge}</span>
+                      </div>
+                    </div>
+
+                    {/* Content Box */}
+                    <div className="milestone-content-box">
+                      <div className="milestone-title-group">
+                        <h4 className="milestone-card-title">{hito.title}</h4>
+                        <div className="milestone-accent-dash" />
+                      </div>
+
+                      <p className="milestone-card-desc">{hito.desc}</p>
+
+                      <div className="milestone-footer-row">
+                        <span className="milestone-period-label">{hito.year}</span>
+                        <span className="milestone-tag-micro">Memoria Institucional</span>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
+        </section>
 
-          {/* Timeline Slider Track */}
-          <div ref={timelineTrackRef} className="timeline-track-container" id="timeline-scroll">
-            <div className="timeline-card-col">
-              <div className="timeline-img-card">
-                <img src="/assets/timeline_gift.png" alt="Génesis y Casi New" className="timeline-gift-img" />
-              </div>
-              <div className="timeline-info">
-                <h3 className="timeline-step-title" style={{ color: '#262F66' }}>
-                  GÉNESIS: CASI NEW
-                  <br />
-                  (2010 - EE.UU.)
+        {/* 6. PEOPLE & STATS SECTION: GOBIERNO & IMPACTO (White Card, 100vw x 100vh Sticky Slide) */}
+        <section ref={peopleRef} className="section people-stats-section" id="people">
+          <div className="people-container">
+            {/* Editorial Header */}
+            <div className="people-editorial-header">
+              <div className="people-header-left">
+                <div className="statement-kicker-row">
+                  <span className="statement-kicker-dot" />
+                  <span className="statement-kicker-text">GOBIERNO INSTITUCIONAL &amp; TRANSPARENCIA</span>
+                </div>
+                <h3 className="people-headline-solid">
+                  LIDERAZGO CON{' '}
+                  <span className="statement-serif-word">PROPÓSITO ÉTICO.</span>
                 </h3>
-                <p className="timeline-step-p" style={{ color: '#3A3A3A' }}>
-                  Sandra Milena siente el llamado en EE.UU. al ver que lo que otros desechaban podía generar empleo digno y esperanza para madres en Colombia.
+                <p className="people-headline-sub">
+                  Gobernanza binacional, rendición de cuentas permanente y vocación de servicio para transformar realidades.
                 </p>
               </div>
-            </div>
 
-            {/* Giant Cheering Hands Card */}
-            <div className="timeline-cheers-col">
-              <img
-                src="/assets/timeline_cheers.png"
-                alt="Celebración del impacto y la solidaridad de El Arca"
-                className="timeline-cheers-img"
-              />
-            </div>
-
-            {/* Planning and Concept Card */}
-            <div className="timeline-concept-col">
-              <div className="concept-black-card" style={{ backgroundColor: '#101633' }}>
-                <h3 className="concept-card-title" style={{ color: '#E7CD54' }}>
-                  CONSTITUCIÓN
-                  <br />
-                  BINACIONAL
-                  <br />
-                  OFICIAL
-                </h3>
-                <p className="concept-card-p">
-                  Constituida en EE.UU. en 2018 (EIN 82-5293343) y formalizada en Colombia en 2021 (NIT 901.689.340-5). Organización formalmente habilitada ante la DIAN.
-                </p>
+              <div className="people-header-right">
                 <button
                   type="button"
-                  className="meet-team-btn"
-                  style={{ backgroundColor: '#E7CD54', color: '#101633' }}
-                  onClick={() => setIsModalOpen(true)}
+                  onClick={() => openLegalDocument('institucional')}
+                  className="people-compliance-btn"
                 >
-                  Sumar Apoyo
-                  <svg
-                    className="phone-icon"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                  >
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
+                  <span className="compliance-icon">⚖️</span>
+                  <span>Marco Jurídico &amp; DIAN / IRS</span>
                 </button>
               </div>
             </div>
 
-            {/* Step 3: Presente y Futuro */}
-            <div className="timeline-card-col">
-              <div className="timeline-info" style={{ marginTop: '40px' }}>
-                <h3 className="timeline-step-title" style={{ color: '#262F66' }}>
-                  EXPANSIÓN &amp;
-                  <br />
-                  CENTRO INTEGRAL
-                </h3>
-                <p className="timeline-step-p" style={{ color: '#3A3A3A' }}>
-                  Más de 14.500 ayudas entregadas y el proyecto maestro para construir una sede modelo que albergue formación, salud y emprendimiento social.
-                </p>
+            {/* Impact Metric Chips Bar (3 Metrics) */}
+            <div className="people-metrics-row">
+              <div className="people-metric-card">
+                <div className="metric-tag-row">
+                  <span className="metric-badge-dot" style={{ background: '#262F66' }} />
+                  <span className="metric-badge-title">SEGURIDAD ALIMENTARIA</span>
+                </div>
+                <div className="metric-primary-value">+{projectsCount.toLocaleString()}</div>
+                <div className="metric-primary-caption">Platos &amp; Raciones Servidas</div>
+                <p className="metric-primary-desc">Jornadas directas: «Cena bajo las estrellas», donatones y auxilio nutricional.</p>
               </div>
+
+              <div className="people-metric-card metric-card-gold">
+                <div className="metric-tag-row">
+                  <span className="metric-badge-dot" style={{ background: '#E6CE54' }} />
+                  <span className="metric-badge-title">EDUCACIÓN &amp; NIÑEZ</span>
+                </div>
+                <div className="metric-primary-value" style={{ color: '#E6CE54' }}>870+</div>
+                <div className="metric-primary-caption">Kits Escolares &amp; Juguetes</div>
+                <p className="metric-primary-desc">Niñas y niños acompañados en resguardos indígenas para erradicar la deserción escolar.</p>
+              </div>
+
+              <div className="people-metric-card">
+                <div className="metric-tag-row">
+                  <span className="metric-badge-dot" style={{ background: '#10B981' }} />
+                  <span className="metric-badge-title">CUMPLIMIENTO FISCAL &amp; RTE</span>
+                </div>
+                <div className="metric-primary-value" style={{ color: '#10B981' }}>{ratingCount}%</div>
+                <div className="metric-primary-caption">Habilitación Tributaria</div>
+                <p className="metric-primary-desc">Certificación para emitir certificados de donación con deducción fiscal en Colombia y EE.UU.</p>
+              </div>
+            </div>
+
+            {/* Leadership & Board Grid (4 Members) */}
+            <div className="people-board-grid">
+              {GOBIERNO_INSTITUCIONAL.juntaDirectiva.map((member, idx) => (
+                <div key={idx} className="board-member-card">
+                  <div className="member-top-row">
+                    <div className="member-avatar-circle">
+                      <span>{member.initial}</span>
+                    </div>
+                    <div className="member-id-pill">
+                      <span>JUNTA DIRECTIVA</span>
+                    </div>
+                  </div>
+
+                  <div className="member-info-col">
+                    <h4 className="member-name">{member.name}</h4>
+                    <span className="member-role">{member.role}</span>
+                    <p className="member-bio">{member.bio}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* 6. PEOPLE & STATS SECTION: GOBIERNO & IMPACTO (White Card, 100vh Sticky Slide) */}
-        <section ref={peopleRef} className="section people-stats-section" id="people">
-          {/* Headline with Floating Portrait Badges */}
-          <div className="moments-statement">
-            <h2 className="moments-headline">
-              <span className="moments-row">CREANDO</span>
-              <span className="moments-row">HUELLAS QUE DEJAN</span>
-              <span className="moments-row inline-portraits-row">
-                <span className="moments-word">AM</span>
-                <span className="portrait-avatar portrait-1" title="Dirección de Proyectos Sociales">
-                  <img src="/assets/portrait_1.png" alt="Directora de Proyectos Sociales" />
-                </span>
-                <span className="moments-word">OR EN LA M</span>
-                <span className="portrait-avatar portrait-2" title="Coordinación de Voluntariado">
-                  <img src="/assets/portrait_2.png" alt="Coordinadora de Voluntariado" />
-                </span>
-                <span className="moments-word">EM</span>
-                <span className="portrait-avatar portrait-3" title="Dirección Comunitaria">
-                  <img src="/assets/portrait_3.png" alt="Directora Comunitaria" />
-                </span>
-                <span className="moments-word">ORIA</span>
-              </span>
-            </h2>
-          </div>
+        {/* 7. FOOTER SECTION: CONTACTO & POLÍTICAS (Deep Midnight Navy, 100vw x 100vh Sticky Slide) */}
+        <footer ref={footerRef} className="section footer-section" id="contact">
+          <div className="footer-inner-container">
+            {/* Giant Monumental Wordmark */}
+            <div className="footer-huge-wordmark">
+              <h1 ref={giantMavkaRef} className="giant-mavka">
+                ARCA DE LA ALIANZA
+              </h1>
+            </div>
 
-          {/* 3 Colored Metric Cards in Navy, Gold and Warm Accent */}
-          <div className="metric-cards-container">
-            {/* Card 1: Transparencia Fiscal RTE */}
-            <div className="stat-card-wrapper card-blog">
-              <div className="card-black-roof">
-                <span className="capsule-tag" style={{ backgroundColor: '#262F66', color: '#fff' }}>
-                  RÉGIMEN DIAN · RTE
-                </span>
+            {/* 3 Comprehensive Cards */}
+            <div className="footer-cards-grid">
+              {/* Sede Colombia */}
+              <div className="footer-hub-card">
+                <div className="hub-card-header">
+                  <span className="hub-flag">🇨🇴</span>
+                  <div className="hub-badge-col">
+                    <span className="hub-badge-title">SEDE PRINCIPAL · COLOMBIA</span>
+                    <span className="hub-badge-sub">NIT: {BINACIONAL_INFO.colombia.nit} · ESAL REGISTRADA</span>
+                  </div>
+                </div>
+
+                <div className="hub-card-body">
+                  <h4 className="hub-entity-name">{BINACIONAL_INFO.colombia.razonSocial}</h4>
+                  <p className="hub-address-text">{BINACIONAL_INFO.colombia.direccion}</p>
+                  
+                  <div className="hub-contact-links">
+                    <a href={`tel:${BINACIONAL_INFO.colombia.telefono.replace(/\s+/g, '')}`} className="hub-link-item">
+                      <span className="hub-link-icon">📞</span>
+                      <span>{BINACIONAL_INFO.colombia.telefono}</span>
+                    </a>
+                    <a href={`mailto:${BINACIONAL_INFO.colombia.correo}`} className="hub-link-item hub-link-gold">
+                      <span className="hub-link-icon">✉️</span>
+                      <span>{BINACIONAL_INFO.colombia.correo}</span>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="hub-card-footer">
+                  <a
+                    href="https://wa.me/573181101131"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hub-action-btn"
+                  >
+                    <span>Línea Oficial de WhatsApp</span>
+                    <span className="hub-btn-arrow">↗</span>
+                  </a>
+                </div>
               </div>
-              <div className="card-colored-body purple-body" style={{ background: 'linear-gradient(135deg, #101633, #222c60)' }}>
-                <span className="counter-label-light">CERTIFICACIÓN TRIBUTARIA</span>
-                <div className="counter-large-stat">{ratingCount}%</div>
-                <p className="card-desc">Habilitados para emitir certificados de donación con deducción aplicable en renta.</p>
-                <div className="card-bottom-action">
-                  <span className="action-label">DOCUMENTACIÓN<br />LEGAL AL DÍA</span>
+
+              {/* Sede USA & Canal Bancario */}
+              <div className="footer-hub-card hub-card-featured">
+                <div className="hub-card-header">
+                  <span className="hub-flag">🇺🇸</span>
+                  <div className="hub-badge-col">
+                    <span className="hub-badge-title">CANAL BANCARIO OFICIAL · EE.UU.</span>
+                    <span className="hub-badge-sub">EIN: {BINACIONAL_INFO.usa.ein} · FLORIDA ACTIVE</span>
+                  </div>
+                </div>
+
+                <div className="hub-card-body">
+                  <h4 className="hub-entity-name">{BINACIONAL_INFO.usa.razonSocial}</h4>
+                  
+                  <div className="hub-bank-box">
+                    <div className="bank-box-row">
+                      <span className="bank-box-label">Banco Oficial:</span>
+                      <span className="bank-box-val">{BINACIONAL_INFO.usa.bancoOficial.banco}</span>
+                    </div>
+                    <div className="bank-box-row">
+                      <span className="bank-box-label">Checking Account:</span>
+                      <span className="bank-box-code">{BINACIONAL_INFO.usa.bancoOficial.numeroCuenta}</span>
+                    </div>
+                    <div className="bank-box-row">
+                      <span className="bank-box-label">Routing Number:</span>
+                      <span className="bank-box-val">{BINACIONAL_INFO.usa.bancoOficial.routingNumber}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="hub-card-footer">
+                  <button
+                    type="button"
+                    onClick={handleCopyBankAccount}
+                    className="hub-action-btn hub-btn-gold"
+                  >
+                    <span>{copiedBank ? '✓ ¡Datos Bancarios Copiados!' : 'Copiar Cuenta Regions Bank'}</span>
+                    <span className="hub-btn-arrow">📋</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Transparencia & Políticas */}
+              <div className="footer-hub-card">
+                <div className="hub-card-header">
+                  <span className="hub-flag">⚖️</span>
+                  <div className="hub-badge-col">
+                    <span className="hub-badge-title">TRANSPARENCIA &amp; COMPLIANCE</span>
+                    <span className="hub-badge-sub">6 POLÍTICAS INSTITUCIONALES</span>
+                  </div>
+                </div>
+
+                <div className="hub-card-body">
+                  <h4 className="hub-entity-name">Marco Jurídico &amp; Buen Gobierno</h4>
+                  <p className="hub-address-text">
+                    Nuestra gestión opera bajo auditoría continua, régimen tributario especial y estricto apego legal binacional.
+                  </p>
+
+                  <div className="hub-policy-pills">
+                    <button type="button" onClick={() => openLegalDocument('privacidad')} className="policy-pill-item">
+                      <span>Privacidad (Ley 1581)</span>
+                    </button>
+                    <button type="button" onClick={() => openLegalDocument('donaciones')} className="policy-pill-item">
+                      <span>Política Donaciones</span>
+                    </button>
+                    <button type="button" onClick={() => openLegalDocument('transparencia')} className="policy-pill-item">
+                      <span>Ética &amp; DIAN / IRS</span>
+                    </button>
+                    <button type="button" onClick={() => openLegalDocument('terminos')} className="policy-pill-item">
+                      <span>Términos Legales</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="hub-card-footer">
                   <button
                     type="button"
                     onClick={() => openLegalDocument('institucional')}
-                    className="circle-action-btn"
-                    style={{ backgroundColor: '#E7CD54', color: '#101633' }}
-                    aria-label="Ver documentación legal"
+                    className="hub-action-btn"
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
+                    <span>Ver Estatutos &amp; Políticas</span>
+                    <span className="hub-btn-arrow">↗</span>
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Card 2: Impacto Acumulado */}
-            <div className="stat-card-wrapper card-success">
-              <div className="card-black-roof">
-                <span className="capsule-tag dark-tag" style={{ color: '#101633' }}>
-                  SEGURIDAD ALIMENTARIA
-                </span>
+            {/* Bottom Meta Bar */}
+            <div className="footer-bottom-bar">
+              <div className="footer-legal-copy">
+                <span>© {new Date().getFullYear()} Fundación Arca de la Alianza (Colombia) &amp; Arca de la Alianza Inc. (Estados Unidos). Todos los derechos reservados.</span>
               </div>
-              <div className="card-colored-body yellow-body" style={{ backgroundColor: '#E7CD54' }}>
-                <span className="counter-label-dark">PLATOS Y AYUDAS ENTREGADAS</span>
-                <div className="counter-large-stat text-dark">
-                  +{projectsCount.toLocaleString()}
-                </div>
-                <p className="card-desc-dark">Jornadas comunitarias directas: Cena bajo las estrellas, donatones y auxilio nutricional.</p>
-                <div className="card-bottom-action">
-                  <span className="action-label text-dark">TRAZABILIDAD<br />EN CAMPO</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setModalLineInterest('Apoyo Alimentario y Comunitario');
-                      setIsModalOpen(true);
-                    }}
-                    className="circle-action-btn dark-circle-btn"
-                    style={{ backgroundColor: '#101633', color: '#E7CD54' }}
-                    aria-label="Ver impacto"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
 
-            {/* Card 3: Niñez y Educación */}
-            <div className="stat-card-wrapper card-confidence">
-              <div className="card-black-roof">
-                <span className="capsule-tag" style={{ backgroundColor: '#262F66', color: '#fff' }}>
-                  EL NIÑO DE BELÉN
-                </span>
-              </div>
-              <div className="card-colored-body peach-body" style={{ background: 'linear-gradient(135deg, #101633, #222c60)' }}>
-                <span className="counter-label-light">INFANCIA EN AULAS &amp; NAVIDAD</span>
-                <div className="counter-large-stat text-gold" style={{ color: '#E7CD54' }}>
-                  870+
-                </div>
-                <p className="card-desc">Niñas y niños beneficiados con útiles para evitar deserción y juguetes nuevos en resguardos indígenas.</p>
-                <div className="card-bottom-action">
-                  <span className="action-label">REDUCCIÓN DE<br />DESERCIÓN ESCOLAR</span>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setModalLineInterest('Programa El Niño de Belén');
-                      setIsModalOpen(true);
-                    }}
-                    className="circle-action-btn"
-                    style={{ backgroundColor: '#E7CD54', color: '#101633' }}
-                    aria-label="Apadrinar un niño"
-                  >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </button>
-                </div>
+              <div className="footer-social-links">
+                <a
+                  href="https://instagram.com/Alianzafl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-social-pill"
+                  title="Instagram Oficial @Alianzafl"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                  <span>@Alianzafl</span>
+                </a>
+
+                <a
+                  href="https://wa.me/573181101131"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-social-pill"
+                  title="WhatsApp +57 318 110 1131"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                  </svg>
+                  <span>WhatsApp</span>
+                </a>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* 7. FOOTER SECTION: CONTACTO & POLÍTICAS (Deep Midnight Navy, 100vh Sticky Slide) */}
-        <footer ref={footerRef} className="section footer-section" id="contact" style={{ backgroundColor: '#070A18' }}>
-          <div className="footer-huge-wordmark">
-            <h1 ref={giantMavkaRef} className="giant-mavka" style={{ color: '#ffffff' }}>
-              ARCA DE LA ALIANZA
-            </h1>
-          </div>
-
-          <div className="footer-cards-grid">
-            {/* Colombia Office Card */}
-            <div className="footer-card" style={{ backgroundColor: '#0F1535', borderColor: 'rgba(231, 205, 84, 0.15)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '18px' }}>🇨🇴</span>
-                <span style={{ fontSize: '11px', fontWeight: '800', color: '#E7CD54', textTransform: 'uppercase' }}>
-                  SEDE COLOMBIA
-                </span>
-              </div>
-              <h3 className="footer-card-title" style={{ fontSize: '16px' }}>
-                {BINACIONAL_INFO.colombia.razonSocial}
-              </h3>
-              <p style={{ fontSize: '12px', color: '#A1A8C5', lineHeight: '1.5', marginBottom: '10px' }}>
-                NIT: {BINACIONAL_INFO.colombia.nit}<br />
-                {BINACIONAL_INFO.colombia.direccion}
-              </p>
-              <a href={`mailto:${BINACIONAL_INFO.colombia.correo}`} className="contact-link email-link" style={{ color: '#E7CD54' }}>
-                {BINACIONAL_INFO.colombia.correo}
-              </a>
-              <a href={`tel:${BINACIONAL_INFO.colombia.telefono.replace(/\s+/g, '')}`} className="contact-link phone-link">
-                {BINACIONAL_INFO.colombia.telefono}
-              </a>
-            </div>
-
-            {/* USA Office Card */}
-            <div className="footer-card" style={{ backgroundColor: '#0F1535', borderColor: 'rgba(231, 205, 84, 0.15)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '18px' }}>🇺🇸</span>
-                <span style={{ fontSize: '11px', fontWeight: '800', color: '#E7CD54', textTransform: 'uppercase' }}>
-                  SEDE ESTADOS UNIDOS
-                </span>
-              </div>
-              <h3 className="footer-card-title" style={{ fontSize: '16px' }}>
-                {BINACIONAL_INFO.usa.razonSocial}
-              </h3>
-              <p style={{ fontSize: '12px', color: '#A1A8C5', lineHeight: '1.5', marginBottom: '10px' }}>
-                EIN: {BINACIONAL_INFO.usa.ein}<br />
-                Registro: {BINACIONAL_INFO.usa.registro} (Florida Active)
-              </p>
-              <a href={`mailto:${BINACIONAL_INFO.usa.correo}`} className="contact-link email-link" style={{ color: '#E7CD54' }}>
-                {BINACIONAL_INFO.usa.correo}
-              </a>
-              <a href={`tel:${BINACIONAL_INFO.usa.telefono.replace(/\s+/g, '')}`} className="contact-link phone-link">
-                {BINACIONAL_INFO.usa.telefono}
-              </a>
-            </div>
-
-            {/* Transparency & Legal Policies */}
-            <div className="footer-card" style={{ backgroundColor: '#0F1535', borderColor: 'rgba(231, 205, 84, 0.15)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '18px' }}>📜</span>
-                <span style={{ fontSize: '11px', fontWeight: '800', color: '#E7CD54', textTransform: 'uppercase' }}>
-                  TRANSPARENCIA INSTITUCIONAL
-                </span>
-              </div>
-              <h3 className="footer-card-title" style={{ fontSize: '16px' }}>
-                DOCUMENTOS &amp; POLÍTICAS
-              </h3>
-              <p style={{ fontSize: '12px', color: '#A1A8C5', marginBottom: '12px' }}>
-                Consulta nuestras 6 políticas aprobadas de datos, ética y transparencia:
-              </p>
-              <button
-                type="button"
-                onClick={() => openLegalDocument('privacidad')}
-                style={{ background: '#E7CD54', color: '#101633', border: 'none', borderRadius: '9999px', padding: '8px 16px', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }}
-              >
-                Ver Políticas Legales →
-              </button>
-            </div>
-          </div>
-
-          {/* Bottom Footer Details */}
-          <div className="footer-meta-row">
-            <div className="footer-address">
-              <p><strong>Fundación Arca de la Alianza (Colombia) &amp; Arca de la Alianza Inc. (EE.UU.)</strong></p>
-              <p>NIT: 901.689.340-5 · EIN: 82-5293343 · ESAL Social y Comunitaria</p>
-              <p className="vat-no" style={{ color: '#E7CD54' }}>elarcadelaalianza.org</p>
-            </div>
-
-            <div className="social-icons-row">
-              <a
-                href="https://instagram.com/Alianzafl"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-btn"
-                aria-label="Instagram @Alianzafl"
-                title="@Alianzafl"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-              <a
-                href="https://wa.me/573181101131"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-btn"
-                aria-label="WhatsApp"
-                title="+57 318 110 1131"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-
-          {/* Bottom Banner Bar */}
-          <div className="footer-banner-bar" style={{ backgroundColor: '#101633', borderColor: 'rgba(231, 205, 84, 0.25)' }}>
-            <div className="banner-asterisk" style={{ color: '#E7CD54' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="12" y1="2" x2="12" y2="22"></line>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
-                <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
-              </svg>
-            </div>
-            <div className="banner-text">
-              {FILOSOFIA_INSTITUCIONAL}
-            </div>
-            <button
-              type="button"
-              className="banner-meet-btn"
-              style={{ backgroundColor: '#E7CD54', color: '#101633', fontWeight: '800' }}
-              onClick={() => setIsModalOpen(true)}
-            >
-              Sumar Apoyo
-            </button>
           </div>
         </footer>
       </main>
