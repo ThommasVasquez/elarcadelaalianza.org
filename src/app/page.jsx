@@ -1058,179 +1058,144 @@ export default function ArcaDeLaAlianzaPage() {
           </div>
         </section>
 
-        {/* 7. FOOTER SECTION: CONTACTO & POLÍTICAS (Deep Midnight Navy, 100vw x 100vh Sticky Slide) */}
-        <footer ref={footerRef} className="section footer-section" id="contact">
-          <div className="footer-inner-container">
-            {/* Giant Monumental Wordmark */}
-            <div className="footer-huge-wordmark">
-              <h1 ref={giantMavkaRef} className="giant-mavka">
-                ARCA DE LA ALIANZA
-              </h1>
+        {/* 7. FOOTER SECTION: CONTACTO & POLÍTICAS (Deep Midnight Navy, 100vh Sticky Slide) */}
+        <footer ref={footerRef} className="section footer-section" id="contact" style={{ backgroundColor: '#070A18' }}>
+          <div className="footer-huge-wordmark">
+            <h1 ref={giantMavkaRef} className="giant-mavka" style={{ color: '#ffffff' }}>
+              ARCA DE LA ALIANZA
+            </h1>
+          </div>
+
+          <div className="footer-cards-grid">
+            {/* Colombia Office Card */}
+            <div className="footer-card" style={{ backgroundColor: '#0F1535', borderColor: 'rgba(231, 205, 84, 0.15)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <span style={{ fontSize: '18px' }}>🇨🇴</span>
+                <span style={{ fontSize: '11px', fontWeight: '800', color: '#E7CD54', textTransform: 'uppercase' }}>
+                  SEDE COLOMBIA
+                </span>
+              </div>
+              <h3 className="footer-card-title" style={{ fontSize: '16px' }}>
+                {BINACIONAL_INFO.colombia.razonSocial}
+              </h3>
+              <p style={{ fontSize: '12px', color: '#A1A8C5', lineHeight: '1.5', marginBottom: '10px' }}>
+                NIT: {BINACIONAL_INFO.colombia.nit}<br />
+                {BINACIONAL_INFO.colombia.direccion}
+              </p>
+              <a href={`mailto:${BINACIONAL_INFO.colombia.correo}`} className="contact-link email-link" style={{ color: '#E7CD54' }}>
+                {BINACIONAL_INFO.colombia.correo}
+              </a>
+              <a href={`tel:${BINACIONAL_INFO.colombia.telefono.replace(/\s+/g, '')}`} className="contact-link phone-link">
+                {BINACIONAL_INFO.colombia.telefono}
+              </a>
             </div>
 
-            {/* 3 Comprehensive Cards */}
-            <div className="footer-cards-grid">
-              {/* Sede Colombia */}
-              <div className="footer-hub-card">
-                <div className="hub-card-header">
-                  <span className="hub-flag">🇨🇴</span>
-                  <div className="hub-badge-col">
-                    <span className="hub-badge-title">SEDE PRINCIPAL · COLOMBIA</span>
-                    <span className="hub-badge-sub">NIT: {BINACIONAL_INFO.colombia.nit} · ESAL REGISTRADA</span>
-                  </div>
-                </div>
-
-                <div className="hub-card-body">
-                  <h4 className="hub-entity-name">{BINACIONAL_INFO.colombia.razonSocial}</h4>
-                  <p className="hub-address-text">{BINACIONAL_INFO.colombia.direccion}</p>
-                  
-                  <div className="hub-contact-links">
-                    <a href={`tel:${BINACIONAL_INFO.colombia.telefono.replace(/\s+/g, '')}`} className="hub-link-item">
-                      <span className="hub-link-icon">📞</span>
-                      <span>{BINACIONAL_INFO.colombia.telefono}</span>
-                    </a>
-                    <a href={`mailto:${BINACIONAL_INFO.colombia.correo}`} className="hub-link-item hub-link-gold">
-                      <span className="hub-link-icon">✉️</span>
-                      <span>{BINACIONAL_INFO.colombia.correo}</span>
-                    </a>
-                  </div>
-                </div>
-
-                <div className="hub-card-footer">
-                  <a
-                    href="https://wa.me/573181101131"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hub-action-btn"
-                  >
-                    <span>Línea Oficial de WhatsApp</span>
-                    <span className="hub-btn-arrow">↗</span>
-                  </a>
-                </div>
+            {/* USA Office Card */}
+            <div className="footer-card" style={{ backgroundColor: '#0F1535', borderColor: 'rgba(231, 205, 84, 0.15)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <span style={{ fontSize: '18px' }}>🇺🇸</span>
+                <span style={{ fontSize: '11px', fontWeight: '800', color: '#E7CD54', textTransform: 'uppercase' }}>
+                  SEDE ESTADOS UNIDOS
+                </span>
               </div>
-
-              {/* Sede USA & Canal Bancario */}
-              <div className="footer-hub-card hub-card-featured">
-                <div className="hub-card-header">
-                  <span className="hub-flag">🇺🇸</span>
-                  <div className="hub-badge-col">
-                    <span className="hub-badge-title">CANAL BANCARIO OFICIAL · EE.UU.</span>
-                    <span className="hub-badge-sub">EIN: {BINACIONAL_INFO.usa.ein} · FLORIDA ACTIVE</span>
-                  </div>
-                </div>
-
-                <div className="hub-card-body">
-                  <h4 className="hub-entity-name">{BINACIONAL_INFO.usa.razonSocial}</h4>
-                  
-                  <div className="hub-bank-box">
-                    <div className="bank-box-row">
-                      <span className="bank-box-label">Banco Oficial:</span>
-                      <span className="bank-box-val">{BINACIONAL_INFO.usa.bancoOficial.banco}</span>
-                    </div>
-                    <div className="bank-box-row">
-                      <span className="bank-box-label">Checking Account:</span>
-                      <span className="bank-box-code">{BINACIONAL_INFO.usa.bancoOficial.numeroCuenta}</span>
-                    </div>
-                    <div className="bank-box-row">
-                      <span className="bank-box-label">Routing Number:</span>
-                      <span className="bank-box-val">{BINACIONAL_INFO.usa.bancoOficial.routingNumber}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="hub-card-footer">
-                  <button
-                    type="button"
-                    onClick={handleCopyBankAccount}
-                    className="hub-action-btn hub-btn-gold"
-                  >
-                    <span>{copiedBank ? '✓ ¡Datos Bancarios Copiados!' : 'Copiar Cuenta Regions Bank'}</span>
-                    <span className="hub-btn-arrow">📋</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Transparencia & Políticas */}
-              <div className="footer-hub-card">
-                <div className="hub-card-header">
-                  <span className="hub-flag">⚖️</span>
-                  <div className="hub-badge-col">
-                    <span className="hub-badge-title">TRANSPARENCIA &amp; COMPLIANCE</span>
-                    <span className="hub-badge-sub">6 POLÍTICAS INSTITUCIONALES</span>
-                  </div>
-                </div>
-
-                <div className="hub-card-body">
-                  <h4 className="hub-entity-name">Marco Jurídico &amp; Buen Gobierno</h4>
-                  <p className="hub-address-text">
-                    Nuestra gestión opera bajo auditoría continua, régimen tributario especial y estricto apego legal binacional.
-                  </p>
-
-                  <div className="hub-policy-pills">
-                    <button type="button" onClick={() => openLegalDocument('privacidad')} className="policy-pill-item">
-                      <span>Privacidad (Ley 1581)</span>
-                    </button>
-                    <button type="button" onClick={() => openLegalDocument('donaciones')} className="policy-pill-item">
-                      <span>Política Donaciones</span>
-                    </button>
-                    <button type="button" onClick={() => openLegalDocument('transparencia')} className="policy-pill-item">
-                      <span>Ética &amp; DIAN / IRS</span>
-                    </button>
-                    <button type="button" onClick={() => openLegalDocument('terminos')} className="policy-pill-item">
-                      <span>Términos Legales</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="hub-card-footer">
-                  <button
-                    type="button"
-                    onClick={() => openLegalDocument('institucional')}
-                    className="hub-action-btn"
-                  >
-                    <span>Ver Estatutos &amp; Políticas</span>
-                    <span className="hub-btn-arrow">↗</span>
-                  </button>
-                </div>
-              </div>
+              <h3 className="footer-card-title" style={{ fontSize: '16px' }}>
+                {BINACIONAL_INFO.usa.razonSocial}
+              </h3>
+              <p style={{ fontSize: '12px', color: '#A1A8C5', lineHeight: '1.5', marginBottom: '10px' }}>
+                EIN: {BINACIONAL_INFO.usa.ein}<br />
+                Registro: {BINACIONAL_INFO.usa.registro} (Florida Active)
+              </p>
+              <a href={`mailto:${BINACIONAL_INFO.usa.correo}`} className="contact-link email-link" style={{ color: '#E7CD54' }}>
+                {BINACIONAL_INFO.usa.correo}
+              </a>
+              <a href={`tel:${BINACIONAL_INFO.usa.telefono.replace(/\s+/g, '')}`} className="contact-link phone-link">
+                {BINACIONAL_INFO.usa.telefono}
+              </a>
             </div>
 
-            {/* Bottom Meta Bar */}
-            <div className="footer-bottom-bar">
-              <div className="footer-legal-copy">
-                <span>© {new Date().getFullYear()} Fundación Arca de la Alianza (Colombia) &amp; Arca de la Alianza Inc. (Estados Unidos). Todos los derechos reservados.</span>
+            {/* Transparency & Legal Policies */}
+            <div className="footer-card" style={{ backgroundColor: '#0F1535', borderColor: 'rgba(231, 205, 84, 0.15)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                <span style={{ fontSize: '18px' }}>📜</span>
+                <span style={{ fontSize: '11px', fontWeight: '800', color: '#E7CD54', textTransform: 'uppercase' }}>
+                  TRANSPARENCIA INSTITUCIONAL
+                </span>
               </div>
-
-              <div className="footer-social-links">
-                <a
-                  href="https://instagram.com/Alianzafl"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-pill"
-                  title="Instagram Oficial @Alianzafl"
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                  </svg>
-                  <span>@Alianzafl</span>
-                </a>
-
-                <a
-                  href="https://wa.me/573181101131"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="footer-social-pill"
-                  title="WhatsApp +57 318 110 1131"
-                >
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                  </svg>
-                  <span>WhatsApp</span>
-                </a>
-              </div>
+              <h3 className="footer-card-title" style={{ fontSize: '16px' }}>
+                DOCUMENTOS &amp; POLÍTICAS
+              </h3>
+              <p style={{ fontSize: '12px', color: '#A1A8C5', marginBottom: '12px' }}>
+                Consulta nuestras 6 políticas aprobadas de datos, ética y transparencia:
+              </p>
+              <button
+                type="button"
+                onClick={() => openLegalDocument('privacidad')}
+                style={{ background: '#E7CD54', color: '#101633', border: 'none', borderRadius: '9999px', padding: '8px 16px', fontSize: '12px', fontWeight: '800', cursor: 'pointer' }}
+              >
+                Ver Políticas Legales →
+              </button>
             </div>
+          </div>
+
+          {/* Bottom Footer Details */}
+          <div className="footer-meta-row">
+            <div className="footer-address">
+              <p><strong>Fundación Arca de la Alianza (Colombia) &amp; Arca de la Alianza Inc. (EE.UU.)</strong></p>
+              <p>NIT: 901.689.340-5 · EIN: 82-5293343 · ESAL Social y Comunitaria</p>
+              <p className="vat-no" style={{ color: '#E7CD54' }}>elarcadelaalianza.org</p>
+            </div>
+
+            <div className="social-icons-row">
+              <a
+                href="https://instagram.com/Alianzafl"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-btn"
+                aria-label="Instagram @Alianzafl"
+                title="@Alianzafl"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a
+                href="https://wa.me/573181101131"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-btn"
+                aria-label="WhatsApp"
+                title="+57 318 110 1131"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Bottom Banner Bar */}
+          <div className="footer-banner-bar" style={{ backgroundColor: '#101633', borderColor: 'rgba(231, 205, 84, 0.25)' }}>
+            <div className="banner-asterisk" style={{ color: '#E7CD54' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <line x1="12" y1="2" x2="12" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+                <line x1="19.07" y1="4.93" x2="4.93" y2="19.07"></line>
+              </svg>
+            </div>
+            <div className="banner-text">
+              {FILOSOFIA_INSTITUCIONAL}
+            </div>
+            <button
+              type="button"
+              className="banner-meet-btn"
+              style={{ backgroundColor: '#E7CD54', color: '#101633', fontWeight: '800' }}
+              onClick={() => setIsModalOpen(true)}
+            >
+              Sumar Apoyo
+            </button>
           </div>
         </footer>
       </main>
