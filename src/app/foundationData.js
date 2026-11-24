@@ -5,10 +5,10 @@
  */
 
 export const ROTATING_WORDS = [
-  "SERVIR.",
-  "TRANSFORMAR VIDAS.",
-  "SEMBRAR ESPERANZA.",
-  "DIGNIDAD.",
+  "ESPERANZA.",
+  "FUTURO DIGNO.",
+  "VIDA.",
+  "OPORTUNIDADES.",
 ];
 
 export const FILOSOFIA_INSTITUCIONAL =
