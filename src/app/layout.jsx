@@ -1,6 +1,7 @@
 import './globals.css';
 
 export const metadata = {
+  metadataBase: new URL('https://elarcadelaalianza.org'),
   title: 'Fundación Arca de la Alianza · Colombia & Estados Unidos — Dos Países, Una Misma Misión',
   description:
     'Fundación Arca de la Alianza (Colombia NIT 901.689.340-5) y Arca de la Alianza Inc. (Florida EIN 82-5293343). Iniciativa binacional sin ánimo de lucro inspirada en la fe y la solidaridad para transformar vidas y generar capacidad instalada.',

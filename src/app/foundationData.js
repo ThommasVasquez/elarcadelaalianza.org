@@ -366,6 +366,17 @@ export const PROGRAMAS_OFICIALES = [
     img: "/assets/mamita_dejalo_latir.jpg",
     chip: "Encuentros Semanales · Soporte Psicológico y Gestación",
     actionText: "Sumar Apoyo a Mamitas",
+    quote: "«Acompañar a una madre en crisis es proteger dos vidas con amor, dignidad y esperanza.»",
+    beneficiaries: "Mujeres gestantes y madres en situación de vulnerabilidad psicosocial.",
+    frequency: "Encuentros semanales formativos y talleres de salud maternal.",
+    coverage: "Guarne, Rionegro y municipios del Oriente Antioqueño.",
+    metricHighlight: "100% Acompañamiento Integral Gestacional",
+    pillars: [
+      "Acompañamiento Psicológico & Emocional Permanente",
+      "Dotación de Canastillas, Pañales e Insumos Neonatales",
+      "Talleres de Nutrición, Cuidado Perinatal y Lactancia",
+      "Red Solidaria de Familias Acogedoras y Alianzas Médicas"
+    ],
   },
   {
     id: "belen",
@@ -376,6 +387,17 @@ export const PROGRAMAS_OFICIALES = [
     img: "/assets/education_program.jpg",
     chip: "Juguetes Nuevos & Útiles Escolares",
     actionText: "Apadrinar un Niño",
+    quote: "«Cada niño en un aula de clase es una victoria contra la pobreza y el olvido.»",
+    beneficiaries: "Más de 870 niños y niñas en resguardos indígenas y zonas rurales dispersas.",
+    frequency: "Dos grandes jornadas anuales: Recaudos de Útiles (Nov–Ene) y Campaña Navideña (Oct–Dic).",
+    coverage: "Resguardos indígenas y veredas rurales de Colombia.",
+    metricHighlight: "+870 Kits Escolares & Juguetes Entregados",
+    pillars: [
+      "Entrega de Cuadernos, Mochilas y Material Pedagógico",
+      "Dotación de Juguetes Nuevos en Temporada Navideña",
+      "Monitoreo de Permanencia Escolar en Resguardos",
+      "Jornadas Lúdicas y Recreativas Comunitarias"
+    ],
   },
   {
     id: "amigos-calle",
@@ -386,6 +408,17 @@ export const PROGRAMAS_OFICIALES = [
     img: "/assets/nutrition_program.jpg",
     chip: "Cena 500 Personas & Chocolatada",
     actionText: "Participar en la Jornada",
+    quote: "«En la calle no hay extraños, hay hermanos que esperan una mirada de dignidad y amor.»",
+    beneficiaries: "Habitantes de calle y población en extrema precariedad nutricional.",
+    frequency: "«Chocolatada Amiguera» (Junio) y «Cena bajo las Estrellas» (12 de Diciembre).",
+    coverage: "Zonas urbanas y corredores comunitarios.",
+    metricHighlight: "+14.500 Raciones y Alimentos Servidos",
+    pillars: [
+      "Banquete Fraterno Servido en Mesa para 500 Personas",
+      "Jornadas de Corte de Cabello, Higiene y Salud Básica",
+      "Música en Vivo, Recreación y Afecto Humanitario",
+      "Rutas de Escucha y Redireccionamiento Social"
+    ],
   },
   {
     id: "banco-ropa",
@@ -396,6 +429,17 @@ export const PROGRAMAS_OFICIALES = [
     img: "/assets/banco_de_ropa.jpg",
     chip: "2 Campañas Solidarias Anuales",
     actionText: "Donar Ropa o Insumos",
+    quote: "«Transformamos excedentes en abrigo y oportunidades de trabajo digno para madres.»",
+    beneficiaries: "Familias en pobreza extrema, damnificados por desastres y madres comunitarias.",
+    frequency: "1ª Campaña (15 Ene – 15 Feb) y 2ª Campaña (15 Jul – 15 Ago).",
+    coverage: "Nivel Nacional en Colombia y apoyo logístico desde Florida.",
+    metricHighlight: "2 Donatones Nacionales Anuales",
+    pillars: [
+      "Campañas Masivas de Recolección Textil en Ciudades",
+      "Selección, Limpieza y Reacondicionamiento de Prendas",
+      "Generación de Trabajo Remunerado para Madres Cabeza de Hogar",
+      "Entregas Humanitarias Inmediatas ante Desastres Naturales"
+    ],
   },
   {
     id: "misioneros",
@@ -406,6 +450,17 @@ export const PROGRAMAS_OFICIALES = [
     img: "/assets/community_workshop.jpg",
     chip: "Infraestructura & Organización Social",
     actionText: "Vincularse como Misionero",
+    quote: "«Fortalecer la parroquia y el centro comunitario es reconstruir el corazón del pueblo.»",
+    beneficiaries: "Parroquias, capillas y comités de acción comunal en zonas periféricas.",
+    frequency: "Intervenciones programadas y misiones trimestrales en territorio.",
+    coverage: "Municipios y veredas de Antioquia y regiones periféricas.",
+    metricHighlight: "Articulación Comunitaria en Parroquias",
+    pillars: [
+      "Adecuación Física y Dotación de Salones Parroquiales",
+      "Capacitación en Organización Comunitaria y Salud",
+      "Dotación de Herramientas, Mobiliario y Equipamiento",
+      "Encuentros de Espiritualidad, Esperanza y Convivencia"
+    ],
   },
   {
     id: "turismo-misionero",
@@ -416,6 +471,17 @@ export const PROGRAMAS_OFICIALES = [
     img: "/assets/community_portrait.jpg",
     chip: "Turismo Social & Solidario",
     actionText: "Conocer Turismo Misionero",
+    quote: "«Viajar no solo para contemplar, sino para servir, aprender y transformar.»",
+    beneficiaries: "Comunidades anfitrionas, artesanos locales y voluntarios binacionales.",
+    frequency: "Expediciones bimestrales y voluntariados internacionales coordinados.",
+    coverage: "Colombia (Resguardos Indígenas y Municipios con Riqueza Cultural).",
+    metricHighlight: "Cooperación Binacional en Territorio",
+    pillars: [
+      "Inmersión Cultural Auténtica con Familias y Comunidades",
+      "Apoyo Directo a Productores y Emprendimientos Locales",
+      "Jornadas de Servicio Activo en Escuelas y Parroquias",
+      "Puente de Amistad entre Donantes Internacionales y Territorio"
+    ],
   },
   {
     id: "escuela-formacion",
@@ -426,6 +492,17 @@ export const PROGRAMAS_OFICIALES = [
     img: "/assets/psychosocial_program.jpg",
     chip: "Habilidades Técnicas & Emprendimiento",
     actionText: "Sumar a la Escuela",
+    quote: "«Educar en un oficio es encender la chispa de la autonomía y la libertad económica.»",
+    beneficiaries: "Madres solteras, jóvenes sin oportunidades y personas en desempleo.",
+    frequency: "Módulos continuos de formación técnica y emprendimiento.",
+    coverage: "Sedes de capacitación en Guarne y Oriente Antioqueño.",
+    metricHighlight: "Formación Laboral con Impacto Sostenible",
+    pillars: [
+      "Cursos Prácticos de Confección, Gastronomía y Artesanías",
+      "Desarrollo de Habilidades Humanas y Liderazgo Femenino",
+      "Estrategias de Comercialización y Modelos Asociativos",
+      "Acompañamiento hacia la Creación de Micronegocios Sostenibles"
+    ],
   },
 ];
 

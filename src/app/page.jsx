@@ -691,13 +691,11 @@ export default function ArcaDeLaAlianzaPage() {
                   ? PROGRAMAS_OFICIALES
                   : PROGRAMAS_OFICIALES.filter((p) => p.category === activeWorkCategory)
                 ).map((prog, idx) => (
-                  <article
+                  <a
                     key={prog.id}
+                    href={`/programas/${prog.id}/`}
                     className="work-showcase-card"
-                    onClick={() => {
-                      setModalLineInterest(prog.title);
-                      setIsModalOpen(true);
-                    }}
+                    title={`Ver programa completo: ${prog.title}`}
                   >
                     {/* Media Box (Top 48%) */}
                     <div className="card-media-box">
@@ -734,7 +732,7 @@ export default function ArcaDeLaAlianzaPage() {
                       <p className="card-summary-desc">{prog.desc}</p>
 
                       <div className="card-cta-footer">
-                        <span className="card-cta-label">{prog.actionText || 'Sumar Apoyo Directo'}</span>
+                        <span className="card-cta-label">Ver Programa Completo</span>
                         <span className="card-cta-arrow-circle">
                           <svg
                             width="14"
@@ -752,7 +750,7 @@ export default function ArcaDeLaAlianzaPage() {
                         </span>
                       </div>
                     </div>
-                  </article>
+                  </a>
                 ))}
               </div>
             </div>
