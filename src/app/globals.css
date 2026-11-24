@@ -414,7 +414,7 @@ body {
   position: sticky;
   top: 0;
   z-index: 2;
-  padding: 100px 6vw 75px;
+  padding: 95px 5vw 70px;
   box-shadow: 0 -25px 60px rgba(0, 0, 0, 0.4);
   width: 100vw;
   max-width: 100vw;
@@ -436,60 +436,267 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 12px;
 }
 
-.statement-section .sliced-statement-wrapper {
+/* Statement Top Bar */
+.statement-top-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(16, 22, 51, 0.08);
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.statement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #262F66;
+  text-transform: uppercase;
+}
+
+.statement-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--color-yellow);
+}
+
+.statement-legal-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #555d7a;
+}
+
+/* Statement Core Headline */
+.statement-hero-text {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  width: 100%;
 }
 
-.statement-section .statement-line {
-  font-size: clamp(48px, 7.8vw, 114px);
+.statement-kicker {
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  color: var(--text-dark);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #A08316;
+}
+
+.statement-main-title {
+  font-size: clamp(24px, 2.7vw, 42px);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: #101633;
   text-transform: uppercase;
   margin: 0;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.statement-section .sliced-block .slice {
-  position: absolute;
-  top: 0;
-  left: 0;
+.statement-gold-highlight {
+  color: #A08316;
+}
+
+.statement-lead-paragraph {
+  font-size: clamp(13px, 1.05vw, 15px);
+  line-height: 1.5;
+  color: #475467;
+  max-width: 1060px;
+  margin: 2px 0 0;
+}
+
+/* 3 Pillars Grid */
+.statement-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
   width: 100%;
-  height: 100%;
-  font-size: clamp(48px, 7.8vw, 114px);
+}
+
+.statement-card {
+  background: #F8F9FC;
+  border: 1px solid rgba(16, 22, 51, 0.08);
+  border-radius: 20px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(16, 22, 51, 0.03);
+}
+
+.statement-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px -6px rgba(16, 22, 51, 0.08);
+  border-color: rgba(16, 22, 51, 0.16);
+}
+
+.statement-card.highlight-card {
+  background: linear-gradient(180deg, #FAF7EB 0%, #F5EFCF 100%);
+  border-color: rgba(227, 206, 104, 0.5);
+}
+
+.statement-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.statement-card-chip {
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  color: var(--text-dark);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  pointer-events: none;
-  opacity: 0;
+  background: rgba(16, 22, 51, 0.06);
+  color: #101633;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
 }
 
-.statement-section .sliced-block.glitching .statement-line {
-  opacity: 0;
+.statement-card-chip.gold-chip {
+  background: rgba(160, 131, 22, 0.15);
+  color: #854D0E;
 }
 
-.statement-section .sliced-block.glitching .slice {
-  opacity: 1;
+.statement-card-icon {
+  color: #101633;
+  font-size: 14px;
 }
 
-.statement-section .statement-description {
-  align-self: flex-end;
-  max-width: 500px;
-  padding-bottom: 0;
+.statement-card-icon.gold-icon {
+  color: #A08316;
+  font-size: 14px;
 }
 
-.statement-section .statement-description p {
-  font-size: clamp(16px, 1.4vw, 20px);
-  line-height: 1.6;
-  font-weight: 500;
-  color: #27272a;
+.statement-card-title {
+  font-size: 16.5px;
+  font-weight: 850;
+  color: #101633;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+
+.statement-card-desc {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #475467;
+  margin: 0;
+}
+
+.statement-card-footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(16, 22, 51, 0.08);
+}
+
+.statement-card-quote {
+  font-style: italic;
+  font-size: 11.5px;
+  color: #262F66;
+  font-weight: 600;
+}
+
+.statement-card-pill {
+  font-size: 11px;
+  font-weight: 700;
+  color: #854D0E;
+}
+
+.statement-values-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: #475467;
+}
+
+.statement-values-list li strong {
+  color: #101633;
+}
+
+/* Statement Bottom Bar */
+.statement-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(16, 22, 51, 0.08);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.statement-populations {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pop-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #101633;
+  letter-spacing: 0.04em;
+}
+
+.pop-chips-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pop-chip {
+  font-size: 11px;
+  font-weight: 600;
+  background: #EEF2F6;
+  color: #101633;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(16, 22, 51, 0.06);
+}
+
+.statement-legal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #101633;
+  background: transparent;
+  border: 1px solid rgba(16, 22, 51, 0.2);
+  padding: 7px 15px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.statement-legal-btn:hover {
+  background: #101633;
+  color: #ffffff;
+  border-color: #101633;
 }
 
 /* ==========================================================================
@@ -1641,6 +1848,17 @@ body {
   }
   .work-card {
     height: 380px;
+  }
+  .statement-section {
+    height: auto;
+    min-height: 100vh;
+    max-height: none;
+    overflow: visible;
+    padding: 85px 20px 60px;
+  }
+  .statement-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
   .metric-cards-container {
     grid-template-columns: 1fr;

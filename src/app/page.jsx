@@ -124,49 +124,25 @@ export default function ArcaDeLaAlianzaPage() {
         });
       }
 
-      // 2. STATEMENT TYPOGRAPHY ON SCROLL
+      // 2. STATEMENT / IDENTITY CARDS ON SCROLL
       const statementEl = statementRef.current;
       if (statementEl) {
-        const blocks = statementEl.querySelectorAll('.sliced-block');
-        blocks.forEach((b, i) => {
-          const top = b.querySelector('.slice-top');
-          const bot = b.querySelector('.slice-bottom');
-          gsap.fromTo(
-            b,
-            { opacity: 0, y: 40 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: 'power2.out',
-              scrollTrigger: {
-                trigger: b,
-                start: 'top 85%',
-              },
-            }
-          );
-
-          if (top && bot) {
-            gsap.to(top, {
-              x: i % 2 === 0 ? -30 : 30,
-              scrollTrigger: {
-                trigger: b,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 1.2,
-              },
-            });
-            gsap.to(bot, {
-              x: i % 2 === 0 ? 30 : -30,
-              scrollTrigger: {
-                trigger: b,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 1.2,
-              },
-            });
+        const cards = statementEl.querySelectorAll('.statement-card');
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.12,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: statementEl,
+              start: 'top 80%',
+            },
           }
-        });
+        );
       }
 
       // 3. FEATURED WORK CARDS ON SCROLL
@@ -526,47 +502,104 @@ export default function ArcaDeLaAlianzaPage() {
           </div>
         </section>
 
-        {/* 2. STATEMENT / MANIFIESTO SECTION (White Card, 100vw x 100vh Sticky Slide) */}
+        {/* 2. STATEMENT / IDENTIDAD INSTITUCIONAL (White Card, 100vw x 100vh Sticky Slide) */}
         <section ref={statementRef} className="section statement-section" id="about">
           <div className="statement-container">
-            <div className="sliced-statement-wrapper">
-              <div className="sliced-block glitching" data-text="CONSTRUYENDO">
-                <h2 className="statement-line" style={{ color: '#262F66' }}>
-                  CONSTRUYENDO
-                </h2>
-                <div className="slice slice-top">CONSTRUYENDO</div>
-                <div className="slice slice-bottom">CONSTRUYENDO</div>
+            {/* Top Bar: Institutional Badge & Legal Registration */}
+            <div className="statement-top-meta">
+              <div className="statement-badge">
+                <span className="statement-badge-dot" />
+                <span>IDENTIDAD INSTITUCIONAL · ESAL SOCIAL Y COMUNITARIA</span>
               </div>
-              <div className="sliced-block glitching" data-text="ESPERANZA Y">
-                <h2 className="statement-line" style={{ color: '#262F66' }}>
-                  ESPERANZA Y
-                </h2>
-                <div className="slice slice-top">ESPERANZA Y</div>
-                <div className="slice slice-bottom">ESPERANZA Y</div>
-              </div>
-              <div className="sliced-block glitching" data-text="FUTURO DIGNO">
-                <h2 className="statement-line" style={{ color: '#E7CD54' }}>
-                  FUTURO DIGNO
-                </h2>
-                <div className="slice slice-top">FUTURO DIGNO</div>
-                <div className="slice slice-bottom">FUTURO DIGNO</div>
+              <div className="statement-legal-tag">
+                <span>CONSTITUIDA EL 26 DE NOVIEMBRE DE 2021 · NIT 901.689.340-5 · EIN 82-5293343</span>
               </div>
             </div>
 
-            <div className="statement-description">
-              <p style={{ marginBottom: '14px' }}>
-                En la <strong>Fundación Arca de la Alianza</strong> articulamos voluntades, recursos y corazones para
-                brindar oportunidades tangibles a familias y comunidades vulnerables. Diseñamos programas sostenibles
-                que generan un impacto humano duradero.
+            {/* Core Statement Hero Headline (Solid, Elegant, No Slices) */}
+            <div className="statement-hero-text">
+              <span className="statement-kicker">PROPÓSITO &amp; TRANSFORMACIÓN SOCIAL</span>
+              <h2 className="statement-main-title">
+                GENERAMOS CAPACIDAD INSTALADA:<br />
+                <span className="statement-gold-highlight">EMPODERAMOS PROYECTOS DE VIDA.</span>
+              </h2>
+              <p className="statement-lead-paragraph">
+                La <strong>Fundación Arca de la Alianza</strong> articula voluntades, fe y recursos para transformar la realidad de comunidades en extrema pobreza y vulnerabilidad. Mediante acompañamiento psicosocial, formación integral y redes comunitarias sostenibles, brindamos herramientas para que cada familia construya su propio destino con dignidad.
               </p>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '11px', fontWeight: '800', background: '#F1F5F9', color: '#1E2B58', padding: '6px 12px', borderRadius: '9999px', letterSpacing: '0.04em' }}>
-                  🇨🇴 COLOMBIA · NIT 901.689.340-5
-                </span>
-                <span style={{ fontSize: '11px', fontWeight: '800', background: '#FEF9C3', color: '#854D0E', padding: '6px 12px', borderRadius: '9999px', letterSpacing: '0.04em' }}>
-                  🇺🇸 EE.UU. · EIN 82-5293343
-                </span>
+            </div>
+
+            {/* 3 Pillars Institutional Grid */}
+            <div className="statement-cards-grid">
+              {/* Card 1: Misión */}
+              <div className="statement-card">
+                <div className="statement-card-header">
+                  <span className="statement-card-chip">PROPÓSITO</span>
+                  <div className="statement-card-icon">✦</div>
+                </div>
+                <h3 className="statement-card-title">Misión Institucional</h3>
+                <p className="statement-card-desc">
+                  Generar capacidad instalada en las comunidades en las que actuamos, promoviendo la solidaridad y el trabajo comunitario para que las personas se empoderen de sus proyectos de vida.
+                </p>
+                <div className="statement-card-footer">
+                  <span className="statement-card-quote">{FILOSOFIA_INSTITUCIONAL}</span>
+                </div>
               </div>
+
+              {/* Card 2: Visión 2030 */}
+              <div className="statement-card highlight-card">
+                <div className="statement-card-header">
+                  <span className="statement-card-chip gold-chip">HORIZONTE 2030</span>
+                  <div className="statement-card-icon gold-icon">◈</div>
+                </div>
+                <h3 className="statement-card-title">Visión de Futuro</h3>
+                <p className="statement-card-desc">
+                  Ser reconocidos por nuestro trabajo en pro de los más vulnerables, a través del acompañamiento psicosocial, la defensa de la dignidad y la construcción de redes de apoyo sostenibles.
+                </p>
+                <div className="statement-card-footer">
+                  <span className="statement-card-pill">Puente Solidario Colombia 🇨🇴 &amp; EE.UU. 🇺🇸</span>
+                </div>
+              </div>
+
+              {/* Card 3: Principios & Valores */}
+              <div className="statement-card">
+                <div className="statement-card-header">
+                  <span className="statement-card-chip">PILAR ÉTICO</span>
+                  <div className="statement-card-icon">★</div>
+                </div>
+                <h3 className="statement-card-title">Nuestros Pilares</h3>
+                <ul className="statement-values-list">
+                  <li><strong>Dignidad Humana:</strong> Respeto irrestricto al valor de cada persona.</li>
+                  <li><strong>Solidaridad Activa:</strong> Amor al prójimo demostrado en obras tangibles.</li>
+                  <li><strong>Transparencia:</strong> Gestión ética y rendición de cuentas pública (RTE).</li>
+                  <li><strong>Autonomía:</strong> De la ayuda humanitaria a la autosuficiencia duradera.</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Bottom Bar: Target Populations & Transparency CTA */}
+            <div className="statement-bottom-bar">
+              <div className="statement-populations">
+                <span className="pop-label">Atención Prioritaria:</span>
+                <div className="pop-chips-group">
+                  <span className="pop-chip">👩 Mujeres &amp; Gestantes</span>
+                  <span className="pop-chip">🧒 Niñez &amp; Resguardos</span>
+                  <span className="pop-chip">👵 Adultos Mayores</span>
+                  <span className="pop-chip">🤝 Habitantes de Calle</span>
+                  <span className="pop-chip">🏡 Familias Vulnerables</span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="statement-legal-btn"
+                onClick={() => {
+                  setActiveLegalDocKey('regimen');
+                  setLegalModalOpen(true);
+                }}
+              >
+                <span>Transparencia &amp; Gobierno ESAL</span>
+                <span>→</span>
+              </button>
             </div>
           </div>
         </section>
