@@ -10,6 +10,7 @@ import {
   CITA_BIBLICA,
   BINACIONAL_INFO,
   PROGRAMAS_OFICIALES,
+  WORK_CATEGORIES,
   DIMENSIONES_IMPACTO,
   TIMELINE_HITOS,
   GOBIERNO_INSTITUCIONAL,
@@ -23,6 +24,7 @@ export default function ArcaDeLaAlianzaPage() {
   const [legalModalOpen, setLegalModalOpen] = useState(false);
   const [activeLegalDocKey, setActiveLegalDocKey] = useState('privacidad');
   const [activeService, setActiveService] = useState('01');
+  const [activeWorkCategory, setActiveWorkCategory] = useState('todos');
   const [projectsCount, setProjectsCount] = useState(0);
   const [ratingCount, setRatingCount] = useState('0.0');
   const [wordIndex, setWordIndex] = useState(0);
@@ -42,6 +44,7 @@ export default function ArcaDeLaAlianzaPage() {
   const cursorRef = useRef(null);
   const statementRef = useRef(null);
   const workRef = useRef(null);
+  const workTrackRef = useRef(null);
   const servicesRef = useRef(null);
   const timelineRef = useRef(null);
   const timelineTrackRef = useRef(null);
@@ -158,46 +161,36 @@ export default function ArcaDeLaAlianzaPage() {
         );
       }
 
-      // 3. FEATURED WORK CARDS ON SCROLL
+      // 3. FEATURED WORK HORIZONTAL WHEEL & CARDS ANIMATION
       const workEl = workRef.current;
-      if (workEl) {
-        const cards = workEl.querySelectorAll('.work-card');
-        cards.forEach((card) => {
-          gsap.fromTo(
-            card,
-            { y: 60, opacity: 0, scale: 0.96 },
-            {
-              y: 0,
-              opacity: 1,
-              scale: 1,
-              duration: 0.9,
-              ease: 'power3.out',
-              scrollTrigger: {
-                trigger: card,
-                start: 'top 85%',
-                toggleActions: 'play none none reverse',
-              },
-            }
-          );
-
-          const img = card.querySelector('.card-img');
-          if (img) {
-            gsap.fromTo(
-              img,
-              { yPercent: -8 },
-              {
-                yPercent: 8,
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: card,
-                  start: 'top bottom',
-                  end: 'bottom top',
-                  scrub: 1,
-                },
-              }
-            );
+      const workTrack = workTrackRef.current;
+      if (workTrack) {
+        const onWorkWheel = (e) => {
+          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+            workTrack.scrollLeft += e.deltaY;
           }
-        });
+        };
+        workTrack.addEventListener('wheel', onWorkWheel, { passive: true });
+      }
+
+      if (workEl) {
+        const cards = workEl.querySelectorAll('.work-showcase-card');
+        gsap.fromTo(
+          cards,
+          { y: 50, opacity: 0, scale: 0.96 },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.08,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: workEl,
+              start: 'top 80%',
+            },
+          }
+        );
       }
 
       // 4. SERVICES HIGHLIGHT ON SCROLL
@@ -284,6 +277,18 @@ export default function ArcaDeLaAlianzaPage() {
       gsap.ticker.remove(tickerCb);
     };
   }, []);
+
+  const handleWorkPrev = () => {
+    if (workTrackRef.current) {
+      workTrackRef.current.scrollBy({ left: -420, behavior: 'smooth' });
+    }
+  };
+
+  const handleWorkNext = () => {
+    if (workTrackRef.current) {
+      workTrackRef.current.scrollBy({ left: 420, behavior: 'smooth' });
+    }
+  };
 
   const handleTimelinePrev = () => {
     if (timelineTrackRef.current) {
@@ -600,116 +605,146 @@ export default function ArcaDeLaAlianzaPage() {
         {/* 3. FEATURED WORK / PROGRAMAS DESTACADOS (White Card, 100vw x 100vh Sticky Slide) */}
         <section ref={workRef} className="section work-section" id="work">
           <div className="featured-work-container">
-            <div className="featured-work-header">
-              <div className="statement-badge" style={{ marginBottom: '8px' }}>
-                <span className="statement-badge-dot" />
-                <span>LÍNEAS DE ACCIÓN SOCIAL DIRECTA</span>
+            {/* Editorial Header with Kicker, Monumental Serif Title & Interactive Navigation */}
+            <div className="work-editorial-header">
+              <div className="work-header-left">
+                <div className="statement-kicker-row">
+                  <span className="statement-kicker-dot" />
+                  <span className="statement-kicker-text">ACCIÓN SOCIAL DIRECTA EN TERRITORIO</span>
+                </div>
+                <h3 className="work-headline-solid">
+                  PROGRAMAS QUE{' '}
+                  <span className="statement-serif-word">TRANSFORMAN VIDAS.</span>
+                </h3>
+                <p className="work-headline-sub">
+                  Siete líneas permanentes de desarrollo humano, dignidad e inclusión comunitaria en Colombia y Estados Unidos.
+                </p>
               </div>
-              <h3 className="section-title" style={{ color: '#262F66', margin: 0 }}>
-                PROGRAMAS QUE TRANSFORMAN
-              </h3>
+
+              {/* Navigation Controls & Category Filter Chips */}
+              <div className="work-header-right">
+                <div className="work-controls-row">
+                  <div className="work-nav-arrows">
+                    <button
+                      type="button"
+                      onClick={handleWorkPrev}
+                      className="work-arrow-btn"
+                      aria-label="Programa anterior"
+                      title="Ver programa anterior"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                      </svg>
+                    </button>
+                    <span className="work-counter-pill">
+                      {PROGRAMAS_OFICIALES.length} PROGRAMAS EN TERRITORIO
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleWorkNext}
+                      className="work-arrow-btn"
+                      aria-label="Siguiente programa"
+                      title="Ver siguiente programa"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="work-category-filters">
+                  {WORK_CATEGORIES.map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      className={`work-filter-chip ${activeWorkCategory === cat.id ? 'active' : ''}`}
+                      onClick={() => {
+                        setActiveWorkCategory(cat.id);
+                        if (workTrackRef.current) {
+                          workTrackRef.current.scrollLeft = 0;
+                        }
+                      }}
+                    >
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
-            <div className="work-grid">
-              {/* Card 1: Mamita Déjalo Latir */}
-              <div
-                className="work-card"
-                data-work="maternidad"
-                onClick={() => {
-                  setModalLineInterest('Mamita Déjalo Latir');
-                  setIsModalOpen(true);
-                }}
-              >
-                <div className="card-media-wrapper">
-                  <img src="/assets/mamita_dejalo_latir.jpg" alt="Programa Mamita Déjalo Latir" className="card-img" />
-                </div>
-                <div className="card-scrim-gradient" />
-                <span className="card-top-pill">Maternidad &amp; Vida</span>
-                <div className="card-content-bottom">
-                  <h4 className="card-program-title">Mamita Déjalo Latir</h4>
-                  <p className="card-program-desc">
-                    Acompañamiento integral, emocional, psicosocial y formativo a madres gestantes en situación de vulnerabilidad.
-                  </p>
-                  <div className="card-action-row">
-                    <span className="card-action-text">Sumar Apoyo Directo</span>
-                    <span className="card-arrow-circle">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7 7 17 7 17 17"></polyline>
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </div>
+            {/* Interactive Showcase Carousel Track */}
+            <div className="work-carousel-container">
+              <div ref={workTrackRef} className="work-carousel-track">
+                {(activeWorkCategory === 'todos'
+                  ? PROGRAMAS_OFICIALES
+                  : PROGRAMAS_OFICIALES.filter((p) => p.category === activeWorkCategory)
+                ).map((prog, idx) => (
+                  <article
+                    key={prog.id}
+                    className="work-showcase-card"
+                    onClick={() => {
+                      setModalLineInterest(prog.title);
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    {/* Media Box (Top 48%) */}
+                    <div className="card-media-box">
+                      <img
+                        src={prog.img}
+                        alt={prog.title}
+                        className="card-media-photo"
+                        loading="lazy"
+                      />
+                      <div className="card-media-gradient" />
 
-              {/* Card 2: El Niño de Belén */}
-              <div
-                className="work-card"
-                data-work="infancia"
-                onClick={() => {
-                  setModalLineInterest('El Niño De Belén');
-                  setIsModalOpen(true);
-                }}
-              >
-                <div className="card-media-wrapper">
-                  <img
-                    src="/assets/education_program.jpg"
-                    alt="Programa El Niño de Belén"
-                    className="card-img"
-                  />
-                </div>
-                <div className="card-scrim-gradient" />
-                <span className="card-top-pill">Niñez &amp; Educación</span>
-                <div className="card-content-bottom">
-                  <h4 className="card-program-title">El Niño De Belén</h4>
-                  <p className="card-program-desc">
-                    Entrega de útiles escolares y juguetes nuevos en comunidades vulnerables y resguardos indígenas.
-                  </p>
-                  <div className="card-action-row">
-                    <span className="card-action-text">Apadrinar un Niño</span>
-                    <span className="card-arrow-circle">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7 7 17 7 17 17"></polyline>
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-              </div>
+                      {/* Floating Top Pills */}
+                      <div className="card-media-top-pills">
+                        <span className="card-tag-pill">{prog.tag.split('·')[0].trim()}</span>
+                        <span className="card-index-pill">0{idx + 1}</span>
+                      </div>
 
-              {/* Card 3: Banco de Ropa & Casi New */}
-              <div
-                className="work-card"
-                data-work="economia-circular"
-                onClick={() => {
-                  setModalLineInterest('Banco de Ropa');
-                  setIsModalOpen(true);
-                }}
-              >
-                <div className="card-media-wrapper">
-                  <img
-                    src="/assets/banco_de_ropa.jpg"
-                    alt="Banco de Ropa & Casi New"
-                    className="card-img"
-                  />
-                </div>
-                <div className="card-scrim-gradient" />
-                <span className="card-top-pill">Economía Circular</span>
-                <div className="card-content-bottom">
-                  <h4 className="card-program-title">Banco de Ropa &amp; Casi New</h4>
-                  <p className="card-program-desc">
-                    Campañas de recaudo y entrega solidaria de prendas, cobijas e insumos para comunidades necesitadas.
-                  </p>
-                  <div className="card-action-row">
-                    <span className="card-action-text">Donar Insumos / Ropa</span>
-                    <span className="card-arrow-circle">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7 7 17 7 17 17"></polyline>
-                      </svg>
-                    </span>
-                  </div>
-                </div>
+                      {/* Floating Bottom Media Bar */}
+                      <div className="card-media-meta-bar">
+                        <span className="media-meta-chip">
+                          <span className="meta-chip-sparkle">✦</span>
+                          <span>{prog.chip.split('·')[0].trim()}</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Content Body (Bottom 52%) */}
+                    <div className="card-content-body">
+                      <div className="card-title-group">
+                        <h4 className="card-main-title">{prog.title}</h4>
+                        <div className="card-accent-dash" />
+                      </div>
+
+                      <p className="card-summary-desc">{prog.desc}</p>
+
+                      <div className="card-cta-footer">
+                        <span className="card-cta-label">{prog.actionText || 'Sumar Apoyo Directo'}</span>
+                        <span className="card-cta-arrow-circle">
+                          <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
             </div>
           </div>
@@ -1394,7 +1429,11 @@ export default function ArcaDeLaAlianzaPage() {
                 <option value="Donación USA">Donación en Estados Unidos (Regions Bank)</option>
                 <option value="Mamita Déjalo Latir">Programa: Mamita Déjalo Latir</option>
                 <option value="El Niño De Belén">Programa: El Niño De Belén</option>
-                <option value="Banco de Ropa">Campaña: Banco de Ropa</option>
+                <option value="Dando Amor a Amigos de la Calle">Programa: Amigos de la Calle (Nutrición & Cena)</option>
+                <option value="Banco de Ropa & Casi New">Campaña: Banco de Ropa & Casi New</option>
+                <option value="Misioneros & Parroquias">Iniciativa: Misioneros & Parroquias</option>
+                <option value="Turismo Misionero con Propósito">Programa: Turismo Misionero con Propósito</option>
+                <option value="Escuela de Formación y Oficios">Programa: Escuela de Formación y Oficios</option>
                 <option value="Construcción Centro Integral">Proyecto: Construcción Centro Integral</option>
                 <option value="Voluntariado en Territorio">Voluntariado (Nacional / Internacional)</option>
                 <option value="Certificados y Transparencia">Certificado de Donación / Beneficio Tributario</option>
