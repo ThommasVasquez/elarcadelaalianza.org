@@ -25,6 +25,7 @@ export default function ArcaDeLaAlianzaPage() {
   const [activeLegalDocKey, setActiveLegalDocKey] = useState('privacidad');
   const [activeService, setActiveService] = useState('01');
   const [activeWorkCategory, setActiveWorkCategory] = useState('todos');
+  const [activeTimelineIdx, setActiveTimelineIdx] = useState(0);
   const [projectsCount, setProjectsCount] = useState(0);
   const [ratingCount, setRatingCount] = useState('0.0');
   const [wordIndex, setWordIndex] = useState(0);
@@ -209,33 +210,28 @@ export default function ArcaDeLaAlianzaPage() {
         });
       }
 
-      // 5. TIMELINE HORIZONTAL INTERACTION & CARDS ENTRANCE
+      // 5. TIMELINE SPOTLIGHT & RAIL ENTRANCE
       const tlSection = timelineRef.current;
-      const tlTrack = timelineTrackRef.current;
-      if (tlSection && tlTrack) {
-        const onWheel = (e) => {
-          if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-            tlTrack.scrollLeft += e.deltaY;
-          }
-        };
-        tlTrack.addEventListener('wheel', onWheel, { passive: true });
-
-        const milestoneCards = tlSection.querySelectorAll('.timeline-milestone-card');
-        gsap.fromTo(
-          milestoneCards,
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.08,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: tlSection,
-              start: 'top 80%',
-            },
-          }
-        );
+      if (tlSection) {
+        const tlStage = tlSection.querySelector('.timeline-spotlight-stage');
+        const tlRail = tlSection.querySelector('.timeline-rail-wrapper');
+        if (tlRail && tlStage) {
+          gsap.fromTo(
+            [tlRail, tlStage],
+            { y: 30, opacity: 0 },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.8,
+              stagger: 0.12,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: tlSection,
+                start: 'top 80%',
+              },
+            }
+          );
+        }
       }
 
       // 6. PEOPLE & METRIC COUNTERS ON SCROLL
@@ -308,15 +304,11 @@ export default function ArcaDeLaAlianzaPage() {
   };
 
   const handleTimelinePrev = () => {
-    if (timelineTrackRef.current) {
-      timelineTrackRef.current.scrollBy({ left: -380, behavior: 'smooth' });
-    }
+    setActiveTimelineIdx((prev) => (prev > 0 ? prev - 1 : TIMELINE_HITOS.length - 1));
   };
 
   const handleTimelineNext = () => {
-    if (timelineTrackRef.current) {
-      timelineTrackRef.current.scrollBy({ left: 380, behavior: 'smooth' });
-    }
+    setActiveTimelineIdx((prev) => (prev < TIMELINE_HITOS.length - 1 ? prev + 1 : 0));
   };
 
   return (
@@ -869,104 +861,188 @@ export default function ArcaDeLaAlianzaPage() {
           </div>
         </section>
 
-        {/* 5. TIMELINE SECTION: NUESTRA TRAYECTORIA (White Card, 100vw x 100vh Sticky Slide) */}
+        {/* 5. TIMELINE SECTION: NUESTRA TRAYECTORIA (Interactive Historical Chronicle & Split Stage) */}
         <section ref={timelineRef} className="section timeline-section" id="timeline">
-          <div className="timeline-container">
+          <div className="timeline-interactive-container">
             {/* Editorial Header */}
             <div className="timeline-editorial-header">
               <div className="timeline-header-left">
                 <div className="statement-kicker-row">
                   <span className="statement-kicker-dot" />
-                  <span className="statement-kicker-text">MEMORIA INSTITUCIONAL &amp; VOCACIÓN SOCIAL</span>
+                  <span className="statement-kicker-text">MEMORIA INSTITUCIONAL · 2010 A 2030+</span>
                 </div>
                 <h3 className="timeline-headline-solid">
-                  NUESTRA{' '}
-                  <span className="statement-serif-word">TRAYECTORIA HISTÓRICA.</span>
+                  CRÓNICA DE UNA{' '}
+                  <span className="statement-serif-word">PROMESA EN ACCIÓN.</span>
                 </h3>
                 <p className="timeline-headline-sub">
-                  De una inspiración espiritual nacida en 2010 a una obra binacional consolidada en Colombia y Estados Unidos.
+                  Siete momentos clave que transformaron una semilla de fe y servicio en una fundación binacional consolidada.
                 </p>
               </div>
 
               {/* Navigation Controls */}
               <div className="timeline-header-right">
                 <div className="timeline-controls-row">
-                  <div className="timeline-nav-arrows">
-                    <button
-                      type="button"
-                      onClick={handleTimelinePrev}
-                      className="timeline-arrow-btn"
-                      aria-label="Hito anterior"
-                      title="Ver hito anterior"
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="19" y1="12" x2="5" y2="12"></line>
-                        <polyline points="12 19 5 12 12 5"></polyline>
-                      </svg>
-                    </button>
-                    <span className="timeline-counter-pill">
-                      {TIMELINE_HITOS.length} HITOS DE HISTORIA
-                    </span>
-                    <button
-                      type="button"
-                      onClick={handleTimelineNext}
-                      className="timeline-arrow-btn"
-                      aria-label="Siguiente hito"
-                      title="Ver siguiente hito"
-                    >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={handleTimelinePrev}
+                    className="timeline-nav-arrow-btn"
+                    aria-label="Hito anterior"
+                    title="Ver hito anterior"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="19" y1="12" x2="5" y2="12"></line>
+                      <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                  </button>
+                  <span className="timeline-step-indicator">
+                    HITO <strong>0{activeTimelineIdx + 1}</strong> / 0{TIMELINE_HITOS.length}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleTimelineNext}
+                    className="timeline-nav-arrow-btn"
+                    aria-label="Siguiente hito"
+                    title="Ver siguiente hito"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
                 </div>
               </div>
             </div>
 
-            {/* Timeline Track Carousel */}
-            <div className="timeline-track-viewport">
-              <div ref={timelineTrackRef} className="timeline-carousel-track">
-                {TIMELINE_HITOS.map((hito, idx) => (
-                  <article key={idx} className={`timeline-milestone-card ${hito.isHeroConcept ? 'milestone-card-hero' : ''}`}>
-                    {/* Media Box */}
-                    <div className="milestone-media-box">
-                      <img
-                        src={hito.img}
-                        alt={hito.title}
-                        className="milestone-media-photo"
-                        loading="lazy"
-                      />
-                      <div className="milestone-media-scrim" />
-
-                      <div className="milestone-top-pills">
-                        <span className="milestone-year-pill">{hito.year}</span>
-                        <span className="milestone-index-pill">0{idx + 1}</span>
-                      </div>
-
-                      <div className="milestone-bottom-badge">
-                        <span className="milestone-badge-pill">{hito.badge}</span>
-                      </div>
-                    </div>
-
-                    {/* Content Box */}
-                    <div className="milestone-content-box">
-                      <div className="milestone-title-group">
-                        <h4 className="milestone-card-title">{hito.title}</h4>
-                        <div className="milestone-accent-dash" />
-                      </div>
-
-                      <p className="milestone-card-desc">{hito.desc}</p>
-
-                      <div className="milestone-footer-row">
-                        <span className="milestone-period-label">{hito.year}</span>
-                        <span className="milestone-tag-micro">Memoria Institucional</span>
-                      </div>
-                    </div>
-                  </article>
-                ))}
+            {/* Interactive Timeline Rail / Ribbon */}
+            <div className="timeline-rail-wrapper">
+              <div className="timeline-rail-track">
+                <div
+                  className="timeline-rail-progress"
+                  style={{ width: `${(activeTimelineIdx / (TIMELINE_HITOS.length - 1)) * 100}%` }}
+                />
+                {TIMELINE_HITOS.map((hito, idx) => {
+                  const isActive = activeTimelineIdx === idx;
+                  const isPassed = activeTimelineIdx >= idx;
+                  return (
+                    <button
+                      key={idx}
+                      type="button"
+                      className={`timeline-station-btn ${isActive ? 'active' : ''} ${isPassed ? 'passed' : ''}`}
+                      onClick={() => setActiveTimelineIdx(idx)}
+                      aria-label={`Ver hito ${hito.year}: ${hito.title}`}
+                    >
+                      <span className="station-node-dot">
+                        <span className="station-inner-glow" />
+                      </span>
+                      <span className="station-year-label">{hito.shortYear || hito.year}</span>
+                      <span className="station-sub-label">{hito.badge.split('·')[0].trim()}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
+
+            {/* Grand Split Spotlight Stage */}
+            {(() => {
+              const currentHito = TIMELINE_HITOS[activeTimelineIdx] || TIMELINE_HITOS[0];
+              return (
+                <div key={activeTimelineIdx} className="timeline-spotlight-stage">
+                  {/* Left Column: Documentary Visual Frame (~42%) */}
+                  <div className="spotlight-visual-card">
+                    <div className="spotlight-img-wrapper">
+                      <img
+                        src={currentHito.img}
+                        alt={currentHito.title}
+                        className="spotlight-photo"
+                      />
+                      <div className="spotlight-photo-vignette" />
+
+                      {/* Top Badges */}
+                      <div className="spotlight-top-meta">
+                        <span className="spotlight-chapter-pill">
+                          CAPÍTULO 0{activeTimelineIdx + 1}
+                        </span>
+                        <span className="spotlight-badge-pill">
+                          ✦ {currentHito.badge}
+                        </span>
+                      </div>
+
+                      {/* Bottom Quote Box */}
+                      <div className="spotlight-quote-overlay">
+                        <p className="spotlight-quote-text">
+                          {currentHito.quote || `«${currentHito.title}»`}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Historical Chronicle Details (~58%) */}
+                  <div className="spotlight-narrative-card">
+                    <div className="narrative-meta-top">
+                      <div className="narrative-year-display">
+                        <span className="narrative-large-year">{currentHito.year}</span>
+                        <span className="narrative-period-chip">{currentHito.category}</span>
+                      </div>
+
+                      <div className="narrative-territory-pill">
+                        <span className="territory-icon">📍</span>
+                        <span>{currentHito.location}</span>
+                      </div>
+                    </div>
+
+                    <h4 className="narrative-chapter-title">
+                      {currentHito.title}
+                    </h4>
+
+                    <div className="narrative-body-text">
+                      <p>{currentHito.desc}</p>
+                    </div>
+
+                    {/* Metadata Specs Pills */}
+                    <div className="narrative-specs-grid">
+                      <div className="narrative-spec-item">
+                        <span className="spec-label">Marco Legal:</span>
+                        <span className="spec-value">{currentHito.legal}</span>
+                      </div>
+                      <div className="narrative-spec-item">
+                        <span className="spec-label">Enfoque:</span>
+                        <span className="spec-value">{currentHito.badge}</span>
+                      </div>
+                    </div>
+
+                    {/* Bottom Action Footer */}
+                    <div className="narrative-actions-row">
+                      <div className="narrative-step-dots">
+                        {TIMELINE_HITOS.map((_, dotIdx) => (
+                          <button
+                            key={dotIdx}
+                            type="button"
+                            className={`timeline-dot-indicator ${activeTimelineIdx === dotIdx ? 'active' : ''}`}
+                            onClick={() => setActiveTimelineIdx(dotIdx)}
+                            aria-label={`Ir al hito ${dotIdx + 1}`}
+                          />
+                        ))}
+                      </div>
+
+                      <div className="narrative-button-group">
+                        <button
+                          type="button"
+                          className="narrative-cta-btn"
+                          onClick={() => {
+                            setModalLineInterest(`Hito Histórico: ${currentHito.title} (${currentHito.year})`);
+                            setIsModalOpen(true);
+                          }}
+                        >
+                          <span>Sumar a la Historia</span>
+                          <span className="btn-arrow">↗</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         </section>
 
